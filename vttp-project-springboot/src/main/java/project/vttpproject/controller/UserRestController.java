@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.json.Json;
 import project.vttpproject.exception.UpdateException;
-import project.vttpproject.model.User;
+import project.vttpproject.model.UserDetails;
 import project.vttpproject.model.UserDetailsInput;
+import project.vttpproject.model.UserSummary;
 import project.vttpproject.service.UserService;
 
 @RestController
@@ -26,7 +28,7 @@ public class UserRestController {
 
     @GetMapping
     public ResponseEntity<String> getUserById(@RequestParam Integer id) {
-        Optional<User> opt = userService.getUserById(id);
+        Optional<UserSummary> opt = userService.getUserById(id);
         if (opt.isEmpty()) {
             return ResponseEntity.status(404).body(
                     Json.createObjectBuilder().add("error", "user not found").build().toString());
@@ -39,6 +41,15 @@ public class UserRestController {
         Integer generatedUserId = userService.saveNewUser(input);
         return ResponseEntity.status(201)
                 .body(Json.createObjectBuilder().add("generatedUserId", generatedUserId).build().toString());
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<String> updateUserById(@RequestBody UserDetails userDetails, @RequestParam Integer id)
+            throws UpdateException {
+        Integer rowsUpdated = userService.updateUserDetails(userDetails, id);
+        if (rowsUpdated <= 0)
+            throw new UpdateException();
+        return ResponseEntity.status(200).body(Json.createObjectBuilder().add("updated", true).build().toString());
     }
 
 }

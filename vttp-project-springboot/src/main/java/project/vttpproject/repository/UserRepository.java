@@ -19,21 +19,33 @@ import project.vttpproject.model.UserDetails;
 @Repository
 public class UserRepository {
 
-    private final String GET_USER_BY_ID_SQL = "select * from user where id = ";
+    private final String GET_USER_BY_ID_SQL = "select * from user where id = ?";
+    private final String GET_USER_DETAILS_BY_ID_SQL = "select * from user_details where id = ?";
     private final String CREATE_USERDETAILS_SQL = "insert into user_details (email, password, role, status) values (?, ?, ?, ?)";
     private final String CREATE_USER_SQL = "insert into user (user_details_id, display_name) values (?,?)";
-    
+    private final String UPDATE_USER_BY_ID_SQL = "update user_details set email = ?, password = ?, role = ?, status = ? where id = ?";
 
     @Autowired
     private JdbcTemplate template;
 
     public Optional<User> getUserById(Integer id) {
-            User response = template.queryForObject(
-                            GET_USER_BY_ID_SQL,
-                            BeanPropertyRowMapper.newInstance(User.class),
-                            id);
-            if (response == null) return Optional.empty();
-            return Optional.of(response);
+        User response = template.queryForObject(
+                GET_USER_BY_ID_SQL,
+                BeanPropertyRowMapper.newInstance(User.class),
+                id);
+        if (response == null)
+            return Optional.empty();
+        return Optional.of(response);
+    }
+
+    public Optional<UserDetails> getUserDetailsById(Integer id) {
+        UserDetails response = template.queryForObject(
+                GET_USER_DETAILS_BY_ID_SQL,
+                BeanPropertyRowMapper.newInstance(UserDetails.class),
+                id);
+        if (response == null)
+            return Optional.empty();
+        return Optional.of(response);
     }
 
     public Optional<Integer> saveUserDetails(UserDetails userDetails) {
@@ -41,34 +53,41 @@ public class UserRepository {
         PreparedStatementCreator psc = new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                PreparedStatement ps = con.prepareStatement(CREATE_USERDETAILS_SQL, new String[]{"id"});
+                PreparedStatement ps = con.prepareStatement(CREATE_USERDETAILS_SQL, new String[] { "id" });
                 ps.setString(1, userDetails.getEmail());
                 ps.setString(2, userDetails.getPassword());
                 ps.setString(3, userDetails.getRole());
-                ps.setString(4,userDetails.getStatus());
+                ps.setString(4, userDetails.getStatus());
                 return ps;
             }
         };
-            int rowsUpdated = template.update(psc, generatedKey);
-            if (rowsUpdated <= 0) return Optional.empty();
-            return Optional.of(generatedKey.getKey().intValue());
+        int rowsUpdated = template.update(psc, generatedKey);
+        if (rowsUpdated <= 0)
+            return Optional.empty();
+        return Optional.of(generatedKey.getKey().intValue());
     }
-
 
     public Optional<Integer> saveUser(User user) {
         KeyHolder generatedKey = new GeneratedKeyHolder();
         PreparedStatementCreator psc = new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                PreparedStatement ps = con.prepareStatement(CREATE_USER_SQL, new String[]{"id"});
+                PreparedStatement ps = con.prepareStatement(CREATE_USER_SQL, new String[] { "id" });
                 ps.setInt(1, user.getUserDetailsId());
                 ps.setString(2, user.getDisplayName());
                 return ps;
             }
         };
         int rowsUpdated = template.update(psc, generatedKey);
-        if (rowsUpdated <= 0) return Optional.empty();
+        if (rowsUpdated <= 0)
+            return Optional.empty();
         return Optional.of(generatedKey.getKey().intValue());
+    }
+
+    public Integer updateUserDetails(UserDetails userDetails) {
+        Integer rowsUpdated = template.update(UPDATE_USER_BY_ID_SQL, userDetails.getEmail(), userDetails.getPassword(),
+                userDetails.getRole(), userDetails.getStatus(), userDetails.getId());
+        return rowsUpdated;
     }
 
 }
