@@ -64,4 +64,7 @@ public class UserService {
     }
 
     // update display name separately
+    public Integer updateUserDisplayName(String displayName, Integer userId){
+        return userRepo.updateUserDisplayName(displayName, userId);
+    }
 }

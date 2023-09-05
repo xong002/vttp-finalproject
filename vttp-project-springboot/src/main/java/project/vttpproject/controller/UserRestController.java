@@ -52,4 +52,15 @@ public class UserRestController {
         return ResponseEntity.status(200).body(Json.createObjectBuilder().add("updated", true).build().toString());
     }
 
+    @PutMapping("/update/displayname")
+    public ResponseEntity<String> updateUserDisplayeNameById(@RequestParam Integer id, @RequestParam String displayName)
+            throws UpdateException {
+        Integer rowsUpdated = userService.updateUserDisplayName(displayName, id);
+        if (rowsUpdated <= 0)
+            throw new UpdateException("display name taken");
+        return ResponseEntity.status(200).body(Json.createObjectBuilder().add("updated", true).build().toString());
+    }
+
+
+
 }

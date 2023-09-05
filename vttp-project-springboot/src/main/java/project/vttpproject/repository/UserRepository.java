@@ -24,6 +24,7 @@ public class UserRepository {
     private final String CREATE_USERDETAILS_SQL = "insert into user_details (email, password, role, status) values (?, ?, ?, ?)";
     private final String CREATE_USER_SQL = "insert into user (user_details_id, display_name) values (?,?)";
     private final String UPDATE_USER_BY_ID_SQL = "update user_details set email = ?, password = ?, role = ?, status = ? where id = ?";
+    private final String UPDATE_DISPLAYNAME_BY_ID_SQL = "update user set display_name = ? where id = ?";
 
     @Autowired
     private JdbcTemplate template;
@@ -87,6 +88,11 @@ public class UserRepository {
     public Integer updateUserDetails(UserDetails userDetails) {
         Integer rowsUpdated = template.update(UPDATE_USER_BY_ID_SQL, userDetails.getEmail(), userDetails.getPassword(),
                 userDetails.getRole(), userDetails.getStatus(), userDetails.getId());
+        return rowsUpdated;
+    }
+
+    public Integer updateUserDisplayName(String displayName, Integer userId){
+        Integer rowsUpdated = template.update(UPDATE_DISPLAYNAME_BY_ID_SQL, displayName, userId);
         return rowsUpdated;
     }
 
