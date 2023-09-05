@@ -28,7 +28,7 @@ public class RentalReviewRestController {
     private RentalReviewService reviewService;
 
     @GetMapping(params = "id")
-    public ResponseEntity<String> getPropertyById(@RequestParam String id) throws UpdateException, JsonProcessingException{
+    public ResponseEntity<String> getReviewById(@RequestParam String id) throws UpdateException, JsonProcessingException{
         Optional<RentalReview> opt = reviewService.getReviewById(id);
         if (opt.isEmpty()){
             return ResponseEntity.status(404).body(
@@ -40,7 +40,7 @@ public class RentalReviewRestController {
     }
 
     @GetMapping(params = "propertyId")
-    public ResponseEntity<String> getPropertyByPropertyId(@RequestParam Integer propertyId) throws UpdateException, JsonProcessingException{
+    public ResponseEntity<String> getReviewByPropertyId(@RequestParam Integer propertyId) throws UpdateException, JsonProcessingException{
         List<RentalReview> list = reviewService.getReviewsByPropertyId(propertyId);
         ObjectMapper o = new ObjectMapper();
         String jsonString = o.writeValueAsString(list);
@@ -48,7 +48,7 @@ public class RentalReviewRestController {
     }
 
     @GetMapping(params = "userId")
-    public ResponseEntity<String> getPropertyByUserId(@RequestParam Integer userId) throws UpdateException, JsonProcessingException{
+    public ResponseEntity<String> getReviewByUserId(@RequestParam Integer userId) throws UpdateException, JsonProcessingException{
         List<RentalReview> list = reviewService.getReviewsByUserId(userId);
         ObjectMapper o = new ObjectMapper();
         String jsonString = o.writeValueAsString(list);
