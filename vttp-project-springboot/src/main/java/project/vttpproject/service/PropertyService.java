@@ -15,12 +15,12 @@ public class PropertyService {
     @Autowired
     private PropertyRepository propRepo;
 
-    public Optional<Property> getPropertyById(Integer id){
+    public Optional<Property> getPropertyById(Integer id) throws UpdateException{
         return propRepo.getPropertyById(id);
     }
 
     public Integer createNewProperty(Property p) throws UpdateException{
-        //check for null values in Property p
+        //TODO: check for null values in Property p
         return propRepo.saveProperty(p);
     }
 

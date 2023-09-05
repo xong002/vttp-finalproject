@@ -19,25 +19,26 @@ import project.vttpproject.service.PropertyService;
 @RestController
 @RequestMapping("/api/property")
 public class PropertyRestController {
-    
+
     @Autowired
     private PropertyService propService;
 
     @GetMapping
-    public ResponseEntity<String> getPropertyById(@RequestParam Integer id){
+    public ResponseEntity<String> getPropertyById(@RequestParam Integer id) throws UpdateException {
         Optional<Property> opt = propService.getPropertyById(id);
-        if (opt.isEmpty()){
+        if (opt.isEmpty()) {
             return ResponseEntity.status(404).body(
                     Json.createObjectBuilder().add("error", "property not found").build().toString());
         }
-        return ResponseEntity.status(200).body(opt.get().toJson().toString());        
+        return ResponseEntity.status(200).body(opt.get().toJson().toString());
     }
 
     // TODO: add file upload
     @PostMapping("/create")
-    public ResponseEntity<String> createProperty(@RequestBody Property p) throws UpdateException{
+    public ResponseEntity<String> createProperty(@RequestBody Property p) throws UpdateException {
         Integer generatedUserId = propService.createNewProperty(p);
         return ResponseEntity.status(201)
-                .body(Json.createObjectBuilder().add("generatedPropertyId", generatedUserId).build().toString());    }
+                .body(Json.createObjectBuilder().add("generatedPropertyId", generatedUserId).build().toString());
+    }
 
 }
