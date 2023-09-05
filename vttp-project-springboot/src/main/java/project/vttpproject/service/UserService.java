@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import project.vttpproject.exception.UpdateException;
-import project.vttpproject.model.User;
-import project.vttpproject.model.UserDetails;
-import project.vttpproject.model.UserDetailsInput;
-import project.vttpproject.model.UserSummary;
+import project.vttpproject.model.user.User;
+import project.vttpproject.model.user.UserDetails;
+import project.vttpproject.model.user.UserDetailsInput;
+import project.vttpproject.model.user.UserSummary;
 import project.vttpproject.repository.UserRepository;
 
 @Service
@@ -41,7 +41,7 @@ public class UserService {
 
         Optional<Integer> optUserDetails = userRepo.saveUserDetails(userDetails);
         if (optUserDetails.isEmpty())
-            throw new UpdateException("duplicate email");
+            throw new UpdateException("user details already exists");
 
         User newUser = new User();
         newUser.setUserDetailsId(optUserDetails.get());
@@ -49,7 +49,7 @@ public class UserService {
 
         Optional<Integer> optUser = userRepo.saveUser(newUser);
         if (optUser.isEmpty())
-            throw new UpdateException("duplicate display name");
+            throw new UpdateException("display name already exists");
 
         return optUser.get();
 
@@ -58,7 +58,7 @@ public class UserService {
     public Integer updateUserDetails(UserDetails input, Integer userId) throws UpdateException {
         Optional<User> optUserById = userRepo.getUserById(userId);
         if (optUserById.isEmpty())
-            throw new UpdateException("user id not found");
+            throw new UpdateException("user already exists");
         input.setId(optUserById.get().getUserDetailsId());
         return userRepo.updateUserDetails(input);
     }

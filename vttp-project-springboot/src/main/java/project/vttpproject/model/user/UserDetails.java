@@ -1,4 +1,4 @@
-package project.vttpproject.model;
+package project.vttpproject.model.user;
 
 import java.io.StringReader;
 import java.sql.Timestamp;

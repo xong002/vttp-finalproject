@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.json.Json;
 import project.vttpproject.exception.UpdateException;
-import project.vttpproject.model.UserDetails;
-import project.vttpproject.model.UserDetailsInput;
-import project.vttpproject.model.UserSummary;
+import project.vttpproject.model.user.UserDetails;
+import project.vttpproject.model.user.UserDetailsInput;
+import project.vttpproject.model.user.UserSummary;
 import project.vttpproject.service.UserService;
 
 @RestController
@@ -48,7 +48,7 @@ public class UserRestController {
             throws UpdateException {
         Integer rowsUpdated = userService.updateUserDetails(userDetails, id);
         if (rowsUpdated <= 0)
-            throw new UpdateException();
+            throw new UpdateException("user already exists");
         return ResponseEntity.status(200).body(Json.createObjectBuilder().add("updated", true).build().toString());
     }
 
@@ -57,7 +57,7 @@ public class UserRestController {
             throws UpdateException {
         Integer rowsUpdated = userService.updateUserDisplayName(displayName, id);
         if (rowsUpdated <= 0)
-            throw new UpdateException("display name taken");
+            throw new UpdateException("display name already exists");
         return ResponseEntity.status(200).body(Json.createObjectBuilder().add("updated", true).build().toString());
     }
 

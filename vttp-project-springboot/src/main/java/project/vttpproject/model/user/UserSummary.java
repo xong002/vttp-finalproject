@@ -1,4 +1,4 @@
-package project.vttpproject.model;
+package project.vttpproject.model.user;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;

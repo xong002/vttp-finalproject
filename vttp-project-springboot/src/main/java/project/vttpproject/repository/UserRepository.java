@@ -13,8 +13,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import project.vttpproject.model.User;
-import project.vttpproject.model.UserDetails;
+import project.vttpproject.model.user.User;
+import project.vttpproject.model.user.UserDetails;
 
 @Repository
 public class UserRepository {
