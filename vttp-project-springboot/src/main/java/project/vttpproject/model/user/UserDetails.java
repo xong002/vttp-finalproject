@@ -1,11 +1,7 @@
 package project.vttpproject.model.user;
 
-import java.io.StringReader;
 import java.sql.Timestamp;
 
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
