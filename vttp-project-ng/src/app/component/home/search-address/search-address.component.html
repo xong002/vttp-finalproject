@@ -1,0 +1,17 @@
+
+  <table>
+    <tr>
+      <td>
+        <h2 class="flex justify-center text-orange-200">Search for a location here</h2>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [formControl]="searchVal" type="text" placeholder="Address / Postal Code">
+        &nbsp;
+        <button class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded" (click)="searchAddress()" [disabled]="searchVal.value.trim() == ''">Search</button>
+      </td>
+    </tr>
+  </table>
+
+
