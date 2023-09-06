@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -13,6 +14,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import project.vttpproject.exception.DuplicatePropertyException;
 import project.vttpproject.exception.UpdateException;
 import project.vttpproject.model.property.Property;
 
@@ -21,6 +23,7 @@ public class PropertyRepository {
 
     private final String GET_PROPERTY_BY_ID_SQL = "select * from properties where id = ?";
     private final String CREATE_PROPERTY_SQL = "insert into properties (area_id, images, building, blk_no, road_name, postal, latitude, longitude, highest_floor) values (?,?,?,?,?,?,?,?,?)";
+    private final String GET_PROPERTYID_BY_POSTAL_SQL = "select id from properties where postal = ?";
 
     @Autowired
     private JdbcTemplate template;
@@ -38,7 +41,7 @@ public class PropertyRepository {
         return Optional.of(response);
     }
 
-    public Integer saveProperty(Property p) throws UpdateException {
+    public Integer saveProperty(Property p) throws UpdateException, DuplicatePropertyException {
         KeyHolder generatedKey = new GeneratedKeyHolder();
         PreparedStatementCreator psc = new PreparedStatementCreator() {
             @Override
@@ -56,10 +59,17 @@ public class PropertyRepository {
                 return ps;
             }
         };
-        int rowsUpdated = template.update(psc, generatedKey);
-        if (rowsUpdated <= 0)
-            throw new UpdateException("property already exists");
-        return generatedKey.getKey().intValue();
+        try {
+            int rowsUpdated = template.update(psc, generatedKey);
+            if (rowsUpdated <= 0)
+                throw new UpdateException("property already exists");
+            return generatedKey.getKey().intValue();
+        } catch (DuplicateKeyException ex) {
+            return template.queryForObject(
+                GET_PROPERTYID_BY_POSTAL_SQL,
+                Integer.class,
+                p.getPostal());
+        }
     }
 
 }

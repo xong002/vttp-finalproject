@@ -33,6 +33,16 @@ public class GlobalExceptionHandler {
                         .toString());
     }
 
+    @ExceptionHandler(DuplicatePropertyException.class)
+    protected ResponseEntity<String> handleDuplicatePropertException(DuplicatePropertyException ex) {
+        return ResponseEntity
+                .status(200)
+                .body(Json.createObjectBuilder()
+                        .add("message", ex.getMessage())
+                        .build()
+                        .toString());
+    }
+
     @ExceptionHandler(SQLException.class)
     protected ResponseEntity<String> handleSQLException(SQLException ex) {
         return ResponseEntity

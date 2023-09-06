@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OnemapApiService } from 'src/app/service/onemap-api.service';
 
@@ -9,17 +9,17 @@ import { OnemapApiService } from 'src/app/service/onemap-api.service';
   styleUrls: ['./search-address.component.css']
 })
 export class SearchAddressComponent {
-  searchVal! : FormControl;
+  fb = inject(FormBuilder);
+  formGroup!: FormGroup;
   onemapAPIService = inject(OnemapApiService);
-  router = inject(Router);
 
   ngOnInit() {
-    this.searchVal = new FormControl('', Validators.required);
+    this.formGroup = this.fb.group({
+      searchVal: this.fb.control<string>('', Validators.required),
+    })
   }
 
   searchAddress() {
-    console.log(this.searchVal);
-    this.onemapAPIService.searchAddress(this.searchVal.value).then((resp => console.log(resp)))
-    this.router.navigate(['/propertydetails']);
+    this.onemapAPIService.searchProperty(this.formGroup.value['searchVal'], 1);
   }
 }

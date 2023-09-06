@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import project.vttpproject.exception.DuplicatePropertyException;
 import project.vttpproject.exception.UpdateException;
 import project.vttpproject.model.property.Property;
 import project.vttpproject.repository.PropertyRepository;
@@ -19,7 +20,7 @@ public class PropertyService {
         return propRepo.getPropertyById(id);
     }
 
-    public Integer createNewProperty(Property p) throws UpdateException{
+    public Integer createNewProperty(Property p) throws UpdateException, DuplicatePropertyException{
         //TODO: check for null values in Property p
         return propRepo.saveProperty(p);
     }

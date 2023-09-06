@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './component/home/home.component';
 import { SearchAddressComponent } from './component/home/search-address/search-address.component';
 import { PropertyDetailsComponent } from './component/property-details/property-details.component';
-import { AddressListComponent } from './component/home/address-list/address-list.component';
+import { PropertyListComponent } from './component/home/property-list/property-list.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import { AddressListComponent } from './component/home/address-list/address-list
     HomeComponent,
     SearchAddressComponent,
     PropertyDetailsComponent,
-    AddressListComponent
+    PropertyListComponent
   ],
   imports: [
     BrowserModule,

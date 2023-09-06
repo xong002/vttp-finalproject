@@ -1,0 +1,30 @@
+<div class="text-orange-200" *ngIf="addressList">
+  <table *ngIf="addressList.length != 0">
+    <tbody>
+      <tr *ngFor="let address of addressList">
+        <td>
+          <a [routerLink]="['propertydetails']" [queryParams]="{id : address.id}">{{ address.address }}</a>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="flex justify-center">
+          <button [disabled]="currentPageNum == 1" (click)="previousPage()">
+            &#60;&#60; Previous</button
+          >&nbsp;&nbsp;&nbsp; Page {{ currentPageNum }} of
+          {{ totalPages }}&nbsp;&nbsp;&nbsp;
+          <button
+            [disabled]="currentPageNum == totalPages"
+            (click)="nextPage()"
+          >
+            Next &#62;&#62;
+          </button>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  <div *ngIf="addressList.length == 0">
+    <span>No results found.</span>
+  </div>
+</div>

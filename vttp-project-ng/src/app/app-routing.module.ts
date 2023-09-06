@@ -6,7 +6,7 @@ import { PropertyDetailsComponent } from './component/property-details/property-
 const routes: Routes = [
   { path : '', component: HomeComponent},
   { path : 'propertydetails', component: PropertyDetailsComponent},
-  // { path : '**', redirectTo: '/', pathMatch: 'full'}
+  { path : '**', redirectTo: '/', pathMatch: 'full'}
 ];
 
 @NgModule({
