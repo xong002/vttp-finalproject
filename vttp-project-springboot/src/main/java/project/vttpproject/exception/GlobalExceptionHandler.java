@@ -1,5 +1,6 @@
 package project.vttpproject.exception;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,16 @@ public class GlobalExceptionHandler {
                 .status(200)
                 .body(Json.createObjectBuilder()
                         .add("message", ex.getMessage())
+                        .build()
+                        .toString());
+    }
+
+    @ExceptionHandler(IOException.class)
+    protected ResponseEntity<String> handleIOException(IOException ex) {
+        return ResponseEntity
+                .status(200)
+                .body(Json.createObjectBuilder()
+                        .add("error", ex.getMessage())
                         .build()
                         .toString());
     }

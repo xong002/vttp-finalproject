@@ -1,15 +1,19 @@
 package project.vttpproject.controller;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,8 +31,9 @@ public class PropertyRestController {
     @Autowired
     private PropertyService propService;
 
-    @GetMapping
-    public ResponseEntity<String> getPropertyById(@RequestParam Integer id) throws UpdateException, JsonProcessingException {
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getPropertyById(@RequestParam Integer id)
+            throws UpdateException, JsonProcessingException {
         Optional<Property> opt = propService.getPropertyById(id);
         if (opt.isEmpty()) {
             return ResponseEntity.status(404).body(
@@ -36,15 +41,26 @@ public class PropertyRestController {
         }
         ObjectMapper o = new ObjectMapper();
         String jsonString = o.writeValueAsString(opt.get());
-        return ResponseEntity.status(200).body(jsonString);     
+        return ResponseEntity.status(200).body(jsonString);
     }
 
-    // TODO: add file upload
     @PostMapping("/create")
-    public ResponseEntity<String> createProperty(@RequestBody Property p) throws UpdateException, DuplicatePropertyException {
+    public ResponseEntity<String> createProperty(@RequestBody Property p)
+            throws UpdateException, DuplicatePropertyException {
         Integer generatedUserId = propService.createNewProperty(p);
         return ResponseEntity.status(201)
                 .body(Json.createObjectBuilder().add("generatedPropertyId", generatedUserId).build().toString());
     }
 
+    // TODO: add file upload
+    @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> uploadPropertyImageFile(
+            @RequestPart MultipartFile file,
+            @RequestPart String userName,
+            @RequestPart String propertyId) throws IOException, UpdateException, DuplicatePropertyException {
+
+        propService.saveImage(file, userName, Integer.valueOf(propertyId));
+
+        return ResponseEntity.status(202).build();
+    }
 }

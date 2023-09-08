@@ -25,6 +25,7 @@ public class PropertyRepository {
     private final String CREATE_PROPERTY_SQL = "insert into properties (area_id, images, building, blk_no, road_name, postal, latitude, longitude, highest_floor) values (?,?,?,?,?,?,?,?,?)";
     private final String GET_PROPERTYID_BY_POSTAL_SQL = "select id from properties where postal = ?";
 
+
     @Autowired
     private JdbcTemplate template;
 
@@ -72,4 +73,9 @@ public class PropertyRepository {
         }
     }
 
+    private final String UPDATE_PROPERTY_BY_ID = "update properties set area_id = ?, images = ?, building = ?, blk_no= ? , road_name = ?, postal = ?, latitude = ?, longitude = ?, highest_floor = ? where id = ?";
+
+    public Integer updateProperty(Property p){
+        return template.update(UPDATE_PROPERTY_BY_ID, p.getAreaId(), p.getImages(), p.getBuilding(), p.getBlkNo(), p.getRoadName(), p.getPostal(), p.getLatitude(), p.getLongitude(), p.getHighestFloor(), p.getId());
+    }
 }
