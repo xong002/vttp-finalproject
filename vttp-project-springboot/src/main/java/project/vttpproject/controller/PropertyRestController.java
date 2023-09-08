@@ -1,6 +1,7 @@
 package project.vttpproject.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,19 @@ public class PropertyRestController {
             ObjectMapper o = new ObjectMapper();
             String jsonString = o.writeValueAsString(opt.get());
             return ResponseEntity.status(200).body(jsonString);
-        } return ResponseEntity.status(400).body(
-            Json.createObjectBuilder().add("error", "invalid value for returnProperty (Y/N only)").build().toString());
+        }
+        return ResponseEntity.status(400).body(
+                Json.createObjectBuilder().add("error", "invalid value for returnProperty (Y/N only)").build()
+                        .toString());
+    }
+
+    @PostMapping(path = "/createbatch", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> createProperties(@RequestBody List<Property> list)
+            throws UpdateException, DuplicatePropertyException, JsonProcessingException {
+        List<Property> propList = propService.createNewProperties(list);
+        ObjectMapper o = new ObjectMapper();
+        String jsonString = o.writeValueAsString(propList);
+        return ResponseEntity.status(200).body(jsonString);
     }
 
     // TODO: add file upload

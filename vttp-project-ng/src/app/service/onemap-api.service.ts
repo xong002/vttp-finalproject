@@ -30,12 +30,13 @@ export class OnemapApiService {
       resp => {
         this.currentPageNum = (resp as any).pageNum;
         this.totalPages = (resp as any).totalNumPages;
+
+        const propList = [];
         for (let address of (resp as any).results) {
           if (address.POSTAL !== "NIL") {
-
             let newProp = {
               id: 0,
-              images: '',
+              images: 'https://csf-xz.sgp1.digitaloceanspaces.com/images/image-not-found.jpg',
               areaId: 0,
               searchValue: address.SEARCHVAL,
               blkNo: address.BLK_NO,
@@ -46,28 +47,24 @@ export class OnemapApiService {
               latitude: address.LATITUDE,
               longitude: address.LONGITUDE
             }
-            firstValueFrom(this.http.post('/api/property/create', newProp, { params: { returnProperty: "Y" } })).then(
-              resp => {
-                // let list :Property [] = [];
-                newProp.id = (resp as Property).id;
-                newProp.images = (resp as Property).images;
-                // list.push(newProp);
-                // newProp.id = (resp as any).generatedPropertyId;
-              }
-            ).then(() => {
-              this.addresslist.push(newProp);
-              console.log(this.addresslist)
-            }).catch(() => {
-            });
-
+            propList.push(newProp);
           }
         }
-        this.onChangePropertyList.next({
-          searchVal: this.searchVal,
-          currentPageNum: (resp as any).pageNum,
-          totalPages: (resp as any).totalNumPages,
-          addressList: this.addresslist
-        });
+
+        return firstValueFrom(this.http.post('/api/property/createbatch', propList)).then(
+          resp => {
+            this.addresslist = (resp as any);
+            console.log(this.addresslist)
+            
+            this.onChangePropertyList.next({
+              searchVal: this.searchVal,
+              currentPageNum: (resp as any).pageNum,
+              totalPages: (resp as any).totalNumPages,
+              addressList: this.addresslist
+            });
+          }
+        )
+
 
       }
     )
