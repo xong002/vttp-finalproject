@@ -1,5 +1,6 @@
 export interface Property {
     id: number;
+    images: string;
     areaId: number;
     searchValue : string;
     blkNo : string;

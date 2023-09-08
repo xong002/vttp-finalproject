@@ -1,7 +1,7 @@
 <table>
   <tr>
     <td>
-      <h2 class="flex justify-center text-orange-200">
+      <h2 class="flex justify-center">
         Search for a location here
       </h2>
     </td>
@@ -10,7 +10,7 @@
     <td>
       <form [formGroup]="formGroup">
         <input
-          class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="bg-neutral-700 appearance-none border rounded py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline focus:text-white"
           formControlName="searchVal"
           type="text"
           placeholder="Address / Postal Code"
@@ -18,7 +18,7 @@
         &nbsp;
         <button
           type="submit"
-          class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
+          class="bg-purple-700 hover:bg-purple-900 font-bold py-2 px-4 rounded-full"
           (click)="searchAddress()"
           [disabled]="!formGroup.valid"
         >
@@ -28,3 +28,6 @@
     </td>
   </tr>
 </table>
+<div *ngIf="noResults">
+  <span>No results found.</span>
+</div>

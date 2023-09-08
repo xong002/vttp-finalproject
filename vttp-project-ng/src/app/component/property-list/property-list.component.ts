@@ -17,12 +17,21 @@ export class PropertyListComponent {
   totalPages!: number;
 
   ngOnInit(){
-    this.sub$ = this.onemapAPIService.onChangePropertyList.subscribe(resp => {
+    // remove after testing
+    // this.onemapAPIService.searchProperty('bedok', 1)
+    
+    this.searchVal = this.onemapAPIService.searchVal;
+    this.currentPageNum = this.onemapAPIService.currentPageNum;
+    this.totalPages = this.onemapAPIService.totalPages;
+    this.addressList = this.onemapAPIService.addresslist;
+
+    this.sub$ = this.onemapAPIService.onChangePropertyList.subscribe(resp=>{
       this.addressList = (resp as any).addressList;
-      this.currentPageNum = (resp as any).currentPageNum;
-      this.totalPages = (resp as any).totalPages;
-      this.searchVal = (resp as any).searchVal;
     })
+  }
+
+  ngOnChanges(){
+    this.addressList = [...this.onemapAPIService.addresslist];
   }
 
   ngOnDestroy(){

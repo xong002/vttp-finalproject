@@ -1,9 +1,13 @@
-<div class="text-orange-200" *ngIf="addressList">
+<div class="background text items-center justify-center" *ngIf="addressList">
   <table *ngIf="addressList.length != 0">
     <tbody>
       <tr *ngFor="let address of addressList">
         <td>
-          <a [routerLink]="['propertydetails']" [queryParams]="{id : address.id}">{{ address.address }}</a>
+          <a
+            [routerLink]="['/propertydetails']"
+            [queryParams]="{ id: address.id }"
+            >{{ address.address }}</a
+          >
         </td>
       </tr>
     </tbody>
@@ -24,7 +28,11 @@
       </tr>
     </tfoot>
   </table>
-  <div *ngIf="addressList.length == 0">
-    <span>No results found.</span>
+<div *ngIf="addressList.length != 0">
+  <div *ngFor="let property of addressList">
+    <app-property-card [property]="property"></app-property-card>
   </div>
+</div>
+
+  <div class="h-20"></div>
 </div>

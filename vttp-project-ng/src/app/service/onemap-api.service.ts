@@ -9,8 +9,11 @@ import { Property, PropertyResponse } from '../models';
 export class OnemapApiService {
   http = inject(HttpClient);
   url = "https://www.onemap.gov.sg/api/common/elastic/search"
-  addresslist: Property[] = []
   searchVal!: string;
+  addresslist: Property[] = []
+  currentPageNum!: number;
+  totalPages!: number;
+
   onChangePropertyList = new Subject<PropertyResponse>();
 
   searchProperty(searchVal: string, pageNum: number) {
@@ -25,11 +28,14 @@ export class OnemapApiService {
 
     return firstValueFrom(this.http.get(this.url, { params: queryParams })).then(
       resp => {
+        this.currentPageNum = (resp as any).pageNum;
+        this.totalPages = (resp as any).totalNumPages;
         for (let address of (resp as any).results) {
           if (address.POSTAL !== "NIL") {
-            // let a = new Property();
+
             let newProp = {
-              id : 0,
+              id: 0,
+              images: '',
               areaId: 0,
               searchValue: address.SEARCHVAL,
               blkNo: address.BLK_NO,
@@ -40,34 +46,32 @@ export class OnemapApiService {
               latitude: address.LATITUDE,
               longitude: address.LONGITUDE
             }
-            // a.searchValue = address.SEARCHVAL;
-            // a.areaId = 0;
-            // a.blkNo = address.BLK_NO;
-            // a.roadName = address.ROAD_NAME;
-            // a.building = address.BUILDING;
-            // a.postal = address.POSTAL;
-            // a.address = address.ADDRESS;
-            // a.latitude = address.LATITUDE;
-            // a.longitude = address.LONGITUDE;
-
-            firstValueFrom(this.http.post('/api/property/create', newProp)).then(
+            firstValueFrom(this.http.post('/api/property/create', newProp, { params: { returnProperty: "Y" } })).then(
               resp => {
-                newProp.id = (resp as any).generatedPropertyId;
+                // let list :Property [] = [];
+                newProp.id = (resp as Property).id;
+                newProp.images = (resp as Property).images;
+                // list.push(newProp);
+                // newProp.id = (resp as any).generatedPropertyId;
               }
-            ).catch(() => {
+            ).then(() => {
+              this.addresslist.push(newProp);
+              console.log(this.addresslist)
+            }).catch(() => {
             });
 
-            this.addresslist.push(newProp);
           }
         }
-        console.log(this.addresslist);
         this.onChangePropertyList.next({
           searchVal: this.searchVal,
           currentPageNum: (resp as any).pageNum,
           totalPages: (resp as any).totalNumPages,
           addressList: this.addresslist
         });
+
       }
-    );
+    )
+
+
   }
 }

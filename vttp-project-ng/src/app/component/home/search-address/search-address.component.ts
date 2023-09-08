@@ -12,6 +12,8 @@ export class SearchAddressComponent {
   fb = inject(FormBuilder);
   formGroup!: FormGroup;
   onemapAPIService = inject(OnemapApiService);
+  router = inject(Router);
+  noResults = false;
 
   ngOnInit() {
     this.formGroup = this.fb.group({
@@ -20,6 +22,9 @@ export class SearchAddressComponent {
   }
 
   searchAddress() {
-    this.onemapAPIService.searchProperty(this.formGroup.value['searchVal'], 1);
+    this.onemapAPIService.searchProperty(this.formGroup.value['searchVal'], 1).then(() => {
+      if(this.onemapAPIService.addresslist.length == 0) this.noResults = true
+      else this.router.navigate(['/propertylist']);
+    });
   }
 }

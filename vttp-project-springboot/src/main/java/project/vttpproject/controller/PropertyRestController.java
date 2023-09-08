@@ -44,12 +44,26 @@ public class PropertyRestController {
         return ResponseEntity.status(200).body(jsonString);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<String> createProperty(@RequestBody Property p)
-            throws UpdateException, DuplicatePropertyException {
+    @PostMapping(path = "/create", params = "returnProperty", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> createProperty(@RequestBody Property p, @RequestParam Optional<String> returnProperty)
+            throws UpdateException, DuplicatePropertyException, JsonProcessingException {
+
         Integer generatedUserId = propService.createNewProperty(p);
-        return ResponseEntity.status(201)
-                .body(Json.createObjectBuilder().add("generatedPropertyId", generatedUserId).build().toString());
+
+        if (!returnProperty.isPresent() || returnProperty.get().equals("N")) {
+            return ResponseEntity.status(201)
+                    .body(Json.createObjectBuilder().add("generatedPropertyId", generatedUserId).build().toString());
+        } else if (returnProperty.get().equals("Y")) {
+            Optional<Property> opt = propService.getPropertyById(generatedUserId);
+            if (opt.isEmpty()) {
+                return ResponseEntity.status(404).body(
+                        Json.createObjectBuilder().add("error", "property not found").build().toString());
+            }
+            ObjectMapper o = new ObjectMapper();
+            String jsonString = o.writeValueAsString(opt.get());
+            return ResponseEntity.status(200).body(jsonString);
+        } return ResponseEntity.status(400).body(
+            Json.createObjectBuilder().add("error", "invalid value for returnProperty (Y/N only)").build().toString());
     }
 
     // TODO: add file upload

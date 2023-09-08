@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Property } from 'src/app/models';
@@ -12,11 +13,16 @@ export class PropertyDetailsComponent {
   springbootService = inject(SpringbootService);
   route = inject(ActivatedRoute);
   property! : Property;
+  location = inject(Location);
 
   ngOnInit(){
     this.springbootService.getProperty(this.route.snapshot.queryParams['id']).then((resp)=> {
       let jsonObj = JSON.parse(JSON.stringify(resp));
       this.property = jsonObj as Property;
     })
+  }
+
+  back(){
+    this.location.back();
   }
 }
