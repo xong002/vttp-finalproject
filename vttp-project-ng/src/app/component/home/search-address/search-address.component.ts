@@ -23,11 +23,9 @@ export class SearchAddressComponent {
 
   searchAddress() {
     this.onemapAPIService.searchProperty(this.formGroup.value['searchVal'], 1).then(() => {
-      // setTimeout(() => {
         console.log(this.onemapAPIService.addresslist);
         if(this.onemapAPIService.addresslist.length == 0) this.noResults = true
         else this.router.navigate(['/propertylist']);
-      // },3000);
     });
   }
 }

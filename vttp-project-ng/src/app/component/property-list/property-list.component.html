@@ -1,5 +1,6 @@
-<div class="background text items-center justify-center" *ngIf="addressList">
-  <table *ngIf="addressList.length != 0">
+<div class="background text" *ngIf="addressList">
+  <div class="h-10"></div>
+  <!--   <table *ngIf="addressList.length != 0">
     <tbody>
       <tr *ngFor="let address of addressList">
         <td>
@@ -27,12 +28,31 @@
         </td>
       </tr>
     </tfoot>
-  </table>
-<div *ngIf="addressList.length != 0">
-  <div *ngFor="let property of addressList">
-    <app-property-card [property]="property"></app-property-card>
+  </table> -->
+
+  <div *ngIf="addressList.length != 0">
+    <div *ngFor="let property of addressList">
+      <app-property-card [property]="property"></app-property-card>
+    </div>
   </div>
-</div>
+
+  <div class="flex items-center justify-center mt-10">
+    <button
+      class="bg-purple-700 disabled:opacity-30 disabled:cursor-not-allowed enabled:hover:bg-purple-900 font-bold py-2 px-4 rounded-full"
+      [disabled]="currentPageNum == 1"
+      (click)="previousPage()"
+    >
+      &#60;&#60; Previous
+    </button>
+    &nbsp;&nbsp;&nbsp; Page {{ currentPageNum }} of {{ totalPages }} &nbsp;&nbsp;&nbsp;
+    <button
+      class="bg-purple-700 disabled:opacity-30 disabled:cursor-not-allowed enabled:hover:bg-purple-900 font-bold py-2 px-4 rounded-full"
+      [disabled]="currentPageNum == totalPages"
+      (click)="nextPage()"
+    >
+      Next &#62;&#62;
+    </button>
+  </div>
 
   <div class="h-20"></div>
 </div>
