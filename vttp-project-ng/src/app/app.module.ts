@@ -10,6 +10,8 @@ import { SearchAddressComponent } from './component/home/search-address/search-a
 import { PropertyDetailsComponent } from './component/property-details/property-details.component';
 import { PropertyListComponent } from './component/property-list/property-list.component';
 import { PropertyCardComponent } from './component/property-list/property-card/property-card.component';
+import { ReviewsListComponent } from './component/property-details/reviews-list/reviews-list.component';
+import { ReviewCardComponent } from './component/property-details/reviews-list/review-card/review-card.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { PropertyCardComponent } from './component/property-list/property-card/p
     SearchAddressComponent,
     PropertyDetailsComponent,
     PropertyListComponent,
-    PropertyCardComponent
+    PropertyCardComponent,
+    ReviewsListComponent,
+    ReviewCardComponent
   ],
   imports: [
     BrowserModule,

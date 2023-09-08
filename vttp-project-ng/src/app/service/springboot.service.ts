@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Property } from '../models';
 import {firstValueFrom} from 'rxjs';
 
 @Injectable({
@@ -14,5 +13,6 @@ export class SpringbootService {
     return firstValueFrom(this.http.get<string>('/api/property', {params: { id : id}}))
   }
 
+  
 
 }

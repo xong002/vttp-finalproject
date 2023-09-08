@@ -25,4 +25,8 @@ export class PropertyDetailsComponent {
   back(){
     this.location.back();
   }
+
+  addPropertyImage(building : string){
+    // TODO:add file upload for image
+  }
 }

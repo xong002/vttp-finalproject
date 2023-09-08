@@ -1,15 +1,20 @@
-<div
-class="flex flex-col snap-start items-center background text"
- *ngIf="property">
-<div>
-    <h1 class="py-10 flex text-5xl font-bold dark">Property Details</h1>
+<div class="flex flex-col items-center background text" *ngIf="property">
+  <div>
+    <h1 class="py-10 text-5xl font-bold dark">Property Details</h1>
     <table>
-        <tr>            
-            <td><img  class="h-80 w-80" [src]="property.images"></td>
-            <td>Address:</td>
-            <td>{{property.blkNo}} {{property.roadName}} SINGAPORE {{property.postal}}</td>
-        </tr>
+      <tr>
+        <td class="flex flex-col justify-center">
+          <img class="h-80 w-80" [src]="property.images" />
+          <button class="my-2 mx-20" (click)="addPropertyImage(property.building)">Add image</button>
+        </td>
+        <td class="p-3">
+          <div>Address: {{ property.blkNo }} {{ property.roadName }}</div>
+          <div>Postal Code: SINGAPORE {{ property.postal }}</div>
+        </td>
+      </tr>
     </table>
-</div>
-<div><button (click)="back()">Back to search results</button></div>
+  </div>
+  <app-reviews-list></app-reviews-list>
+  <div class="my-5"><button>Write a review!</button></div>
+  <div><button (click)="back()">Back to search results</button></div>
 </div>
