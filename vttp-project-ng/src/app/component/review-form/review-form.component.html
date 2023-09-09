@@ -1,14 +1,13 @@
 <div class="flex flex-col items-center background text">
   <div class="w-5/6">
-    <h1 class="py-10 text-5xl font-bold dark">Review form</h1>
-    <table class="table-fixed w-full border">
+    <h1 class="py-10 text-5xl font-bold dark">Review for "INSERT ADDRESS"</h1>
+    <form [formGroup]="formGroup">
+      <table class="table-fixed w-full border">
         <tr>
-            <td class="w-1/4 border">Name:</td>
-            <td>INPUT</td>
+          <td class="w-1/4 border font-bold">Title:</td>
+          <td><input type="text" formControlName="title" /></td>
         </tr>
-    </table>
-
-
-
+      </table>
+    </form>
   </div>
 </div>

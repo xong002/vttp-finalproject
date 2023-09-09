@@ -18,7 +18,7 @@ export class PropertyListComponent {
 
   ngOnInit() {
     // remove after testing
-    this.onemapAPIService.searchProperty('bedok', 1)
+    // this.onemapAPIService.searchProperty('bedok', 1)
 
     this.searchVal = this.onemapAPIService.searchVal;
     this.currentPageNum = this.onemapAPIService.currentPageNum;
