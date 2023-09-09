@@ -24,7 +24,6 @@ export class PropertyDetailsComponent {
 
       this.springbootService.getReviewsByPropertyId(this.property.id).then(resp => {
         this.reviewList = resp as any;
-        console.log(this.reviewList);
       });
     })
   }

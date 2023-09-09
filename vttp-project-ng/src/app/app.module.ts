@@ -13,6 +13,7 @@ import { PropertyCardComponent } from './component/property-list/property-card/p
 import { ReviewsListComponent } from './component/property-details/reviews-list/reviews-list.component';
 import { ReviewCardComponent } from './component/property-details/reviews-list/review-card/review-card.component';
 import { CustomDatePipe } from './custom.datepipe';
+import { ReviewFormComponent } from './component/review-form/review-form.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { CustomDatePipe } from './custom.datepipe';
     PropertyCardComponent,
     ReviewsListComponent,
     ReviewCardComponent,
-    CustomDatePipe
+    CustomDatePipe,
+    ReviewFormComponent
   ],
   imports: [
     BrowserModule,
