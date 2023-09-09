@@ -1,18 +1,77 @@
 <div
-  class="block rounded-lg bg-white p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700" my-5>
-  <h5
-    class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
-    Card title
+  class="border block rounded-lg bg-neutral-700 p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]"
+>
+  <h5 class="mb-2 text-xl font-medium leading-tight">
+    {{ review.title }} (Rating: {{ review.rating }})
   </h5>
-  <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-    Some quick example text to build on the card title and make up the
-    bulk of the card's content.
+  <table class="table-fixed border border-collapse w-full">
+    <th>
+      <tr>
+        <td class="pl-2 py-2">Rental details:</td>
+      </tr>
+    </th>
+    <tbody>
+      <tr class="border border-b-0">
+        <td class="pl-2 py-2">
+          <span class="font-bold">Rental Cost</span>: ${{
+            review.monthlyRentalCost
+          }}
+        </td>
+        <td class="">
+          <span class="font-bold">Floor</span>: {{ review.floor }}
+        </td>
+      </tr>
+      <tr class="border border-y-0">
+        <td class="pl-2 py-2">
+          <span class="font-bold">Apartment Floor Area</span>:
+          {{ review.apartmentFloorArea }}
+        </td>
+        <td class="">
+          <span class="font-bold">Rental Floor Area</span>:
+          {{ review.rentalFloorArea }}
+        </td>
+      </tr>
+      <tr class="border border-y-0">
+        <td class="pl-2 py-2">
+          <span class="font-bold">Furnishings</span>:
+          {{ review.furnishings }}
+        </td>
+        <td class="">
+          <span class="font-bold">Shared bathroom</span>:
+          {{ review.sharedToilet }}
+        </td>
+      </tr>
+      <tr class="border border-y-0">
+        <td class="pl-2 py-2">
+          <span class="font-bold">Rules</span>:
+          {{ review.rules }}
+        </td>
+        <td class="">
+          <span class="font-bold">Total occupants</span>:
+          {{ review.occupants }}
+        </td>
+      </tr>
+      <tr class="border border-y-0">
+        <td class="pl-2 py-2">
+          <span class="font-bold">Rental start date</span>:
+          {{ review.rentalStartDate | customDate}}
+        </td>
+        <td class="">
+          <span class="font-bold">Rental duration</span>:
+          {{ review.rentalDuration }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="my-4 text-base text-neutral-600 dark:text-neutral-200">
+    <span class="font-bold">Comments</span>: {{ review.comments }}
   </p>
-  <button
-    type="button"
-    class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-    data-te-ripple-init
-    data-te-ripple-color="light">
-    Button
-  </button>
+  <table>
+    <tr>
+      <td><span class="font-bold">Reviewed by</span>: {{review.user.displayName}}</td>
+    </tr>
+    <tr>
+      <td>{{review.createdDate | customDate}}</td>
+    </tr>
+  </table>
 </div>

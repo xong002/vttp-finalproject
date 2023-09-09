@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Review } from 'src/app/models';
 
 @Component({
   selector: 'app-reviews-list',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./reviews-list.component.css']
 })
 export class ReviewsListComponent {
-
+  @Input() reviewList!: Review[];
 }

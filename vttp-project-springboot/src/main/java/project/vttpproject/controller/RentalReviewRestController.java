@@ -40,7 +40,7 @@ public class RentalReviewRestController {
     }
 
     @GetMapping(params = "propertyId")
-    public ResponseEntity<String> getReviewByPropertyId(@RequestParam Integer propertyId) throws UpdateException, JsonProcessingException{
+    public ResponseEntity<String> getReviewsByPropertyId(@RequestParam Integer propertyId) throws UpdateException, JsonProcessingException{
         List<RentalReview> list = reviewService.getReviewsByPropertyId(propertyId);
         ObjectMapper o = new ObjectMapper();
         String jsonString = o.writeValueAsString(list);
@@ -48,7 +48,7 @@ public class RentalReviewRestController {
     }
 
     @GetMapping(params = "userId")
-    public ResponseEntity<String> getReviewByUserId(@RequestParam Integer userId) throws UpdateException, JsonProcessingException{
+    public ResponseEntity<String> getReviewsByUserId(@RequestParam Integer userId) throws UpdateException, JsonProcessingException{
         List<RentalReview> list = reviewService.getReviewsByUserId(userId);
         ObjectMapper o = new ObjectMapper();
         String jsonString = o.writeValueAsString(list);

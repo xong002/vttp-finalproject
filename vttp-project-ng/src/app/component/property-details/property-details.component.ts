@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Property } from 'src/app/models';
+import { Property, Review } from 'src/app/models';
 import { SpringbootService } from 'src/app/service/springboot.service';
 
 @Component({
@@ -12,21 +12,28 @@ import { SpringbootService } from 'src/app/service/springboot.service';
 export class PropertyDetailsComponent {
   springbootService = inject(SpringbootService);
   route = inject(ActivatedRoute);
-  property! : Property;
+  property!: Property;
   location = inject(Location);
+  reviewList : Review[] = [];
 
-  ngOnInit(){
-    this.springbootService.getProperty(this.route.snapshot.queryParams['id']).then((resp)=> {
+
+  ngOnInit() {
+    this.springbootService.getProperty(this.route.snapshot.queryParams['id']).then(resp => {
       let jsonObj = JSON.parse(JSON.stringify(resp));
       this.property = jsonObj as Property;
+
+      this.springbootService.getReviewsByPropertyId(this.property.id).then(resp => {
+        this.reviewList = resp as any;
+        console.log(this.reviewList);
+      });
     })
   }
 
-  back(){
+  back() {
     this.location.back();
   }
 
-  addPropertyImage(building : string){
+  addPropertyImage(building: string) {
     // TODO:add file upload for image
   }
 }

@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import project.vttpproject.model.user.User;
 
 @Data
 @NoArgsConstructor
@@ -31,4 +32,5 @@ public class RentalReview {
     private String status;
     private Timestamp createdDate;
     private Timestamp updatedAt;
+    private User user;
 }
