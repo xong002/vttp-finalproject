@@ -25,23 +25,24 @@ public class Property {
     private String highestFloor;
     private Timestamp createdDate;
     private Timestamp updatedAt;
+    private Integer reviewCount;
 
-    public JsonObject toJson() {
-        System.out.println();
-        JsonObject jsonObj = Json.createObjectBuilder()
-                .add("id", this.id)
-                .add("areaId", (this.areaId == null ?  0 : this.areaId))
-                .add("images", (this.images == null ?  "" : this.images))
-                .add("building", this.building)
-                .add("blkNo", this.blkNo)
-                .add("roadName", this.roadName)
-                .add("postal", this.postal)
-                .add("latitude", this.latitude)
-                .add("longitude", this.longitude)
-                .add("highestFloor", this.highestFloor)
-                .add("createdDate", this.createdDate.toString())
-                .add("updatedAt", this.updatedAt.toString())
-                .build();
-        return jsonObj;
-    }
+    // public JsonObject toJson() {
+    //     System.out.println();
+    //     JsonObject jsonObj = Json.createObjectBuilder()
+    //             .add("id", this.id)
+    //             .add("areaId", (this.areaId == null ?  0 : this.areaId))
+    //             .add("images", (this.images == null ?  "" : this.images))
+    //             .add("building", this.building)
+    //             .add("blkNo", this.blkNo)
+    //             .add("roadName", this.roadName)
+    //             .add("postal", this.postal)
+    //             .add("latitude", this.latitude)
+    //             .add("longitude", this.longitude)
+    //             .add("highestFloor", this.highestFloor)
+    //             .add("createdDate", this.createdDate.toString())
+    //             .add("updatedAt", this.updatedAt.toString())
+    //             .build();
+    //     return jsonObj;
+    // }
 }

@@ -16,6 +16,7 @@ import project.vttpproject.exception.DuplicatePropertyException;
 import project.vttpproject.exception.UpdateException;
 import project.vttpproject.model.property.Property;
 import project.vttpproject.repository.PropertyRepository;
+import project.vttpproject.repository.RentalReviewRepository;
 import project.vttpproject.repository.S3Repository;
 
 @Service
@@ -25,13 +26,23 @@ public class PropertyService {
     private PropertyRepository propRepo;
 
     @Autowired
+    private RentalReviewRepository reviewRepo;
+
+    @Autowired
     private S3Repository s3Repo;
 
     @Value("${s3.bucket.url}")
     private String s3URL;
 
     public Optional<Property> getPropertyById(Integer id) throws UpdateException {
-        return propRepo.getPropertyById(id);
+        Optional<Property> opt = propRepo.getPropertyById(id);
+        if (!opt.isEmpty()) {
+            Integer count = reviewRepo.getReviewCountByPropertyId(opt.get().getId());
+            Property p = opt.get();
+            p.setReviewCount(count);
+            return Optional.of(p);
+        };
+        return Optional.empty();
     }
 
     public Integer createNewProperty(Property p) throws UpdateException, DuplicatePropertyException {

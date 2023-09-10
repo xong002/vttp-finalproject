@@ -24,6 +24,7 @@ public class RentalReviewRepository {
     private final String GET_REVIEWS_BY_PROPERTY_ID_SQL = "select * from rental_reviews where property_id = ? order by created_date DESC";
     private final String GET_REVIEWS_BY_USER_ID_SQL = "select * from rental_reviews where user_id = ? order by created_date DESC";
     private final String CREATE_REVIEW_SQL = "insert into rental_reviews (id, user_id, property_id, title, monthly_rental_cost, floor, apartment_floor_area, rental_floor_area, furnishings, shared_toilet, rules, rental_start_date, rental_duration, occupants, rating, comments, status) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private final String GET_REVIEW_COUNT_BY_PROPERTY_ID_SQL = "select count(id) from rental_reviews where property_id = ?";
 
     @Autowired
     private JdbcTemplate template;
@@ -98,5 +99,9 @@ public class RentalReviewRepository {
         if (rowsUpdated <= 0)
             throw new UpdateException("review already exists");
         return r.getId();
+    }
+
+    public Integer getReviewCountByPropertyId(Integer propertyId){
+        return template.queryForObject(GET_REVIEW_COUNT_BY_PROPERTY_ID_SQL, Integer.class, propertyId);
     }
 }

@@ -4,7 +4,7 @@
     <table class="table-fixed w-full">
       <tr>
         <td class="flex flex-col items-center">
-          <img class="h-80 w-80" [src]="property.images" />
+          <img class="h-180 w-180" [src]="property.images" />
           <button
             class="my-2 mx-20"
             (click)="addPropertyImage(property.building)"
@@ -21,6 +21,11 @@
             <span class="font-bold">Building/Estate Name:</span>
             {{ property.building }}
           </div>
+          
+          <div>
+            <iframe [src]='mapURL' height="320" width="320" scrolling="no" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+          </div>
+
           <div class="my-5"><button [routerLink]="['/reviewform/', property.id]">Write a review!</button></div>
         </td>
       </tr>

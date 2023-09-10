@@ -16,6 +16,7 @@ export interface Property {
     postal: string;
     latitude : string;
     longitude : string;
+    reviewCount: number;
 }
 
 export interface PropertyResponse {
