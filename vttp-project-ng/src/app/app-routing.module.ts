@@ -9,7 +9,7 @@ const routes: Routes = [
   { path : '', component: HomeComponent},
   { path : 'propertylist', component: PropertyListComponent},
   { path : 'propertydetails', component: PropertyDetailsComponent},
-  { path : 'reviewform', component: ReviewFormComponent},
+  { path : 'reviewform/:propertyId', component: ReviewFormComponent},
   { path : '**', redirectTo: '/', pathMatch: 'full'}
 ];
 

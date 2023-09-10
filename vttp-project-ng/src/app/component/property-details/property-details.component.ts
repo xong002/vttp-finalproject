@@ -21,6 +21,7 @@ export class PropertyDetailsComponent {
     this.springbootService.getProperty(this.route.snapshot.queryParams['id']).then(resp => {
       let jsonObj = JSON.parse(JSON.stringify(resp));
       this.property = jsonObj as Property;
+      this.springbootService.property = this.property;
 
       this.springbootService.getReviewsByPropertyId(this.property.id).then(resp => {
         this.reviewList = resp as any;
