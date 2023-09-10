@@ -2,11 +2,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 @Pipe({
-    name: 'customDate'
+    name: 'ddMMyyyy'
 })
-export class CustomDatePipe extends
+export class ddMMyyyyPipe extends
     DatePipe implements PipeTransform {
     override transform(value: any, args?: any): any {
-        return super.transform(value, "dd MMMM yyyy");
+        return super.transform(value, "dd/MM/yyyy");
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,5 +61,14 @@ public class RentalReviewRestController {
         String generatedUserId = reviewService.createNewReview(review);
         return ResponseEntity.status(201)
                 .body(Json.createObjectBuilder().add("generatedReviewId", generatedUserId).build().toString());
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<String> updateReview(@RequestBody RentalReview review) throws UpdateException{
+        Integer updateCount = reviewService.updateReview(review);
+        System.out.println(updateCount);
+        if (updateCount == 0) throw new UpdateException("review id " + review.getId() + " not found");
+        return ResponseEntity.status(202)
+                .body(Json.createObjectBuilder().add("updated", true).build().toString());
     }
 }

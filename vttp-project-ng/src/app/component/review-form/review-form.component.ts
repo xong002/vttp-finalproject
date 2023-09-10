@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Property, Review } from 'src/app/models';
+import { Review } from 'src/app/models';
 import { SessionService } from 'src/app/service/session.service';
 import { SpringbootService } from 'src/app/service/springboot.service';
 

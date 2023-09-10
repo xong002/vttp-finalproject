@@ -21,4 +21,11 @@ export class SpringbootService {
     return firstValueFrom(this.http.post('/api/review/create', review))
   }
 
+  getReviewById(id : string){
+    return firstValueFrom(this.http.get('/api/review', { params: { id: id } }))
+  }
+
+  updateReview(review: Review){
+    return firstValueFrom(this.http.put('/api/review/update', review))
+  }
 }

@@ -54,7 +54,7 @@
       <tr class="border border-y-0">
         <td class="pl-2 py-2">
           <span class="font-bold">Rental start date</span>:
-          {{ review.rentalStartDate | customDate}}
+          {{ review.rentalStartDate | ddMMyyyy }}
         </td>
         <td class="">
           <span class="font-bold">Rental duration</span>:
@@ -66,12 +66,28 @@
   <p class="my-4 text-base text-neutral-600 dark:text-neutral-200">
     <span class="font-bold">Comments</span>: {{ review.comments }}
   </p>
-  <table>
+  <table class="w-full">
     <tr>
-      <td><span class="font-bold">Reviewed by</span>: {{review.user.displayName}}</td>
+      <td>
+        <span class="font-bold">Reviewed by</span>:
+        {{ review.user.displayName }}
+      </td>
     </tr>
     <tr>
-      <td>{{review.createdDate | customDate}}</td>
+      <td>
+        {{ review.createdDate | customDate }}
+        <div *ngIf="review.createdDate != review.updatedAt">
+          (last modified: {{ review.updatedAt | customDate }})
+        </div>
+      </td>
+      <td>
+        <button
+          [routerLink]="['/updatereview']"
+          [queryParams]="{ reviewId: review.id }"
+        >
+          Edit
+        </button>
+      </td>
     </tr>
   </table>
 </div>

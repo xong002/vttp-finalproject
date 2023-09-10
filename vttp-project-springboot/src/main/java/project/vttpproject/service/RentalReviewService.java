@@ -44,4 +44,7 @@ public class RentalReviewService {
         return reviewRepo.saveReview(review);
     }
 
+    public Integer updateReview(RentalReview r){
+        return reviewRepo.updateReview(r);
+    }
 }

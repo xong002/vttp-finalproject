@@ -15,6 +15,8 @@ import { ReviewCardComponent } from './component/property-details/reviews-list/r
 import { CustomDatePipe } from './custom.datepipe';
 import { ReviewFormComponent } from './component/review-form/review-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { UpdateReviewComponent } from './component/update-review/update-review.component';
+import { ddMMyyyyPipe } from './ddMMyyyy.datepipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ReviewsListComponent,
     ReviewCardComponent,
     CustomDatePipe,
-    ReviewFormComponent
+    ddMMyyyyPipe,
+    ReviewFormComponent,
+    UpdateReviewComponent
   ],
   imports: [
     BrowserModule,
