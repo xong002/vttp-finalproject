@@ -1,56 +1,27 @@
-<div class="background text" *ngIf="addressList">
+<div class="flex flex-col items-center background text" *ngIf="addressList">
   <div class="h-10"></div>
-  <!--   <table *ngIf="addressList.length != 0">
-    <tbody>
-      <tr *ngFor="let address of addressList">
-        <td>
-          <a
-            [routerLink]="['/propertydetails']"
-            [queryParams]="{ id: address.id }"
-            >{{ address.address }}</a
-          >
-        </td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td class="flex justify-center">
-          <button [disabled]="currentPageNum == 1" (click)="previousPage()">
-            &#60;&#60; Previous</button
-          >&nbsp;&nbsp;&nbsp; Page {{ currentPageNum }} of
-          {{ totalPages }}&nbsp;&nbsp;&nbsp;
-          <button
-            [disabled]="currentPageNum == totalPages"
-            (click)="nextPage()"
-          >
-            Next &#62;&#62;
-          </button>
-        </td>
-      </tr>
-    </tfoot>
-  </table> -->
+  <div class="w-5/6">
+    <h1 class="py-10 text-5xl font-bold dark">
+      Search results for: {{ searchVal }}
+    </h1>
 
-  <div *ngIf="addressList.length != 0">
-    <div *ngFor="let property of addressList">
-      <app-property-card [property]="property"></app-property-card>
+    <div *ngIf="addressList.length != 0">
+      <div *ngFor="let property of addressList">
+        <app-property-card [property]="property"></app-property-card>
+      </div>
     </div>
-  </div>
 
-  <div class="flex items-center justify-center mt-10">
-    <button
-      [disabled]="currentPageNum == 1"
-      (click)="previousPage()"
-    >
-      &#60;&#60; Previous
-    </button>
-    &nbsp;&nbsp;&nbsp; Page {{ currentPageNum }} of {{ totalPages }} &nbsp;&nbsp;&nbsp;
-    <button
-      [disabled]="currentPageNum == totalPages"
-      (click)="nextPage()"
-    >
-      Next &#62;&#62;
-    </button>
-  </div>
+    <div class="flex items-center justify-center mt-10">
+      <button [disabled]="currentPageNum == 1" (click)="previousPage()">
+        &#60;&#60; Previous
+      </button>
+      &nbsp;&nbsp;&nbsp; Page {{ currentPageNum }} of
+      {{ totalPages }} &nbsp;&nbsp;&nbsp;
+      <button [disabled]="currentPageNum == totalPages" (click)="nextPage()">
+        Next &#62;&#62;
+      </button>
+    </div>
 
-  <div class="h-20"></div>
+    <div class="h-20"></div>
+  </div>
 </div>

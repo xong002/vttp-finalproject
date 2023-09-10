@@ -2,6 +2,7 @@ import { Component, Input, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Property } from 'src/app/models';
 import { OnemapApiService } from 'src/app/service/onemap-api.service';
+import { SessionService } from 'src/app/service/session.service';
 
 @Component({
   selector: 'app-property-list',
@@ -11,6 +12,7 @@ import { OnemapApiService } from 'src/app/service/onemap-api.service';
 export class PropertyListComponent {
   addressList!: Property[];
   onemapAPIService = inject(OnemapApiService);
+  sessionService = inject(SessionService);
   sub$!: Subscription;
   searchVal!: string;
   currentPageNum!: number;
@@ -21,9 +23,11 @@ export class PropertyListComponent {
     // this.onemapAPIService.searchProperty('bedok', 1)
 
     this.searchVal = this.onemapAPIService.searchVal;
+    this.sessionService.searchVal = this.searchVal;
     this.currentPageNum = this.onemapAPIService.currentPageNum;
     this.totalPages = this.onemapAPIService.totalPages;
     this.addressList = this.onemapAPIService.addresslist;
+
 
     this.sub$ = this.onemapAPIService.onChangePropertyList.subscribe(resp => {
       this.searchVal = this.onemapAPIService.searchVal;
@@ -31,6 +35,7 @@ export class PropertyListComponent {
       this.totalPages = this.onemapAPIService.totalPages;
       this.addressList = (resp as any).addressList;
     })
+    
   }
 
   ngOnChanges() {

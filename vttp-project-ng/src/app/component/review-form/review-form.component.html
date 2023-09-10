@@ -122,7 +122,8 @@
           <td>
             <button (click)="processForm()" [disabled]="!formGroup.valid">
               Submit</button
-            >&nbsp;&nbsp;<button>Cancel</button>
+            >&nbsp;&nbsp;
+            <button (click)="back()">Cancel</button>
           </td>
         </tr>
       </table>

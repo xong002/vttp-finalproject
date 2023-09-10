@@ -1,7 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Property, Review } from 'src/app/models';
+import { SessionService } from 'src/app/service/session.service';
 import { SpringbootService } from 'src/app/service/springboot.service';
 
 @Component({
@@ -11,17 +12,19 @@ import { SpringbootService } from 'src/app/service/springboot.service';
 })
 export class PropertyDetailsComponent {
   springbootService = inject(SpringbootService);
+  sessionService = inject(SessionService)
   route = inject(ActivatedRoute);
   property!: Property;
   location = inject(Location);
   reviewList : Review[] = [];
+  router = inject(Router);
 
 
   ngOnInit() {
     this.springbootService.getProperty(this.route.snapshot.queryParams['id']).then(resp => {
       let jsonObj = JSON.parse(JSON.stringify(resp));
       this.property = jsonObj as Property;
-      this.springbootService.property = this.property;
+      this.sessionService.property = this.property;
 
       this.springbootService.getReviewsByPropertyId(this.property.id).then(resp => {
         this.reviewList = resp as any;
@@ -32,7 +35,7 @@ export class PropertyDetailsComponent {
   }
 
   back() {
-    this.location.back();
+    this.router.navigate(['/propertylist'])
   }
 
   addPropertyImage(building: string) {

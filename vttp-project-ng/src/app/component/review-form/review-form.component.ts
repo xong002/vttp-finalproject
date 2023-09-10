@@ -1,7 +1,9 @@
+import { Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Property, Review } from 'src/app/models';
+import { SessionService } from 'src/app/service/session.service';
 import { SpringbootService } from 'src/app/service/springboot.service';
 
 @Component({
@@ -16,10 +18,12 @@ export class ReviewFormComponent {
   route = inject(ActivatedRoute);
   router = inject(Router)
   springbootService = inject(SpringbootService);
+  sessionService = inject(SessionService);
   propertyName = '';
+  location = inject(Location);
 
   ngOnInit() {
-    this.propertyName = this.springbootService.property.blkNo + ' ' + this.springbootService.property.roadName + ' ' + this.springbootService.property.building;
+    this.propertyName = this.sessionService.property.blkNo + ' ' + this.sessionService.property.roadName + ' ' + this.sessionService.property.building;
     
     this.formGroup = this.fb.group({
       title: this.fb.control<string>('', Validators.required),
@@ -54,6 +58,10 @@ export class ReviewFormComponent {
         console.log(error);
         alert("Error submitting review.")
       });
+  }
+
+  back() {
+    this.location.back();
   }
 
 }
