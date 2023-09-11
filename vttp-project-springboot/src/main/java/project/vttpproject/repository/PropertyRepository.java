@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,7 +26,6 @@ public class PropertyRepository {
     private final String CREATE_PROPERTY_SQL = "insert into properties (area_id, images, building, blk_no, road_name, postal, latitude, longitude, highest_floor) values (?,?,?,?,?,?,?,?,?)";
     private final String GET_PROPERTYID_BY_POSTAL_SQL = "select id from properties where postal = ?";
 
-
     @Autowired
     private JdbcTemplate template;
 
@@ -33,13 +33,18 @@ public class PropertyRepository {
         BeanPropertyRowMapper<Property> newInstance = BeanPropertyRowMapper.newInstance(Property.class);
         newInstance.setPrimitivesDefaultedForNullValue(true);
 
-        Property response = template.queryForObject(
-                GET_PROPERTY_BY_ID_SQL,
-                newInstance,
-                id);
-        if (response == null)
+        try {
+            Property response = template.queryForObject(
+                    GET_PROPERTY_BY_ID_SQL,
+                    newInstance,
+                    id);
+            if (response == null)
+                throw new UpdateException("property not found");
+            return Optional.of(response);
+        } catch (DataAccessException e) {
             throw new UpdateException("property not found");
-        return Optional.of(response);
+        }
+
     }
 
     public Integer saveProperty(Property p) throws UpdateException, DuplicatePropertyException {
@@ -67,15 +72,16 @@ public class PropertyRepository {
             return generatedKey.getKey().intValue();
         } catch (DuplicateKeyException ex) {
             return template.queryForObject(
-                GET_PROPERTYID_BY_POSTAL_SQL,
-                Integer.class,
-                p.getPostal());
+                    GET_PROPERTYID_BY_POSTAL_SQL,
+                    Integer.class,
+                    p.getPostal());
         }
     }
 
     private final String UPDATE_PROPERTY_BY_ID = "update properties set area_id = ?, images = ?, building = ?, blk_no= ? , road_name = ?, postal = ?, latitude = ?, longitude = ?, highest_floor = ? where id = ?";
 
-    public Integer updateProperty(Property p){
-        return template.update(UPDATE_PROPERTY_BY_ID, p.getAreaId(), p.getImages(), p.getBuilding(), p.getBlkNo(), p.getRoadName(), p.getPostal(), p.getLatitude(), p.getLongitude(), p.getHighestFloor(), p.getId());
+    public Integer updateProperty(Property p) {
+        return template.update(UPDATE_PROPERTY_BY_ID, p.getAreaId(), p.getImages(), p.getBuilding(), p.getBlkNo(),
+                p.getRoadName(), p.getPostal(), p.getLatitude(), p.getLongitude(), p.getHighestFloor(), p.getId());
     }
 }

@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UpdateException.class)
     protected ResponseEntity<String> handleDataBaseException(UpdateException ex) {
         return ResponseEntity
-                .status(400)
+                .status(404)
                 .body(Json.createObjectBuilder()
                         .add("error", ex.getMessage())
                         .build()
