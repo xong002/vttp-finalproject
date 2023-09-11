@@ -12,9 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.json.Json;
 import project.vttpproject.exception.UpdateException;
-import project.vttpproject.model.user.UserDetails;
+import project.vttpproject.model.user.UserInfo;
+import project.vttpproject.model.user.AuthenticationRequest;
+import project.vttpproject.model.user.AuthenticationResponse;
 import project.vttpproject.model.user.UserDetailsInput;
 import project.vttpproject.model.user.UserSummary;
 import project.vttpproject.service.UserService;
@@ -36,17 +41,30 @@ public class UserRestController {
         return ResponseEntity.status(200).body(opt.get().toJson().toString());
     }
 
+    // for registering
     @PostMapping("/create")
-    public ResponseEntity<String> createNewUser(@RequestBody UserDetailsInput input) throws UpdateException {
-        Integer generatedUserId = userService.saveNewUser(input);
-        return ResponseEntity.status(201)
-                .body(Json.createObjectBuilder().add("generatedUserId", generatedUserId).build().toString());
+    public ResponseEntity<String> createNewUser(@RequestBody UserDetailsInput input) throws UpdateException, JsonProcessingException {
+        AuthenticationResponse authResponse = userService.saveNewUser(input);
+        
+        ObjectMapper o = new ObjectMapper();
+        String jsonString = o.writeValueAsString(authResponse);
+        return ResponseEntity.status(200).body(jsonString);
+    }
+
+    // for logging in
+    @PostMapping("/authenticate")
+    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request) throws JsonProcessingException{
+        AuthenticationResponse authResponse = userService.authenticate(request);
+
+        ObjectMapper o = new ObjectMapper();
+        String jsonString = o.writeValueAsString(authResponse);
+        return ResponseEntity.status(200).body(jsonString);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<String> updateUserById(@RequestBody UserDetails userDetails, @RequestParam Integer id)
+    public ResponseEntity<String> updateUserById(@RequestBody UserInfo userInfo, @RequestParam Integer id)
             throws UpdateException {
-        Integer rowsUpdated = userService.updateUserDetails(userDetails, id);
+        Integer rowsUpdated = userService.updateUserInfo(userInfo, id);
         if (rowsUpdated <= 0)
             throw new UpdateException("user already exists");
         return ResponseEntity.status(200).body(Json.createObjectBuilder().add("updated", true).build().toString());

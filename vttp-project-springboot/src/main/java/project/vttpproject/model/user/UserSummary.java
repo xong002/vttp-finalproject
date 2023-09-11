@@ -11,17 +11,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserSummary {
     private User user;
-    private UserDetails userDetails;
+    private UserInfo userInfo;
 
     public JsonObject toJson() {
         JsonObject jsonObj = Json.createObjectBuilder()
                 .add("userId", this.user.getId())
                 .add("displayName", this.user.getDisplayName())
-                .add("email", this.userDetails.getEmail())
-                .add("password", this.userDetails.getPassword())
-                .add("role", this.userDetails.getRole())
-                .add("status", this.userDetails.getStatus())
-                .add("createdDate", this.userDetails.getCreatedDate().toString())
+                .add("email", this.userInfo.getEmail())
+                .add("password", this.userInfo.getPassword())
+                .add("role", this.userInfo.getRole().toString())
+                .add("status", this.userInfo.getStatus())
+                .add("createdDate", this.userInfo.getCreatedDate().toString())
                 .build();
         return jsonObj;
     }

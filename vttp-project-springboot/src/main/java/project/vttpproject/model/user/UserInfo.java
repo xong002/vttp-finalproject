@@ -15,18 +15,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfo implements UserDetails{
+public class UserInfo implements UserDetails {
 
     private Integer id;
     private String email;
     private String password;
-    private Role role;
+    private String role;
     private String status;
     private Timestamp createdDate;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(role));
     }
     @Override
     public String getUsername() {
