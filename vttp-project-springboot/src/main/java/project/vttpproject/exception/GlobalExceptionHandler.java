@@ -3,6 +3,7 @@ package project.vttpproject.exception;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -40,6 +41,16 @@ public class GlobalExceptionHandler {
                 .status(200)
                 .body(Json.createObjectBuilder()
                         .add("message", ex.getMessage())
+                        .build()
+                        .toString());
+    }
+
+    @ExceptionHandler(DataAccessException.class)
+    protected ResponseEntity<String> handleDataAccessException(DataAccessException ex) {
+        return ResponseEntity
+                .status(200)
+                .body(Json.createObjectBuilder()
+                        .add("error", ex.getMessage())
                         .build()
                         .toString());
     }

@@ -1,6 +1,7 @@
 package project.vttpproject.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public class PropertyRestController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getPropertyById(@RequestParam Integer id)
-            throws UpdateException, JsonProcessingException {
+            throws UpdateException, JsonProcessingException, SQLException {
         Optional<Property> opt = propService.getPropertyById(id);
         if (opt.isEmpty()) {
             return ResponseEntity.status(404).body(
