@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -30,7 +31,7 @@ public class UserRepository {
     @Autowired
     private JdbcTemplate template;
 
-    public Optional<UserInfo> getUserInfoByEmail(String email){
+    public Optional<UserInfo> getUserInfoByEmail(String email) {
         UserInfo response = template.queryForObject(
                 GET_USER_DETAILS_BY_EMAIL_SQL,
                 BeanPropertyRowMapper.newInstance(UserInfo.class),
@@ -73,10 +74,15 @@ public class UserRepository {
                 return ps;
             }
         };
-        int rowsUpdated = template.update(psc, generatedKey);
-        if (rowsUpdated <= 0)
-            return Optional.empty();
-        return Optional.of(generatedKey.getKey().intValue());
+
+        try {
+            int rowsUpdated = template.update(psc, generatedKey);
+            if (rowsUpdated <= 0)
+                return Optional.empty();
+            return Optional.of(generatedKey.getKey().intValue());
+        } catch (DuplicateKeyException e) {
+            throw new DuplicateKeyException("duplicate email");
+        }
     }
 
     public Optional<Integer> saveUser(User user) {
@@ -90,10 +96,14 @@ public class UserRepository {
                 return ps;
             }
         };
-        int rowsUpdated = template.update(psc, generatedKey);
-        if (rowsUpdated <= 0)
-            return Optional.empty();
-        return Optional.of(generatedKey.getKey().intValue());
+        try {
+            int rowsUpdated = template.update(psc, generatedKey);
+            if (rowsUpdated <= 0)
+                return Optional.empty();
+            return Optional.of(generatedKey.getKey().intValue());
+        } catch (DuplicateKeyException e) {
+            throw new DuplicateKeyException("duplicate displayName");
+        }
     }
 
     public Integer updateUserInfo(UserInfo userDetails) {
@@ -102,7 +112,7 @@ public class UserRepository {
         return rowsUpdated;
     }
 
-    public Integer updateUserDisplayName(String displayName, Integer userId){
+    public Integer updateUserDisplayName(String displayName, Integer userId) {
         Integer rowsUpdated = template.update(UPDATE_DISPLAYNAME_BY_ID_SQL, displayName, userId);
         return rowsUpdated;
     }

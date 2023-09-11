@@ -4,6 +4,14 @@ export interface User {
     displayName: string;
 }
 
+export interface UserDetailsInput {
+    email: string;
+    password: string;
+    role: string;
+    status: string;
+    displayName: string;
+}
+
 export interface Property {
     id: number;
     images: string;

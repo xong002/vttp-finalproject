@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { AuthenticationRequest, Review } from '../models';
+import { AuthenticationRequest, Review, UserDetailsInput } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +31,9 @@ export class SpringbootService {
 
   login(request : AuthenticationRequest){
     return firstValueFrom(this.http.post('/api/user/authenticate', request))
+  }
+
+  register(input : UserDetailsInput){
+    return firstValueFrom(this.http.post('/api/user/create', input))
   }
 }
