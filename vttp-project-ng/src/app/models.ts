@@ -48,3 +48,8 @@ export interface Review {
     updatedAt: string;
     user: User;
 }
+
+export interface AuthenticationRequest {
+    email: string;
+    password: string;
+}

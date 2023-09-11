@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { Review } from '../models';
+import { AuthenticationRequest, Review } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +27,9 @@ export class SpringbootService {
 
   updateReview(review: Review){
     return firstValueFrom(this.http.put('/api/review/update', review))
+  }
+
+  login(request : AuthenticationRequest){
+    return firstValueFrom(this.http.post('/api/user/authenticate', request))
   }
 }

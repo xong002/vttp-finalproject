@@ -17,6 +17,9 @@ import { ReviewFormComponent } from './component/review-form/review-form.compone
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { UpdateReviewComponent } from './component/update-review/update-review.component';
 import { ddMMyyyyPipe } from './ddMMyyyy.datepipe';
+import { NavBarComponent } from './component/nav-bar/nav-bar.component';
+import { LoginFormComponent } from './component/login-form/login-form.component';
+import { RegisterFormComponent } from './component/register-form/register-form.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,10 @@ import { ddMMyyyyPipe } from './ddMMyyyy.datepipe';
     CustomDatePipe,
     ddMMyyyyPipe,
     ReviewFormComponent,
-    UpdateReviewComponent
+    UpdateReviewComponent,
+    NavBarComponent,
+    LoginFormComponent,
+    RegisterFormComponent
   ],
   imports: [
     BrowserModule,

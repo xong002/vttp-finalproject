@@ -1,0 +1,33 @@
+<div class="flex flex-col items-center background text" *ngIf="formGroup">
+  <div>
+    <form [formGroup]="formGroup">
+      <table>
+        <thead>
+          <tr>
+            <td>Log in:</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Email:</td>
+            <td><input class="text" type="email" formControlName="email" /></td>
+          </tr>
+          <tr>
+            <td>Password:</td>
+            <td>
+              <input class="text" type="password" formControlName="password" />
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <button (click)="processForm()" [disabled]="!formGroup.valid">
+                Submit
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>
