@@ -27,8 +27,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers("/api/user/create").permitAll()
                         .requestMatchers("/api/user/authenticate").permitAll()
-                        .requestMatchers("/api/property/**").permitAll()
-                        .requestMatchers("/api/review/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/property").permitAll()
+                        .requestMatchers("/api/property/create").permitAll()
+                        .requestMatchers("/api/property/createbatch").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/review/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
