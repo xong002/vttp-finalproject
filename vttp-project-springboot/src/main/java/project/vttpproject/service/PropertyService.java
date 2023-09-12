@@ -56,6 +56,15 @@ public class PropertyService {
         for (Property p : list) {
             Integer generatedId = propRepo.saveProperty(p);
             Optional<Property> opt = propRepo.getPropertyById(generatedId);
+
+            //set review count here
+            if (!opt.isEmpty()) {
+                Integer count = reviewRepo.getReviewCountByPropertyId(opt.get().getId());
+                Property property = opt.get();
+                property.setReviewCount(count);
+                opt = Optional.of(property);
+            };
+            
             newList.add(opt.get());
         }
         return newList;

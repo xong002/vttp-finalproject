@@ -29,8 +29,10 @@ public class RentalReview {
     private Integer occupants;
     private BigDecimal rating;
     private String comments;
+    private String images;
     private String status;
     private Timestamp createdDate;
     private Timestamp updatedAt;
     private User user;
+    private String building;
 }

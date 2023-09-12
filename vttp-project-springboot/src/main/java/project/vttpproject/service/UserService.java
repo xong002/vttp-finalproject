@@ -67,7 +67,12 @@ public class UserService {
         UserInfo userInfo = userRepo.getUserInfoByEmail(request.getEmail()).orElseThrow();
         
         String jwtToken = jwtService.generateToken(userInfo);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+        User user = userRepo.getUserByUserDetailsId(userInfo.getId()).orElseThrow();
+        return AuthenticationResponse.builder()
+            .token(jwtToken)
+            .userId(user.getId())
+            .displayName(user.getDisplayName())
+            .build();
 
     }
 

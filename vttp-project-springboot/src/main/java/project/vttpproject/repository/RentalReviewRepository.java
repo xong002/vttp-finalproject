@@ -14,6 +14,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import project.vttpproject.exception.NotFoundException;
 import project.vttpproject.exception.UpdateException;
 import project.vttpproject.model.reviews.RentalReview;
 
@@ -23,14 +24,15 @@ public class RentalReviewRepository {
     private final String GET_REVIEW_BY_ID_SQL = "select * from rental_reviews where id = ?";
     private final String GET_REVIEWS_BY_PROPERTY_ID_SQL = "select * from rental_reviews where property_id = ? order by created_date DESC";
     private final String GET_REVIEWS_BY_USER_ID_SQL = "select * from rental_reviews where user_id = ? order by created_date DESC";
-    private final String CREATE_REVIEW_SQL = "insert into rental_reviews (id, user_id, property_id, title, monthly_rental_cost, floor, apartment_floor_area, rental_floor_area, furnishings, shared_toilet, rules, rental_start_date, rental_duration, occupants, rating, comments, status) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private final String CREATE_REVIEW_SQL = "insert into rental_reviews (id, user_id, property_id, title, monthly_rental_cost, floor, apartment_floor_area, rental_floor_area, furnishings, shared_toilet, rules, rental_start_date, rental_duration, occupants, rating, comments, status, images) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private final String GET_REVIEW_COUNT_BY_PROPERTY_ID_SQL = "select count(id) from rental_reviews where property_id = ?";
     private final String UPDATE_REVIEW_BY_REVIEW_ID_SQL = "update rental_reviews set title = ? , monthly_rental_cost = ?, floor = ?, apartment_floor_area = ?, rental_floor_area = ?, furnishings = ?, shared_toilet = ?, rules = ?, rental_start_date = ?, rental_duration = ?, occupants = ?, rating = ?, comments = ?, status = ? where id = ?";
+    private final String GET_LATEST_REVIEWS_BY_BUILDING_NAME_SQL = "select * from rental_reviews join(select id as p_id, building from properties where building = ?) as table1 on table1.p_id=rental_reviews.property_id where property_id != ? order by created_date DESC limit ? offset ?";
 
     @Autowired
     private JdbcTemplate template;
 
-    public Optional<RentalReview> getReviewById(String id) throws UpdateException {
+    public Optional<RentalReview> getReviewById(String id) throws NotFoundException {
         BeanPropertyRowMapper<RentalReview> newInstance = BeanPropertyRowMapper.newInstance(RentalReview.class);
         newInstance.setPrimitivesDefaultedForNullValue(true);
         RentalReview response = template.queryForObject(
@@ -38,11 +40,11 @@ public class RentalReviewRepository {
                 newInstance,
                 id);
         if (response == null)
-            throw new UpdateException("review not found");
+            throw new NotFoundException("review not found");
         return Optional.of(response);
     }
 
-    public List<RentalReview> getReviewsByPropertyId(Integer propId) throws UpdateException {
+    public List<RentalReview> getReviewsByPropertyId(Integer propId) throws NotFoundException {
         BeanPropertyRowMapper<RentalReview> newInstance = BeanPropertyRowMapper.newInstance(RentalReview.class);
         newInstance.setPrimitivesDefaultedForNullValue(true);
 
@@ -52,11 +54,11 @@ public class RentalReviewRepository {
                 propId);
 
         if (response.isEmpty())
-            throw new UpdateException("no reviews found for propertyId: " + propId);
+            throw new NotFoundException("no reviews found for propertyId: " + propId);
         return response;
     }
 
-    public List<RentalReview> getReviewsByUserId(Integer userId) throws UpdateException {
+    public List<RentalReview> getReviewsByUserId(Integer userId) throws NotFoundException {
         BeanPropertyRowMapper<RentalReview> newInstance = BeanPropertyRowMapper.newInstance(RentalReview.class);
         newInstance.setPrimitivesDefaultedForNullValue(true);
 
@@ -66,7 +68,21 @@ public class RentalReviewRepository {
                 userId);
 
         if (response.isEmpty())
-            throw new UpdateException("no reviews found for userId: " + userId);
+            throw new NotFoundException("no reviews found for userId: " + userId);
+        return response;
+    }
+
+    public List<RentalReview> getReviewsByBuildingName(String building, Integer propertyIdExcluded, Integer limit, Integer offset) throws NotFoundException {
+        BeanPropertyRowMapper<RentalReview> newInstance = BeanPropertyRowMapper.newInstance(RentalReview.class);
+        newInstance.setPrimitivesDefaultedForNullValue(true);
+
+        List<RentalReview> response = template.query(
+                GET_LATEST_REVIEWS_BY_BUILDING_NAME_SQL,
+                newInstance,
+                building, propertyIdExcluded, limit, offset);
+
+        if (response.isEmpty())
+            throw new NotFoundException("no reviews found for building: " + building);
         return response;
     }
 
@@ -93,6 +109,7 @@ public class RentalReviewRepository {
                 ps.setBigDecimal(15, r.getRating());
                 ps.setString(16, r.getComments());
                 ps.setString(17, r.getStatus());
+                ps.setString(18, r.getImages());
                 return ps;
             }
         };

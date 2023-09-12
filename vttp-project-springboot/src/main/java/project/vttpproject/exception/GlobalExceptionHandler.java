@@ -26,10 +26,21 @@ public class GlobalExceptionHandler {
                                                 .toString());
         }
 
+        @ExceptionHandler(NotFoundException.class)
+        protected ResponseEntity<String> handleNotFoundException(NotFoundException ex) {
+                return ResponseEntity
+                                .status(404)
+                                .body(Json.createObjectBuilder()
+                                                .add("error", ex.getMessage())
+                                                .build()
+                                                .toString());
+        }
+
+
         @ExceptionHandler(UpdateException.class)
         protected ResponseEntity<String> handleDataBaseException(UpdateException ex) {
                 return ResponseEntity
-                                .status(404)
+                                .status(400)
                                 .body(Json.createObjectBuilder()
                                                 .add("error", ex.getMessage())
                                                 .build()

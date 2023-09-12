@@ -79,7 +79,6 @@ public class PropertyRestController {
         return ResponseEntity.status(200).body(jsonString);
     }
 
-    // TODO: add file upload
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> uploadPropertyImageFile(
             @RequestPart MultipartFile file,

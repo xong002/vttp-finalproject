@@ -22,6 +22,7 @@ public class UserRepository {
 
     private final String GET_USER_DETAILS_BY_EMAIL_SQL = "select * from user_details where email = ?";
     private final String GET_USER_BY_ID_SQL = "select * from user where id = ?";
+    private final String GET_USER_BY_USER_DETAILS_ID_SQL = "select * from user where user_details_id = ?";
     private final String GET_USER_DETAILS_BY_ID_SQL = "select * from user_details where id = ?";
     private final String CREATE_USERDETAILS_SQL = "insert into user_details (email, password, role, status) values (?, ?, ?, ?)";
     private final String CREATE_USER_SQL = "insert into user (user_details_id, display_name) values (?,?)";
@@ -44,6 +45,16 @@ public class UserRepository {
     public Optional<User> getUserById(Integer id) {
         User response = template.queryForObject(
                 GET_USER_BY_ID_SQL,
+                BeanPropertyRowMapper.newInstance(User.class),
+                id);
+        if (response == null)
+            return Optional.empty();
+        return Optional.of(response);
+    }
+
+    public Optional<User> getUserByUserDetailsId(Integer id) {
+        User response = template.queryForObject(
+                GET_USER_BY_USER_DETAILS_ID_SQL,
                 BeanPropertyRowMapper.newInstance(User.class),
                 id);
         if (response == null)
