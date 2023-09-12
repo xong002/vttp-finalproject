@@ -15,6 +15,7 @@ export class NavBarComponent {
   sub$!: Subscription;
 
   ngOnInit(){
+    this.sessionService.setLogInStatus();
     this.isLoggedIn = this.sessionService.isLoggedIn;
     this.sub$ = this.sessionService.onLogInLogOut.subscribe(resp => this.isLoggedIn = resp);
   }

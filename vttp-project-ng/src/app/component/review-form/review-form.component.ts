@@ -55,8 +55,13 @@ export class ReviewFormComponent {
         this.router.navigate(['/propertydetails'], { queryParams: { id: r.propertyId } })
       })
       .catch(error => {
-        console.log(error);
-        alert("Error submitting review.")
+        if(error.status == 403){
+          alert("You must be logged in to submit a review.")
+          this.router.navigate(['/login'])
+        } else {
+          console.log(error);
+          alert("Error submitting review.")
+        }
       });
   }
 

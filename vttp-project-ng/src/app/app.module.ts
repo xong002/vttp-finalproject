@@ -12,11 +12,11 @@ import { PropertyListComponent } from './component/property-list/property-list.c
 import { PropertyCardComponent } from './component/property-list/property-card/property-card.component';
 import { ReviewsListComponent } from './component/property-details/reviews-list/reviews-list.component';
 import { ReviewCardComponent } from './component/property-details/reviews-list/review-card/review-card.component';
-import { CustomDatePipe } from './custom.datepipe';
+import { CustomDatePipe } from './utilities/custom.datepipe';
 import { ReviewFormComponent } from './component/review-form/review-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { UpdateReviewComponent } from './component/update-review/update-review.component';
-import { ddMMyyyyPipe } from './ddMMyyyy.datepipe';
+import { ddMMyyyyPipe } from './utilities/ddMMyyyy.datepipe';
 import { NavBarComponent } from './component/nav-bar/nav-bar.component';
 import { LoginFormComponent } from './component/login-form/login-form.component';
 import { RegisterFormComponent } from './component/register-form/register-form.component';

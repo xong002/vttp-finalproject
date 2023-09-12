@@ -16,6 +16,7 @@ export class SessionService {
       this.isLoggedIn = false;
     } else if (localStorage.getItem('authToken') != null){
       this.isLoggedIn = true;
+      console.log("logged in")
     }
     this.onLogInLogOut.next(this.isLoggedIn);
   }
