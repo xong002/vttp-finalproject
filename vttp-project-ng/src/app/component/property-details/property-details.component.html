@@ -6,20 +6,31 @@
         <td class="flex flex-col items-center">
           <img class="h-180 w-180" [src]="property.images" />
           <button
-            class="my-2 mx-20"
-            (click)="addPropertyImage(property.building)"
+          *ngIf="isLoggedIn"  
+          class="my-2 mx-20"
+            (click)="showFileUpload()"
           >
-            Add image
+            Change image
           </button>
+          <form *ngIf="showFileInputBox">
+            <input type="file" accept="image/*" #propertyImageFile>
+            <button (click)="uploadFile()">Upload</button>
+          </form>
         </td>
         <td class="p-3">
           <div>
             <span class="font-bold">Address:</span> {{ property.blkNo }}
             {{ property.roadName }} Singapore {{ property.postal }}
           </div>
+
           <div>
             <span class="font-bold">Building/Estate Name:</span>
-            {{ property.building }}
+            {{ property.building }} 
+          </div>
+
+          <div class="my-2">
+            <button *ngIf="!noResults" (click)="searchAddress(property.building)">Browse properties from same building/estate</button>
+            <span *ngIf="noResults">No other reviews for building/estate.</span>
           </div>
           
           <div>
@@ -40,6 +51,16 @@
       <p class="m-5">No reviews found.</p>
     </ng-template>
   </div>
+
+<!--   <div class="w-5/6 mt-5">
+    <h1 class="pt-2 text-2xl font-bold dark">Other reviews for same estate/building: {{property.building}}</h1>
+    <div *ngIf="buildingReviewList.length; else noReviews">
+      <app-reviews-list [reviewList]="buildingReviewList"></app-reviews-list>
+    </div>
+    <ng-template #noReviews>
+      <p class="m-5">No reviews found.</p>
+    </ng-template>
+  </div> -->
 
   <div>
     

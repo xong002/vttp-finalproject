@@ -46,7 +46,6 @@ export class LoginFormComponent {
           let tempUrl = this.sessionService.tempUrl
           if (tempUrl != '') {
             this.sessionService.tempUrl = '';
-            console.log('>>>>>' + tempUrl)
             this.router.navigateByUrl(tempUrl);
           } else { this.router.navigate(['/']) }
 

@@ -55,6 +55,7 @@ export interface Review {
     createdDate: string;
     updatedAt: string;
     user: User;
+    building: string;
 }
 
 export interface AuthenticationRequest {

@@ -1,9 +1,10 @@
 import { Location } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Property, Review } from 'src/app/models';
+import { OnemapApiService } from 'src/app/service/onemap-api.service';
 import { SessionService } from 'src/app/service/session.service';
 import { SpringbootService } from 'src/app/service/springboot.service';
 
@@ -14,6 +15,7 @@ import { SpringbootService } from 'src/app/service/springboot.service';
 })
 export class PropertyDetailsComponent {
   springbootService = inject(SpringbootService);
+  onemapAPIService = inject(OnemapApiService);
   sessionService = inject(SessionService)
   route = inject(ActivatedRoute);
   property!: Property;
@@ -24,7 +26,12 @@ export class PropertyDetailsComponent {
   sanitizer = inject(DomSanitizer);
   isLoggedIn!: boolean;
   isLoggedin$! : Subscription;
+  buildingReviewList : Review[] = [];
+  noResults = false;
+  showFileInputBox = false;
 
+  @ViewChild('propertyImageFile')
+  private eRef! : ElementRef;
 
   ngOnInit() {  
     this.springbootService.getProperty(this.route.snapshot.queryParams['id']).then(resp => {
@@ -38,6 +45,11 @@ export class PropertyDetailsComponent {
 
       this.springbootService.getReviewsByPropertyId(this.property.id).then(resp => {
         this.reviewList = resp as any;
+
+      this.springbootService.getReviewsByBuildingName(this.property.building,this.property.id, 5, 0).then(resp => {
+        this.buildingReviewList = resp as any;
+      })  
+
       }).catch(error=>{
         console.log(error.error)
       });
@@ -58,7 +70,34 @@ export class PropertyDetailsComponent {
     this.router.navigate(['/propertylist'])
   }
 
-  addPropertyImage(building: string) {
-    // TODO:add file upload for image
+  showFileUpload() {
+    this.showFileInputBox = !this.showFileInputBox
+  }
+
+  uploadFile(){
+    let url = this.router.url
+    this.springbootService.uploadPropertyImage(
+      localStorage.getItem('displayName')!,
+      this.property.id,
+      this.eRef)
+      .then(() => {
+        
+        setInterval(() => {
+          alert("Image uploaded!");
+          this.router.navigateByUrl(url);
+        }, 3000)
+        
+      })
+      .catch(error => {
+        alert("Error uploading image.")
+      })
+  }
+
+  searchAddress(building : string) {
+    this.onemapAPIService.searchProperty(building, 1).then(() => {
+        console.log(this.onemapAPIService.addresslist);
+        if(this.onemapAPIService.addresslist.length == 0) this.noResults = true
+        else this.router.navigate(['/propertylist']);
+    });
   }
 }

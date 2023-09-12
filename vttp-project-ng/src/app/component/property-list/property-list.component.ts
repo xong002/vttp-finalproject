@@ -22,8 +22,8 @@ export class PropertyListComponent {
     // remove after testing
     // this.onemapAPIService.searchProperty('bedok', 1)
 
-    this.searchVal = this.onemapAPIService.searchVal;
-    this.sessionService.searchVal = this.searchVal;
+    // this.searchVal = this.onemapAPIService.searchVal;
+    this.searchVal = this.sessionService.searchVal;
     this.currentPageNum = this.onemapAPIService.currentPageNum;
     this.totalPages = this.onemapAPIService.totalPages;
     this.addressList = this.onemapAPIService.addresslist;
