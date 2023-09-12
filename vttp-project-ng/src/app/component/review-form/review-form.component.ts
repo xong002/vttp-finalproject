@@ -34,7 +34,7 @@ export class ReviewFormComponent {
       furnishings: this.fb.control<string>(''),
       sharedToilet: this.fb.control<boolean>(false),
       rules: this.fb.control<string>(''),
-      rentalStartDate: this.fb.control<string>(''),
+      rentalStartDate: this.fb.control<string>(new Date().toISOString().split('T')[0]),
       rentalDuration: this.fb.control(''),
       occupants: this.fb.control<number>(1, [Validators.min(1)]),
       rating: this.fb.control<number>(1, [Validators.required, Validators.min(1), Validators.max(5)]),
