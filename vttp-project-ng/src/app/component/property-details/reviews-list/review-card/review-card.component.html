@@ -82,6 +82,7 @@
       </td>
       <td>
         <button
+        *ngIf="review.user.id == userId"
           [routerLink]="['/updatereview']"
           [queryParams]="{ reviewId: review.id }"
         >

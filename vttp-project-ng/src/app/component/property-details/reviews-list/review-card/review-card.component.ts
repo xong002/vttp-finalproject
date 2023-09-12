@@ -8,4 +8,9 @@ import { Review } from 'src/app/models';
 })
 export class ReviewCardComponent {
   @Input() review!: Review;
+  userId!: number;
+
+  ngOnInit(){
+    this.userId = +localStorage.getItem('userId')!
+  }
 }

@@ -20,9 +20,11 @@ export class UpdateReviewComponent {
   springbootService = inject(SpringbootService);
   location = inject(Location);
   reviewId! : string;
+ 
 
   ngOnInit() {
     this.reviewId = this.route.snapshot.queryParams['reviewId'];
+
     this.springbootService.getReviewById(this.reviewId).then(resp => {
       this.review = resp as Review;
 
@@ -73,7 +75,7 @@ export class UpdateReviewComponent {
     this.springbootService.updateReview(r)
       .then(() => {
         alert("Review submitted!");
-        // this.router.navigate(['/propertydetails'], { queryParams: { id: r.propertyId } })
+        this.router.navigate(['/propertydetails'], { queryParams: { id: r.propertyId } })
       })
       .catch(error => {
         console.log(error);
