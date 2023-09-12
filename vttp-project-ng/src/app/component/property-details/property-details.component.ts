@@ -26,7 +26,7 @@ export class PropertyDetailsComponent {
   isLoggedin$! : Subscription;
 
 
-  ngOnInit() {
+  ngOnInit() {  
     this.springbootService.getProperty(this.route.snapshot.queryParams['id']).then(resp => {
       let jsonObj = JSON.parse(JSON.stringify(resp));
       this.property = jsonObj as Property;
@@ -43,6 +43,15 @@ export class PropertyDetailsComponent {
       });
     })
     
+  }
+
+  processForm(){
+    if(!this.isLoggedIn){
+      alert("You must be logged in to write a review.");
+      return;
+    }
+
+    this.router.navigate(['/reviewform/', this.route.snapshot.queryParams['id']])
   }
 
   back() {

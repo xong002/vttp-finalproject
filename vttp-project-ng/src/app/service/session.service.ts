@@ -10,9 +10,8 @@ export class SessionService {
   searchVal!: string;
   isLoggedIn!: boolean;
   onLogInLogOut = new Subject<boolean>;
-  // onDisplayNameChange = new Subject<string>;
-  // displayName!: string;
-  // userId!: number;
+  tempUrl! : string;
+
 
   setLogInStatus() {
     if (localStorage.getItem('authToken') == null) {
@@ -24,6 +23,5 @@ export class SessionService {
       console.log("logged in")
     }
     this.onLogInLogOut.next(this.isLoggedIn);
-    // this.onDisplayNameChange.next(this.displayName);
   }
 }

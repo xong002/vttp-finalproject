@@ -30,21 +30,26 @@ export class LoginFormComponent {
   }
 
   processForm() {
+
     let request: AuthenticationRequest = this.formGroup.value;
     this.springbootService.login(request)
       .then((resp) => {
         let token = (resp as any).token;
         if (token != null) {
-          // this.sessionService.userId = (resp as any).userId;
-          // this.sessionService.displayName = (resp as any).displayName;
-          
+
           localStorage.setItem('authToken', token);
           localStorage.setItem('userId', (resp as any).userId);
           localStorage.setItem('displayName', (resp as any).displayName)
           this.sessionService.setLogInStatus();
 
           alert("Logged in!");
-          this.router.navigate(['/'])
+          let tempUrl = this.sessionService.tempUrl
+          if (tempUrl != '') {
+            this.sessionService.tempUrl = '';
+            console.log('>>>>>' + tempUrl)
+            this.router.navigateByUrl(tempUrl);
+          } else { this.router.navigate(['/']) }
+
         } else {
           localStorage.removeItem('authToken')
           this.sessionService.setLogInStatus();

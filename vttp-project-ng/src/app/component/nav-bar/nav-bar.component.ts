@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SessionService } from 'src/app/service/session.service';
 
@@ -13,9 +13,8 @@ export class NavBarComponent {
   router = inject(Router);
   sessionService = inject(SessionService);
   isLoggedIn$!: Subscription;
-  // displayName$!: Subscription;
   displayName!: string;
-  // userId!: number;
+  route = inject(ActivatedRoute)
 
   ngOnInit() {
     this.sessionService.setLogInStatus();
@@ -27,12 +26,16 @@ export class NavBarComponent {
       this.isLoggedIn = resp;
       if (displayName != null) this.displayName = displayName;
     });
-    // this.displayName$ = this.sessionService.onDisplayNameChange.subscribe(resp => this.displayName = resp);
+
   }
 
   ngOnDestroy() {
     this.isLoggedIn$.unsubscribe();
-    // this.displayName$.unsubscribe();
+  }
+
+  login(){
+    this.sessionService.tempUrl = this.router.url;
+    this.router.navigate(['/login'])
   }
 
   logout() {

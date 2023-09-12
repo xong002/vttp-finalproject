@@ -9,7 +9,7 @@
       </td>
       <td class="w-60 bg-purple-200">
         <div class="flex justify-center">
-          <button routerLink="/login" *ngIf="!isLoggedIn">Login</button>
+          <button (click)="login()" *ngIf="!isLoggedIn">Login</button>
           <button (click)="logout()" *ngIf="isLoggedIn">Logout</button>
           &nbsp;
           <button routerLink="/register" *ngIf="!isLoggedIn">Register</button>
