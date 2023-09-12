@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Property, Review } from 'src/app/models';
 import { SessionService } from 'src/app/service/session.service';
 import { SpringbootService } from 'src/app/service/springboot.service';
@@ -21,6 +22,8 @@ export class PropertyDetailsComponent {
   router = inject(Router);
   mapURL!: SafeResourceUrl;
   sanitizer = inject(DomSanitizer);
+  isLoggedIn!: boolean;
+  isLoggedin$! : Subscription;
 
 
   ngOnInit() {
@@ -30,6 +33,8 @@ export class PropertyDetailsComponent {
       this.sessionService.property = this.property;
       this.mapURL = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.onemap.gov.sg/minimap/minimap.html?mapStyle=Default&zoomLevel=15&latLng=" + this.property.latitude + "," + this.property.longitude + "&popupWidth=200&showPopup=false")
       
+      this.isLoggedIn = this.sessionService.isLoggedIn;
+      this.isLoggedin$ = this.sessionService.onLogInLogOut.subscribe(resp => this.isLoggedIn = resp)
 
       this.springbootService.getReviewsByPropertyId(this.property.id).then(resp => {
         this.reviewList = resp as any;
@@ -37,6 +42,7 @@ export class PropertyDetailsComponent {
         console.log(error.error)
       });
     })
+    
   }
 
   back() {
