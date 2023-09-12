@@ -1,9 +1,13 @@
 <div
-  class="border block rounded-lg bg-neutral-700 p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]"
+  class="border rounded-lg bg-neutral-700 p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]"
 >
   <h5 class="mb-2 text-xl font-bold leading-tight">
     {{ review.title }} (Rating: {{ review.rating }})
   </h5>
+  <div>
+    <img [src]="review.images" width="250" />
+  </div>
+
   <table class="table-fixed border border-collapse w-full">
     <th>
       <tr>
@@ -82,7 +86,7 @@
       </td>
       <td>
         <button
-        *ngIf="review.user.id == userId"
+          *ngIf="review.user.id == userId"
           [routerLink]="['/updatereview']"
           [queryParams]="{ reviewId: review.id }"
         >

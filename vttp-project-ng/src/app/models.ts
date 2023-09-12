@@ -56,6 +56,7 @@ export interface Review {
     updatedAt: string;
     user: User;
     building: string;
+    images: string;
 }
 
 export interface AuthenticationRequest {

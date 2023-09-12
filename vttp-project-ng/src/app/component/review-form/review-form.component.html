@@ -101,20 +101,18 @@
               <option value="4" >4</option>
               <option value="5" >5</option>
             </select>
-<!--             <input
-            class="number"  
-            type="number"
-              min="1"
-              max="5"
-              step="1"
-              formControlName="rating"
-            /> -->
           </td>
         </tr>
         <tr>
           <td class="font-bold"><label>*Comments:</label></td>
           <td>
             <textarea formControlName="comments" cols="24" rows="5"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-bold"><label>Upload photo:</label></td>
+          <td>
+            <input type="file" accept="image/*" #reviewFile>
           </td>
         </tr>
         <tr>

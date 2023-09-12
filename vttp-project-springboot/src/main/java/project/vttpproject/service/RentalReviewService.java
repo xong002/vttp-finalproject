@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +33,9 @@ public class RentalReviewService {
 
     @Autowired
     private S3Repository s3Repo;
+
+    @Value("${s3.bucket.url}")
+    private String s3URL;
 
     public Optional<RentalReview> getReviewById(String id) throws NotFoundException {
         return reviewRepo.getReviewById(id);
@@ -66,44 +70,47 @@ public class RentalReviewService {
             UpdateException.class,
             DuplicatePropertyException.class })
     public String createNewReview(
-            MultipartFile file,
-            Integer userId,
-            Integer propertyId,
+            Optional<MultipartFile> file,
+            String userId,
+            String propertyId,
             String title,
-            String monthlyRentalCost,
-            String floor,
-            String apartmentFloorArea,
-            String rentalFloorArea,
-            String furnishings,
-            Boolean sharedToilet,
-            String rules,
-            Date rentalStartDate,
-            String rentalDuration,
-            Integer occupants,
-            BigDecimal rating,
+            Optional<String> monthlyRentalCost,
+            Optional<String> floor,
+            Optional<String> apartmentFloorArea,
+            Optional<String> rentalFloorArea,
+            Optional<String> furnishings,
+            Optional<String> sharedToilet,
+            Optional<String> rules,
+            Optional<String> rentalStartDate,
+            Optional<String> rentalDuration,
+            Optional<String> occupants,
+            String rating,
             String comments,
             String status) throws UpdateException, IOException {
         RentalReview review = new RentalReview();
         review.setId(UUID.randomUUID().toString());
-        review.setUserId(userId);
-        review.setPropertyId(propertyId);
+        review.setUserId(Integer.valueOf(userId));
+        review.setPropertyId(Integer.valueOf(propertyId));
         review.setTitle(title);
-        review.setMonthlyRentalCost(monthlyRentalCost);
-        review.setFloor(floor);
-        review.setApartmentFloorArea(apartmentFloorArea);
-        review.setRentalFloorArea(rentalFloorArea);
-        review.setFurnishings(furnishings);
-        review.setSharedToilet(sharedToilet);
-        review.setRules(rules);
-        review.setRentalStartDate(rentalStartDate);
-        review.setRentalDuration(rentalDuration);
-        review.setOccupants(occupants);
-        review.setRating(rating);
+        review.setMonthlyRentalCost(monthlyRentalCost.isEmpty() ? "" : monthlyRentalCost.get());
+        review.setFloor(floor.isEmpty() ? "" : floor.get());
+        review.setApartmentFloorArea(apartmentFloorArea.isEmpty() ? "" : apartmentFloorArea.get());
+        review.setRentalFloorArea(rentalFloorArea.isEmpty() ? "" : rentalFloorArea.get());
+        review.setFurnishings(furnishings.isEmpty() ? "" : furnishings.get());
+        review.setSharedToilet(sharedToilet.isEmpty() ? null : Boolean.valueOf(sharedToilet.get()));
+        review.setRules(rules.isEmpty() ? "" : rules.get());
+        review.setRentalStartDate(rentalStartDate.isEmpty() ? null : Date.valueOf(rentalStartDate.get()));
+        review.setRentalDuration(rentalDuration.isEmpty() ? "" : rentalDuration.get());
+        review.setOccupants(Integer.valueOf(occupants.get()));
+        review.setRating(new BigDecimal(rating));
         review.setComments(comments);
         review.setStatus(status);
-        User user = userRepo.getUserById(userId).get();
-        String imageId = s3Repo.saveImage(file, user.getDisplayName());
-        review.setImages(imageId);
+
+        if (!file.isEmpty()) {
+            User user = userRepo.getUserById(Integer.valueOf(userId)).get();
+            String imageId = s3Repo.saveImage(file.get(), user.getDisplayName());
+            review.setImages(s3URL + imageId);
+        }
 
         return reviewRepo.saveReview(review);
     }

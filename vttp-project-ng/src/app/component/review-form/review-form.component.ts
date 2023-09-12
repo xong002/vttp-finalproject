@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Review } from 'src/app/models';
@@ -22,6 +22,9 @@ export class ReviewFormComponent {
   propertyName = '';
   location = inject(Location);
 
+  @ViewChild('reviewFile')
+  private eRef! : ElementRef;
+
   ngOnInit() {
     this.propertyName = this.sessionService.property.blkNo + ' ' + this.sessionService.property.roadName + ' ' + this.sessionService.property.building;
     
@@ -34,7 +37,7 @@ export class ReviewFormComponent {
       furnishings: this.fb.control<string>(''),
       sharedToilet: this.fb.control<boolean>(false),
       rules: this.fb.control<string>(''),
-      rentalStartDate: this.fb.control<string>(new Date().toISOString().split('T')[0]),
+      rentalStartDate: this.fb.control<string>(''),
       rentalDuration: this.fb.control(''),
       occupants: this.fb.control<number>(1, [Validators.min(1)]),
       rating: this.fb.control<number>(1, [Validators.required, Validators.min(1), Validators.max(5)]),
@@ -54,7 +57,7 @@ export class ReviewFormComponent {
     r.propertyId = this.route.snapshot.params['propertyId'];
     r.status = 'approved';
 
-    this.springbootService.saveReview(r)
+    this.springbootService.saveReview(r, this.eRef)
       .then(() => {
         alert("Review submitted!");
         this.router.navigate(['/propertydetails'], { queryParams: { id: r.propertyId } })

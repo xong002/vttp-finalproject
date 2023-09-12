@@ -30,7 +30,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/property").permitAll()
                         .requestMatchers("/api/property/create").permitAll()
                         .requestMatchers("/api/property/createbatch").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/review/**").permitAll()
+                        .requestMatchers("/api/review/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
