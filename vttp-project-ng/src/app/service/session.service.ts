@@ -6,18 +6,24 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class SessionService {
-  property! : Property;
-  searchVal! : string;
-  isLoggedIn! : boolean;
-  onLogInLogOut = new Subject<boolean>
+  property!: Property;
+  searchVal!: string;
+  isLoggedIn!: boolean;
+  onLogInLogOut = new Subject<boolean>;
+  // onDisplayNameChange = new Subject<string>;
+  // displayName!: string;
+  // userId!: number;
 
-  setLogInStatus(){
-    if (localStorage.getItem('authToken') == null){
+  setLogInStatus() {
+    if (localStorage.getItem('authToken') == null) {
       this.isLoggedIn = false;
-    } else if (localStorage.getItem('authToken') != null){
+      localStorage.removeItem('displayName')
+      localStorage.removeItem('userId')
+    } else if (localStorage.getItem('authToken') != null) {
       this.isLoggedIn = true;
       console.log("logged in")
     }
     this.onLogInLogOut.next(this.isLoggedIn);
+    // this.onDisplayNameChange.next(this.displayName);
   }
 }

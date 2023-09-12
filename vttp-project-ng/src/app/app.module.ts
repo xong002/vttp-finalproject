@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './component/home/home.component';
 import { SearchAddressComponent } from './component/home/search-address/search-address.component';
 import { PropertyDetailsComponent } from './component/property-details/property-details.component';
@@ -20,6 +20,7 @@ import { ddMMyyyyPipe } from './utilities/ddMMyyyy.datepipe';
 import { NavBarComponent } from './component/nav-bar/nav-bar.component';
 import { LoginFormComponent } from './component/login-form/login-form.component';
 import { RegisterFormComponent } from './component/register-form/register-form.component';
+import { AuthInterceptor } from './service/AuthInterceptor';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,9 @@ import { RegisterFormComponent } from './component/register-form/register-form.c
       registrationStrategy: 'registerWhenStable:30000'
     })
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

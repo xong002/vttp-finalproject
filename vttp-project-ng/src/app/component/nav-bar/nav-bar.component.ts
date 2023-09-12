@@ -9,22 +9,33 @@ import { SessionService } from 'src/app/service/session.service';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent {
-  isLoggedIn! : boolean;
+  isLoggedIn!: boolean;
   router = inject(Router);
   sessionService = inject(SessionService);
-  sub$!: Subscription;
+  isLoggedIn$!: Subscription;
+  // displayName$!: Subscription;
+  displayName!: string;
+  // userId!: number;
 
-  ngOnInit(){
+  ngOnInit() {
     this.sessionService.setLogInStatus();
+    let displayName = localStorage.getItem('displayName')
     this.isLoggedIn = this.sessionService.isLoggedIn;
-    this.sub$ = this.sessionService.onLogInLogOut.subscribe(resp => this.isLoggedIn = resp);
-  }
-  
-  ngOnDestroy(){
-    this.sub$.unsubscribe();
+    if (displayName != null) this.displayName = displayName;
+
+    this.isLoggedIn$ = this.sessionService.onLogInLogOut.subscribe(resp => {
+      this.isLoggedIn = resp;
+      if (displayName != null) this.displayName = displayName;
+    });
+    // this.displayName$ = this.sessionService.onDisplayNameChange.subscribe(resp => this.displayName = resp);
   }
 
-  logout(){
+  ngOnDestroy() {
+    this.isLoggedIn$.unsubscribe();
+    // this.displayName$.unsubscribe();
+  }
+
+  logout() {
     localStorage.removeItem('authToken');
     this.sessionService.setLogInStatus();
     alert("You have been logged out.");

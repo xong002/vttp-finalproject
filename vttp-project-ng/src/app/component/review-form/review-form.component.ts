@@ -45,7 +45,12 @@ export class ReviewFormComponent {
 
   processForm() {
     let r: Review = this.formGroup.value;
-    r.userId = 1; //TODO: assign userid = 1 for testing
+    
+    let userId = localStorage.getItem('userId');
+    if (userId != null) {
+      r.userId = +userId
+    } else return;
+    
     r.propertyId = this.route.snapshot.params['propertyId'];
     r.status = 'approved';
 

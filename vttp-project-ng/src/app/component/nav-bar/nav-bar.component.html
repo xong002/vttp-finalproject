@@ -5,7 +5,7 @@
         <a href="/"> <img class="h-19" src="assets/icons/review-icon.png" /></a>
       </td>
       <td class="flex justify-center">
-        <span>text</span>
+        <span *ngIf="isLoggedIn">Welcome, {{displayName}}</span>
       </td>
       <td class="w-60 bg-purple-200">
         <div class="flex justify-center">

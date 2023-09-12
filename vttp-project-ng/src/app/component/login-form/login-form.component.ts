@@ -35,8 +35,14 @@ export class LoginFormComponent {
       .then((resp) => {
         let token = (resp as any).token;
         if (token != null) {
-          localStorage.setItem('authToken', token)
+          // this.sessionService.userId = (resp as any).userId;
+          // this.sessionService.displayName = (resp as any).displayName;
+          
+          localStorage.setItem('authToken', token);
+          localStorage.setItem('userId', (resp as any).userId);
+          localStorage.setItem('displayName', (resp as any).displayName)
           this.sessionService.setLogInStatus();
+
           alert("Logged in!");
           this.router.navigate(['/'])
         } else {
