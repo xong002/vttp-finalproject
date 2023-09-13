@@ -14,7 +14,7 @@ RUN npm i -g @angular/cli
 RUN npm i
 RUN npm i -D tailwindcss
 RUN npx tailwindcss init 
-RUN ng add @angular/pwa@16.2.1
+RUN ng add @angular/pwa@16.2.1 --skip-confirmation
 RUN ng build
 
 FROM maven:3.8.3-openjdk-17 AS mvnBuilder
