@@ -58,14 +58,14 @@ jobs:
           context: vttp-project-springboot
           push: true
           tags: xong002/vttp-project:latest
-          secrets: |
-            "SQL_URL=${{ secrets.SQL_URL }}"
-            "SQL_USER=${{ secrets.SQL_USER }}"
-            "SQL_PASSWORD=${{ secrets.SQL_PASSWORD }}"
-            "S3_ACCESSKEY=${{ secrets.S3_ACCESSKEY }}"
-            "S3_SECRETKEY=${{ secrets.S3_SECRETKEY }}"
-            "S3_BUCKETURL=${{ secrets.S3_BUCKETURL }}"
-            "JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }}"            
+          build-args: |
+            SQL_URL=${{ secrets.SQL_URL }}
+            SQL_USER=${{ secrets.SQL_USER }}
+            SQL_PASSWORD=${{ secrets.SQL_PASSWORD }}
+            S3_ACCESSKEY=${{ secrets.S3_ACCESSKEY }}
+            S3_SECRETKEY=${{ secrets.S3_SECRETKEY }}
+            S3_BUCKETURL=${{ secrets.S3_BUCKETURL }}
+            JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }}         
 
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
