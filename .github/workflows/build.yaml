@@ -23,10 +23,13 @@ jobs:
       with:
         credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
 
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v1'
-        with:
-          install_component: 'gke-gcloud-auth-plugin'
+    - name: setup-gke-gcloud-auth-plugin
+      uses: simenandre/setup-gke-gcloud-auth-plugin@v1.1.2
+            
+    # - name: 'Set up Cloud SDK'
+      # uses: 'google-github-actions/setup-gcloud@v1'
+      #   with:
+      #     install_component: 'gke-gcloud-auth-plugin'
         
     - name: build and push docker image
       env:
