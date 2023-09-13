@@ -8,28 +8,24 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # permissions:
-    #   contents: 'read'
-    #   id-token: 'write'
+    permissions:
+      contents: 'read'
+      id-token: 'write'
 
     steps:
 
     - name: code checkout
       uses: actions/checkout@v3
 
-    # - id: 'auth'
-    #   uses: 'google-github-actions/auth@v1'
-    #   with:
-    #     workload_identity_provider: ${{ secrets.GOOGLE_WORKLOAD_ID_PROVIDER }}
-    #     service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
 
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v1'
-      with:
-        project_id: ${{ secrets.GOOGLE_PROJECT }}
-        credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-        export_default_credentials: true
-
+        
     - name: build and push docker image
       env:
         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
