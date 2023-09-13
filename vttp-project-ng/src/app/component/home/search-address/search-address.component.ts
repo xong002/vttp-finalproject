@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { OnemapApiService } from 'src/app/service/onemap-api.service';
+// import { OnemapApiService } from 'src/app/service/onemap-api.service';
 import { SessionService } from 'src/app/service/session.service';
+import { SpringbootService } from 'src/app/service/springboot.service';
 
 @Component({
   selector: 'app-search-address',
@@ -12,8 +13,9 @@ import { SessionService } from 'src/app/service/session.service';
 export class SearchAddressComponent {
   fb = inject(FormBuilder);
   formGroup!: FormGroup;
-  onemapAPIService = inject(OnemapApiService);
+  // onemapAPIService = inject(OnemapApiService);
   sessionService = inject(SessionService);
+  springbootService = inject(SpringbootService);
   router = inject(Router);
   noResults = false;
   searchVal! : string;
@@ -29,13 +31,23 @@ export class SearchAddressComponent {
     this.isLoading = true;
     this.searchVal = this.formGroup.value['searchVal'];
     this.sessionService.searchVal = this.searchVal;
-    this.onemapAPIService.searchProperty(this.searchVal, 1).then(() => {
-        console.log(this.onemapAPIService.addresslist);
-        if(this.onemapAPIService.addresslist.length == 0) this.noResults = true
+
+    this.springbootService.searchProperty(this.searchVal).then(
+      resp => {
+        if ((resp as any).length == 0) this.noResults = true
         else this.router.navigate(['/propertylist']);
     }).catch(error => {
       alert("Error searching for results. Please try again later.")
       this.isLoading = false;
     });
+
+    // this.onemapAPIService.searchProperty(this.searchVal, 1).then(() => {
+    //     console.log(this.onemapAPIService.addresslist);
+    //     if(this.onemapAPIService.addresslist.length == 0) this.noResults = true
+    //     else this.router.navigate(['/propertylist']);
+    // }).catch(error => {
+    //   alert("Error searching for results. Please try again later.")
+    //   this.isLoading = false;
+    // });
   }
 }

@@ -11,6 +11,7 @@ export class SessionService {
   isLoggedIn!: boolean;
   onLogInLogOut = new Subject<boolean>;
   tempUrl! : string;
+  addresslist: Property[] = []
 
 
   setLogInStatus() {

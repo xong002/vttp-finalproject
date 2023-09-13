@@ -9,11 +9,9 @@ import { AuthenticationRequest, Review, UserDetailsInput } from '../models';
 export class SpringbootService {
   http = inject(HttpClient);
 
-  // httpClient: HttpClient;
-
-  // constructor( handler: HttpBackend) { 
-  //    this.httpClient = new HttpClient(handler);
-  // }
+  searchProperty(searchVal : string){
+    return firstValueFrom(this.http.get('/api/property/search', { params: { searchVal: searchVal } }))
+  }
 
   getProperty(id: number) {
     return firstValueFrom(this.http.get<string>('/api/property', { params: { id: id } }))
