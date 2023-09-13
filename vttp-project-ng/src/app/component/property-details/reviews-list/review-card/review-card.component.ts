@@ -15,7 +15,7 @@ export class ReviewCardComponent {
     this.userId = +localStorage.getItem('userId')!
 
     if (this.review.images != null) {
-      let arr = this.review.images.trim().split(' ');
+      let arr = this.review.images.trim().split(/\s/);
       arr.forEach(string => {
         this.images.push(string.trim());
         console.log(string.trim())

@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Review } from 'src/app/models';
@@ -13,7 +13,7 @@ import { SpringbootService } from 'src/app/service/springboot.service';
 })
 export class ReviewFormComponent {
   fb = inject(FormBuilder);
-  @Input() formGroup!: FormGroup;
+  formGroup!: FormGroup;
   review!: Review;
   route = inject(ActivatedRoute);
   router = inject(Router)

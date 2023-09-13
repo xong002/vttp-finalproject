@@ -133,6 +133,12 @@
           </td>
         </tr>
         <tr>
+          <td class="font-bold"><label>Upload photo:</label></td>
+          <td>
+            <input type="file" accept="image/*" multiple #reviewFile />
+          </td>
+        </tr>
+        <tr>
           <td class="font-bold"></td>
           <td>
             <button (click)="processForm()" [disabled]="!formGroup.valid">

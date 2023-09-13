@@ -1,8 +1,6 @@
 package project.vttpproject.controller;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -103,7 +100,6 @@ public class RentalReviewRestController {
             @RequestPart String rating,
             @RequestPart String comments,
             @RequestPart String status) throws UpdateException, IOException {
-
         String generatedUserId = reviewService.createNewReview(
                 files,
                 userId,
@@ -127,12 +123,48 @@ public class RentalReviewRestController {
                 .body(Json.createObjectBuilder().add("generatedReviewId", generatedUserId).build().toString());
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<String> updateReview(@RequestBody RentalReview review) throws NotFoundException {
-        Integer updateCount = reviewService.updateReview(review);
+    @PutMapping(path = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updateReview(
+            @RequestPart Optional<MultipartFile[]> files,
+            @RequestPart String id,
+            @RequestPart String userId,
+            @RequestPart String propertyId,
+            @RequestPart String title,
+            @RequestPart Optional<String> monthlyRentalCost,
+            @RequestPart Optional<String> floor,
+            @RequestPart Optional<String> apartmentFloorArea,
+            @RequestPart Optional<String> rentalFloorArea,
+            @RequestPart Optional<String> furnishings,
+            @RequestPart Optional<String> sharedToilet,
+            @RequestPart Optional<String> rules,
+            @RequestPart Optional<String> rentalStartDate,
+            @RequestPart Optional<String> rentalDuration,
+            @RequestPart Optional<String> occupants,
+            @RequestPart String rating,
+            @RequestPart String comments,
+            @RequestPart String status) throws NotFoundException, IOException, UpdateException {
+        Integer updateCount = reviewService.updateReview(
+                files,
+                id,
+                userId,
+                propertyId,
+                title,
+                monthlyRentalCost,
+                floor,
+                apartmentFloorArea,
+                rentalFloorArea,
+                furnishings,
+                sharedToilet,
+                rules,
+                rentalStartDate,
+                rentalDuration,
+                occupants,
+                rating,
+                comments,
+                status);
         System.out.println(updateCount);
         if (updateCount == 0)
-            throw new NotFoundException("review id " + review.getId() + " not found");
+            throw new UpdateException("no updates made");
         return ResponseEntity.status(202)
                 .body(Json.createObjectBuilder().add("updated", true).build().toString());
     }

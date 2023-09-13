@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Review } from 'src/app/models';
@@ -21,6 +21,8 @@ export class UpdateReviewComponent {
   location = inject(Location);
   reviewId! : string;
  
+  @ViewChild('reviewFile')
+  private eRef! : ElementRef;
 
   ngOnInit() {
     this.reviewId = this.route.snapshot.queryParams['reviewId'];
@@ -37,17 +39,35 @@ export class UpdateReviewComponent {
         furnishings: this.fb.control<string>(this.review.furnishings),
         sharedToilet: this.fb.control<boolean>(this.review.sharedToilet),
         rules: this.fb.control<string>(this.review.rules),
-        rentalStartDate: this.fb.control<string>(this.formatDate(this.review.rentalStartDate)),
+        rentalStartDate: this.fb.control<string>(this.review.rentalStartDate == null ? '' : this.formatDate(this.review.rentalStartDate)),
         rentalDuration: this.fb.control(this.review.rentalDuration),
         occupants: this.fb.control<number>(this.review.occupants, [Validators.min(1)]),
         rating: this.fb.control<number>(this.review.rating, [Validators.required, Validators.min(1), Validators.max(5)]),
         comments: this.fb.control<string>(this.review.comments, Validators.required)
       })
     })
+  }
 
+  processForm() {
+    let r: Review = this.formGroup.value;
+    r.id = this.reviewId;
+    r.userId = this.review.userId;
+    r.propertyId = this.review.propertyId;
+    r.status = this.review.status;
 
+    this.springbootService.updateReview(r, this.eRef)
+      .then(() => {
+        alert("Review submitted!");
+        this.router.navigate(['/propertydetails'], { queryParams: { id: r.propertyId } })
+      })
+      .catch(error => {
+        console.log(error);
+        alert("Error updating review.")
+      });
+  }
 
-
+  back() {
+    this.location.back();
   }
 
   formatDate(date: string) {
@@ -63,27 +83,4 @@ export class UpdateReviewComponent {
 
     return [year, month, day].join('-');
 }
-
-
-  processForm() {
-    let r: Review = this.formGroup.value;
-    r.id = this.reviewId;
-    r.userId = this.review.userId;
-    r.propertyId = this.review.propertyId;
-    r.status = this.review.status;
-
-    this.springbootService.updateReview(r)
-      .then(() => {
-        alert("Review submitted!");
-        this.router.navigate(['/propertydetails'], { queryParams: { id: r.propertyId } })
-      })
-      .catch(error => {
-        console.log(error);
-        alert("Error updating review.")
-      });
-  }
-
-  back() {
-    this.location.back();
-  }
 }

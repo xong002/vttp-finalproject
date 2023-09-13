@@ -66,6 +66,7 @@ public class RentalReviewService {
     }
 
     @Transactional(rollbackFor = {
+            NotFoundException.class,
             IOException.class,
             UpdateException.class,
             DuplicatePropertyException.class })
@@ -107,24 +108,77 @@ public class RentalReviewService {
         review.setStatus(status);
 
         if (!files.isEmpty()) {
-            
+
             MultipartFile[] filesArr = files.get();
             User user = userRepo.getUserById(Integer.valueOf(userId)).get();
             StringBuilder imagesString = new StringBuilder();
-            
-            for (MultipartFile f : filesArr){
+
+            for (MultipartFile f : filesArr) {
                 String imageId = s3Repo.saveImage(f, user.getDisplayName());
                 imagesString.append(" " + s3URL + imageId);
-                System.out.println(imagesString.toString());
             }
-            
+
             review.setImages(imagesString.toString());
         }
 
         return reviewRepo.saveReview(review);
     }
 
-    public Integer updateReview(RentalReview r) {
-        return reviewRepo.updateReview(r);
+    @Transactional(rollbackFor = {
+            NotFoundException.class,
+            IOException.class,
+            UpdateException.class,
+            DuplicatePropertyException.class })
+    public Integer updateReview(
+            Optional<MultipartFile[]> files,
+            String id,
+            String userId,
+            String propertyId,
+            String title,
+            Optional<String> monthlyRentalCost,
+            Optional<String> floor,
+            Optional<String> apartmentFloorArea,
+            Optional<String> rentalFloorArea,
+            Optional<String> furnishings,
+            Optional<String> sharedToilet,
+            Optional<String> rules,
+            Optional<String> rentalStartDate,
+            Optional<String> rentalDuration,
+            Optional<String> occupants,
+            String rating,
+            String comments,
+            String status) throws IOException, NotFoundException {
+        RentalReview review = new RentalReview();
+        review.setId(id);
+        review.setUserId(Integer.valueOf(userId));
+        review.setPropertyId(Integer.valueOf(propertyId));
+        review.setTitle(title);
+        review.setMonthlyRentalCost(monthlyRentalCost.isEmpty() ? "" : monthlyRentalCost.get());
+        review.setFloor(floor.isEmpty() ? "" : floor.get());
+        review.setApartmentFloorArea(apartmentFloorArea.isEmpty() ? "" : apartmentFloorArea.get());
+        review.setRentalFloorArea(rentalFloorArea.isEmpty() ? "" : rentalFloorArea.get());
+        review.setFurnishings(furnishings.isEmpty() ? "" : furnishings.get());
+        review.setSharedToilet(sharedToilet.isEmpty() ? null : Boolean.valueOf(sharedToilet.get()));
+        review.setRules(rules.isEmpty() ? "" : rules.get());
+        review.setRentalStartDate(rentalStartDate.isEmpty() ? null : Date.valueOf(rentalStartDate.get()));
+        review.setRentalDuration(rentalDuration.isEmpty() ? "" : rentalDuration.get());
+        review.setOccupants(Integer.valueOf(occupants.get()));
+        review.setRating(new BigDecimal(rating));
+        review.setComments(comments);
+        review.setStatus(status);
+
+        if (!files.isEmpty()) {
+            String existingImages = reviewRepo.getReviewById(id).orElseThrow(NotFoundException::new).getImages();
+            MultipartFile[] filesArr = files.get();
+            User user = userRepo.getUserById(Integer.valueOf(userId)).get();
+            StringBuilder imagesString = new StringBuilder(existingImages == null ? "" : existingImages);
+
+            for (MultipartFile f : filesArr) {
+                String imageId = s3Repo.saveImage(f, user.getDisplayName());
+                imagesString.append(" " + s3URL + imageId);
+            }
+            review.setImages(imagesString.toString());
+        }
+        return reviewRepo.updateReview(review);
     }
 }
