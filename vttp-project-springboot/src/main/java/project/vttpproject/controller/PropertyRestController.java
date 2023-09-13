@@ -24,6 +24,7 @@ import jakarta.json.Json;
 import project.vttpproject.exception.DuplicatePropertyException;
 import project.vttpproject.exception.UpdateException;
 import project.vttpproject.model.property.Property;
+import project.vttpproject.model.property.PropertyResults;
 import project.vttpproject.service.PropertyService;
 
 @RestController
@@ -45,6 +46,15 @@ public class PropertyRestController {
         String jsonString = o.writeValueAsString(opt.get());
         return ResponseEntity.status(200).body(jsonString);
     }
+
+    @GetMapping(path = "/search", params = "searchVal", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> searchForProperty(@RequestParam String searchVal) throws IOException, UpdateException, DuplicatePropertyException{
+        List<Property> propList = propService.searchForProperty(searchVal);
+        ObjectMapper o = new ObjectMapper();
+        String jsonString = o.writeValueAsString(propList);
+        return ResponseEntity.status(200).body(jsonString);
+    }
+
 
     @PostMapping(path = "/create", params = "returnProperty", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createProperty(@RequestBody Property p, @RequestParam Optional<String> returnProperty)

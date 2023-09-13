@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import project.vttpproject.exception.DuplicatePropertyException;
 import project.vttpproject.exception.UpdateException;
 import project.vttpproject.model.property.Property;
+import project.vttpproject.model.property.PropertyResults;
 import project.vttpproject.repository.PropertyRepository;
 import project.vttpproject.repository.RentalReviewRepository;
 import project.vttpproject.repository.S3Repository;
@@ -27,6 +28,9 @@ public class PropertyService {
 
     @Autowired
     private RentalReviewRepository reviewRepo;
+
+    @Autowired
+    private OneMapAPIService oneMapAPIService;
 
     @Autowired
     private S3Repository s3Repo;
@@ -43,6 +47,11 @@ public class PropertyService {
             return Optional.of(p);
         };
         return Optional.empty();
+    }
+
+    public List<Property> searchForProperty(String searchVal) throws IOException, UpdateException, DuplicatePropertyException{
+        List<Property> list = oneMapAPIService.getPropertyList(searchVal).getResults();
+        return this.createNewProperties(list);
     }
 
     public Integer createNewProperty(Property p) throws UpdateException, DuplicatePropertyException {

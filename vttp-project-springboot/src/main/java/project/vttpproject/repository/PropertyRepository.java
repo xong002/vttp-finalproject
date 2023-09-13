@@ -53,7 +53,7 @@ public class PropertyRepository {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 PreparedStatement ps = con.prepareStatement(CREATE_PROPERTY_SQL, new String[] { "id" });
-                ps.setInt(1, p.getAreaId());
+                ps.setInt(1, p.getAreaId() == null? 0: p.getAreaId());
                 ps.setString(2, p.getImages());
                 ps.setString(3, p.getBuilding());
                 ps.setString(4, p.getBlkNo());
