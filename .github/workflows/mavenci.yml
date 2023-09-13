@@ -35,6 +35,7 @@ jobs:
         mvn -B package --file pom.xml
 
   docker:
+      needs: build
       runs-on: ubuntu-latest
       steps:
       -
@@ -53,7 +54,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: vttp-project-springboot
+          context: /vttp-project-springboot
           push: true
           tags: xong002/vttp-project:latest
 
