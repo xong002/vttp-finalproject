@@ -25,6 +25,8 @@ jobs:
 
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v1'
+        with:
+          install_component: 'gke-gcloud-auth-plugin'
         
     - name: build and push docker image
       env:
@@ -33,3 +35,12 @@ jobs:
         gcloud auth configure-docker asia-southeast1-docker.pkg.dev
         docker build -t asia-southeast1-docker.pkg.dev/$GOOGLE_PROJECT/vttp-project/test:latest . --build-arg="SQL_URL=${{ secrets.SQL_URL }}" --build-arg="SQL_USER=${{ secrets.SQL_USER }}" --build-arg="SQL_PASSWORD=${{ secrets.SQL_PASSWORD }}" --build-arg="S3_ACCESSKEY=${{ secrets.S3_ACCESSKEY }}" --build-arg="S3_SECRETKEY=${{ secrets.S3_SECRETKEY }}" --build-arg="S3_BUCKETURL=${{ secrets.S3_BUCKETURL }}" --build-arg="JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }}"
         docker push asia-southeast1-docker.pkg.dev/$GOOGLE_PROJECT/vttp-project/test:latest
+    
+    - name: deploy to gke
+      env:
+        GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+      run: |
+        gcloud container clusters get-credentials vttp-cluster --region asia-southeast1-a
+        sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" resources.yaml
+        kubectl apply -f resources.yaml
+
