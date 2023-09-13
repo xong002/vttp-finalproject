@@ -16,11 +16,14 @@
           placeholder="Address / Postal Code"
         />
         &nbsp;
+        <span><img *ngIf="isLoading" src="/assets/icons/loading.gif" height="30" width="30"></span>
         <button
           type="submit"
           class="bg-purple-700 hover:bg-purple-900 font-bold py-2 px-4 rounded-full"
           (click)="searchAddress()"
           [disabled]="!formGroup.valid"
+          [disabled]="isLoading"
+          *ngIf="!isLoading"
         >
           Search
         </button>

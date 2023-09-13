@@ -17,6 +17,7 @@ export class SearchAddressComponent {
   router = inject(Router);
   noResults = false;
   searchVal! : string;
+  isLoading = false;
 
   ngOnInit() {
     this.formGroup = this.fb.group({
@@ -25,12 +26,16 @@ export class SearchAddressComponent {
   }
 
   searchAddress() {
+    this.isLoading = true;
     this.searchVal = this.formGroup.value['searchVal'];
     this.sessionService.searchVal = this.searchVal;
     this.onemapAPIService.searchProperty(this.searchVal, 1).then(() => {
         console.log(this.onemapAPIService.addresslist);
         if(this.onemapAPIService.addresslist.length == 0) this.noResults = true
         else this.router.navigate(['/propertylist']);
+    }).catch(error => {
+      alert("Error searching for results. Please try again later.")
+      this.isLoading = false;
     });
   }
 }

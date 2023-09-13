@@ -21,6 +21,7 @@ export class ReviewFormComponent {
   sessionService = inject(SessionService);
   propertyName = '';
   location = inject(Location);
+  isLoading = false;
 
   @ViewChild('reviewFile')
   private eRef! : ElementRef;
@@ -47,6 +48,7 @@ export class ReviewFormComponent {
   }
 
   processForm() {
+    this.isLoading = true;
     let r: Review = this.formGroup.value;
     
     let userId = localStorage.getItem('userId');
@@ -61,6 +63,7 @@ export class ReviewFormComponent {
       .then(() => {
         alert("Review submitted!");
         this.router.navigate(['/propertydetails'], { queryParams: { id: r.propertyId } })
+        this.isLoading = false;
       })
       .catch(error => {
         if(error.status == 403){
@@ -69,6 +72,7 @@ export class ReviewFormComponent {
         } else {
           console.log(error);
           alert("Error submitting review.")
+          this.isLoading = false;
         }
       });
   }

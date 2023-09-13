@@ -20,6 +20,7 @@ export class UpdateReviewComponent {
   springbootService = inject(SpringbootService);
   location = inject(Location);
   reviewId! : string;
+  isLoading = false;
  
   @ViewChild('reviewFile')
   private eRef! : ElementRef;
@@ -49,6 +50,7 @@ export class UpdateReviewComponent {
   }
 
   processForm() {
+    this.isLoading = true;
     let r: Review = this.formGroup.value;
     r.id = this.reviewId;
     r.userId = this.review.userId;
@@ -59,10 +61,12 @@ export class UpdateReviewComponent {
       .then(() => {
         alert("Review submitted!");
         this.router.navigate(['/propertydetails'], { queryParams: { id: r.propertyId } })
+        this.isLoading = false;
       })
       .catch(error => {
         console.log(error);
         alert("Error updating review.")
+        this.isLoading = false;
       });
   }
 
