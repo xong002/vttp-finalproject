@@ -20,7 +20,7 @@ import { ddMMyyyyPipe } from './utilities/ddMMyyyy.datepipe';
 import { NavBarComponent } from './component/nav-bar/nav-bar.component';
 import { LoginFormComponent } from './component/login-form/login-form.component';
 import { RegisterFormComponent } from './component/register-form/register-form.component';
-import { AuthInterceptor } from './service/AuthInterceptor';
+import { AuthInterceptor } from './AuthInterceptor';
 
 @NgModule({
   declarations: [
