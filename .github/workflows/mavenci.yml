@@ -15,27 +15,27 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  # build:
 
-    runs-on: ubuntu-latest
+  #   runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v3
+  #   steps:
+  #   - uses: actions/checkout@v3
     
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
+  #   - name: Set up JDK 17
+  #     uses: actions/setup-java@v3
+  #     with:
+  #       java-version: '17'
+  #       distribution: 'temurin'
+  #       cache: maven
         
-    - name: Build with Maven
-      run: |
-        cd ./vttp-project-springboot
-        mvn -B package --file pom.xml
+  #   - name: Build with Maven
+  #     run: |
+  #       cd ./vttp-project-springboot
+  #       mvn -B package --file pom.xml
 
   docker:
-      needs: build
+      # needs: build
       runs-on: ubuntu-latest
       steps:
       - uses: actions/checkout@v3      
@@ -58,6 +58,15 @@ jobs:
           context: vttp-project-springboot
           push: true
           tags: xong002/vttp-project:latest
+          secrets: |
+            "SQL_URL=${{ secrets.SQL_URL }}"
+            "SQL_USER=${{ secrets.SQL_USER }}"
+            "SQL_PASSWORD=${{ secrets.SQL_PASSWORD }}"
+            "S3_ACCESSKEY=${{ secrets.S3_ACCESSKEY }}"
+            "S3_SECRETKEY=${{ secrets.S3_SECRETKEY }}"
+            "S3_BUCKETURL=${{ secrets.S3_BUCKETURL }}"
+            "JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }}"            
+
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     # - name: Update dependency graph
