@@ -9,8 +9,18 @@ import { Review } from 'src/app/models';
 export class ReviewCardComponent {
   @Input() review!: Review;
   userId!: number;
+  images: string[] = [];
 
-  ngOnInit(){
+  ngOnInit() {
     this.userId = +localStorage.getItem('userId')!
+
+    if (this.review.images != null) {
+      let arr = this.review.images.trim().split(' ');
+      arr.forEach(string => {
+        this.images.push(string.trim());
+        console.log(string.trim())
+      })
+    }
+
   }
 }

@@ -4,8 +4,10 @@
   <h5 class="mb-2 text-xl font-bold leading-tight">
     {{ review.title }} (Rating: {{ review.rating }})
   </h5>
-  <div>
-    <img [src]="review.images" width="250" />
+  <div *ngIf="images.length != 0" class="flex flex-row" >
+    <div *ngFor="let image of images" >
+      <img [src]="image" height="50"/>
+    </div>
   </div>
 
   <table class="table-fixed border border-collapse w-full">

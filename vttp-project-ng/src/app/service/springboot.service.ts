@@ -45,7 +45,16 @@ export class SpringbootService {
     formData.set('rating', r.rating.toString());
     formData.set('comments', r.comments);
     formData.set('status', r.status);
-    formData.set('file', eRef.nativeElement.files[0])
+    console.log(eRef.nativeElement.files)
+    for (let i = 0; i < eRef.nativeElement.files.length; i++) {
+      formData.append('files', eRef.nativeElement.files[i]);
+      
+    }
+
+    console.log(formData.get('files'))
+    
+    // return null;
+    
     return firstValueFrom(this.http.post('/api/review/create', formData))
   }
 

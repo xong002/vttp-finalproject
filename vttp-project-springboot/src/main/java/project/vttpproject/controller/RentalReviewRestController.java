@@ -86,7 +86,7 @@ public class RentalReviewRestController {
 
     @PostMapping(path = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> saveReview(
-            @RequestPart Optional<MultipartFile> file,
+            @RequestPart Optional<MultipartFile[]> files,
             @RequestPart String userId,
             @RequestPart String propertyId,
             @RequestPart String title,
@@ -105,7 +105,7 @@ public class RentalReviewRestController {
             @RequestPart String status) throws UpdateException, IOException {
 
         String generatedUserId = reviewService.createNewReview(
-                file,
+                files,
                 userId,
                 propertyId,
                 title,

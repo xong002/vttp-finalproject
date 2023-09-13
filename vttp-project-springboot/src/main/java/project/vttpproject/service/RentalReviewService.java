@@ -70,7 +70,7 @@ public class RentalReviewService {
             UpdateException.class,
             DuplicatePropertyException.class })
     public String createNewReview(
-            Optional<MultipartFile> file,
+            Optional<MultipartFile[]> files,
             String userId,
             String propertyId,
             String title,
@@ -106,10 +106,19 @@ public class RentalReviewService {
         review.setComments(comments);
         review.setStatus(status);
 
-        if (!file.isEmpty()) {
+        if (!files.isEmpty()) {
+            
+            MultipartFile[] filesArr = files.get();
             User user = userRepo.getUserById(Integer.valueOf(userId)).get();
-            String imageId = s3Repo.saveImage(file.get(), user.getDisplayName());
-            review.setImages(s3URL + imageId);
+            StringBuilder imagesString = new StringBuilder();
+            
+            for (MultipartFile f : filesArr){
+                String imageId = s3Repo.saveImage(f, user.getDisplayName());
+                imagesString.append(" " + s3URL + imageId);
+                System.out.println(imagesString.toString());
+            }
+            
+            review.setImages(imagesString.toString());
         }
 
         return reviewRepo.saveReview(review);
