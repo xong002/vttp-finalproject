@@ -17,27 +17,28 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthFilter;
-    private final AuthenticationProvider authenticationProvider;
+        private final JwtAuthenticationFilter jwtAuthFilter;
+        private final AuthenticationProvider authenticationProvider;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf((csrf) -> csrf.disable())
-                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/api/user/create").permitAll()
-                        .requestMatchers("/api/user/authenticate").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/property").permitAll()
-                        .requestMatchers("/api/property/create").permitAll()
-                        .requestMatchers("/api/property/createbatch").permitAll()
-                        .requestMatchers("/api/review/**").permitAll()
-                        .anyRequest().authenticated())
-                .sessionManagement(sessionManagement -> sessionManagement
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                return http
+                                .csrf((csrf) -> csrf.disable())
+                                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                                                .requestMatchers("/resources/**", "/", "/index.html").permitAll()
+                                                .requestMatchers("/api/user/create").permitAll()
+                                                .requestMatchers("/api/user/authenticate").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/api/property").permitAll()
+                                                .requestMatchers("/api/property/create").permitAll()
+                                                .requestMatchers("/api/property/createbatch").permitAll()
+                                                .requestMatchers("/api/review/**").permitAll()
+                                                .anyRequest().authenticated())
+                                .sessionManagement(sessionManagement -> sessionManagement
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .authenticationProvider(authenticationProvider)
+                                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                                .build();
 
-    }
+        }
 
 }
