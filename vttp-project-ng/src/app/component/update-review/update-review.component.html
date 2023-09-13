@@ -1,125 +1,147 @@
 <div class="flex flex-col items-center background text" *ngIf="formGroup">
-    <div class="w-3/6">
-      <h1 class="py-10 text-5xl font-bold dark">Update review</h1>
-      <form [formGroup]="formGroup">
-        <table class="table-fixed w-full">
-          <tr>
-            <td><p class="italic text-sm">* Required fields</p></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="w-2/6 font-bold">
-              <label for="title">*Title:</label>
-            </td>
-            <td>
-              <input
-                class="text"
-                type="text"
-                id="title"
-                formControlName="title"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td class="font-bold">
-              <label for="rentalCost">Monthly rental cost (S$):</label>
-            </td>
-            <td>
-              <input
-                class="number"
-                type="number"
-                id="rentalCost"
-                formControlName="monthlyRentalCost"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td class="font-bold"><label>Rental start date:</label></td>
-            <td>
-              <input class="date" type="date" formControlName="rentalStartDate" />
-            </td>
-          </tr>
-          <tr>
-            <td class="font-bold">
-              <label>Rental duration (months):</label>
-            </td>
-            <td>
-              <input class="number" type="number" formControlName="rentalDuration" />
-            </td>
-          </tr>
-          <tr>
-            <td class="font-bold"><label>Furnishings:</label></td>
-            <td>
-              <textarea
-                formControlName="furnishings"
-                cols="24"
-                rows="5"
-              ></textarea>
-            </td>
-          </tr>
-          <tr>
-            <td class="font-bold"><label>Shared toilet:</label></td>
-            <td><input type="checkbox" formControlName="sharedToilet" /> Yes</td>
-          </tr>
-          <tr>
-            <td class="font-bold">
-              <label>Total occupants (including yourself):</label>
-            </td>
-            <td><input class="number" type="number" min="1" formControlName="occupants" /></td>
-          </tr>
-          <tr>
-            <td class="font-bold"><label>Unit floor:</label></td>
-            <td><input class="text" type="text" formControlName="floor" /></td>
-          </tr>
-          <tr>
-            <td class="font-bold">
-              <label>Whole Unit floor area (sqft):</label>
-            </td>
-            <td><input class="number" type="number" formControlName="apartmentFloorArea" /></td>
-          </tr>
-          <tr>
-            <td class="font-bold">
-              <label>Rental floor area (sqft):</label>
-            </td>
-            <td><input class="number" type="number" formControlName="rentalFloorArea" /></td>
-          </tr>
-          <tr>
-            <td class="font-bold">
-              <label>Rules (e.g. light cooking only, no visitors, etc.):</label>
-            </td>
-            <td>
-              <textarea formControlName="rules" cols="24" rows="5"></textarea>
-            </td>
-          </tr>
-          <tr>
-            <td class="font-bold"><label>*Rating (0 - 5):</label></td>
-            <td>
-              <select formControlName="rating">
-                <option value="1" selected>1</option>
-                <option value="2" >2</option>
-                <option value="3" >3</option>
-                <option value="4" >4</option>
-                <option value="5" >5</option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td class="font-bold"><label>*Comments:</label></td>
-            <td>
-              <textarea formControlName="comments" cols="24" rows="5"></textarea>
-            </td>
-          </tr>
-          <tr>
-            <td class="font-bold"></td>
-            <td>
-              <button (click)="processForm()" [disabled]="!formGroup.valid">
-                Submit</button
-              >&nbsp;&nbsp;
-              <button (click)="back()">Cancel</button>
-            </td>
-          </tr>
-        </table>
-      </form>
-    </div>
+  <div class="w-3/6">
+    <h1 class="py-10 text-5xl font-bold dark">Update review</h1>
+    <form [formGroup]="formGroup">
+      <table class="table-fixed w-full">
+        <tr>
+          <td><p class="italic text-sm">* Required fields</p></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="w-2/6 font-bold">
+            <label for="title">*Title:</label>
+          </td>
+          <td>
+            <input
+              class="text"
+              type="text"
+              id="title"
+              formControlName="title"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="font-bold">
+            <label for="rentalCost">Monthly rental cost (S$):</label>
+          </td>
+          <td>
+            <input
+              class="number"
+              type="number"
+              id="rentalCost"
+              formControlName="monthlyRentalCost"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="font-bold"><label>Rental start date:</label></td>
+          <td>
+            <input class="date" type="date" formControlName="rentalStartDate" />
+          </td>
+        </tr>
+        <tr>
+          <td class="font-bold">
+            <label>Rental duration (months):</label>
+          </td>
+          <td>
+            <input
+              class="number"
+              type="number"
+              formControlName="rentalDuration"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="font-bold"><label>Furnishings:</label></td>
+          <td>
+            <textarea
+              formControlName="furnishings"
+              cols="24"
+              rows="5"
+            ></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-bold"><label>Shared toilet:</label></td>
+          <td><input type="checkbox" formControlName="sharedToilet" /> Yes</td>
+        </tr>
+        <tr>
+          <td class="font-bold">
+            <label>Total occupants (including yourself):</label>
+          </td>
+          <td>
+            <input
+              class="number"
+              type="number"
+              min="1"
+              formControlName="occupants"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="font-bold"><label>Unit floor:</label></td>
+          <td><input class="text" type="text" formControlName="floor" /></td>
+        </tr>
+        <tr>
+          <td class="font-bold">
+            <label>Whole Unit floor area (sqft):</label>
+          </td>
+          <td>
+            <input
+              class="number"
+              type="number"
+              formControlName="apartmentFloorArea"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="font-bold">
+            <label>Rental floor area (sqft):</label>
+          </td>
+          <td>
+            <input
+              class="number"
+              type="number"
+              formControlName="rentalFloorArea"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="font-bold">
+            <label>Rules (e.g. light cooking only, no visitors, etc.):</label>
+          </td>
+          <td>
+            <textarea formControlName="rules" cols="24" rows="5"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-bold"><label>*Rating (0 - 5):</label></td>
+          <td>
+            <select formControlName="rating">
+              <option value="1" selected>1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-bold"><label>*Comments:</label></td>
+          <td>
+            <textarea formControlName="comments" cols="24" rows="5"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td class="font-bold"></td>
+          <td>
+            <button (click)="processForm()" [disabled]="!formGroup.valid">
+              Submit</button
+            >&nbsp;&nbsp;
+            <button (click)="back()">Cancel</button>
+          </td>
+        </tr>
+      </table>
+    </form>
   </div>
-  
+</div>

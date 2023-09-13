@@ -19,9 +19,8 @@
     <tbody>
       <tr class="border border-b-0">
         <td class="pl-2 py-2">
-          <span class="font-bold">Rental Cost</span>: ${{
-            review.monthlyRentalCost
-          }}
+          <span class="font-bold">Rental Cost</span>
+          <span *ngIf="review.monthlyRentalCost">: ${{review.monthlyRentalCost}}</span>
         </td>
         <td class="">
           <span class="font-bold">Floor</span>: {{ review.floor }}
@@ -35,16 +34,6 @@
         <td class="">
           <span class="font-bold">Rental Floor Area</span>:
           {{ review.rentalFloorArea }}
-        </td>
-      </tr>
-      <tr class="border border-y-0">
-        <td class="pl-2 py-2">
-          <span class="font-bold">Furnishings</span>:
-          {{ review.furnishings }}
-        </td>
-        <td class="">
-          <span class="font-bold">Shared bathroom</span>:
-          {{ review.sharedToilet }}
         </td>
       </tr>
       <tr class="border border-y-0">
@@ -66,6 +55,16 @@
           <span class="font-bold">Rental duration</span>:
           {{ review.rentalDuration }}
         </td>
+      </tr>
+      <tr class="border border-y-0">
+        <td class="pl-2 py-2">
+          <span class="font-bold">Furnishings</span>:
+          {{ review.furnishings }}
+        </td>
+        <!-- <td class="">
+          <span class="font-bold">Shared bathroom</span>:
+          {{ review.sharedToilet }}
+        </td> -->
       </tr>
     </tbody>
   </table>
