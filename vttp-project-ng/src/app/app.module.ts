@@ -29,6 +29,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { ImageModule } from 'primeng/image';
 import { AccordionModule } from 'primeng/accordion';
+import { TableModule } from 'primeng/table';
+import { CalendarModule } from 'primeng/calendar';
 
 
 @NgModule({
@@ -67,7 +69,9 @@ import { AccordionModule } from 'primeng/accordion';
     CardModule,
     ImageModule,
     AccordionModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    TableModule,
+    CalendarModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

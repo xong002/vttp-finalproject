@@ -32,7 +32,7 @@ export class NavBarComponent {
         this.items = [
             {
                 label: 'Home',
-                icon: 'pi pi-fw pi-search',
+                icon: 'pi pi-fw pi-home',
                 routerLink: "/"
             }
         ];

@@ -1,6 +1,6 @@
-<div class="flex flex-col items-center background text" *ngIf="formGroup">
+<div class="flex flex-column" *ngIf="formGroup">
   <div class="w-3/6">
-    <h1 class="py-10 text-5xl font-bold dark">Update review</h1>
+    <h1 class="">Update review</h1>
     <form [formGroup]="formGroup">
       <table class="table-fixed w-full">
         <tr>
@@ -141,11 +141,27 @@
         <tr>
           <td class="font-bold"></td>
           <td>
-            <span><img *ngIf="isLoading" src="/assets/icons/loading.gif" height="30" width="30"></span>
-            <button (click)="processForm()" [disabled]="!formGroup.valid" [disabled]="isLoading" *ngIf="!isLoading">
-              Submit</button
-            >&nbsp;&nbsp;
-            <button (click)="back()">Cancel</button>
+            <span
+              ><img
+                *ngIf="isLoading"
+                src="/assets/icons/loading.gif"
+                height="30"
+                width="30"
+            /></span>
+            <p-button
+              pRipple
+              styleClass="p-button-rounded p-button-raised"
+              (click)="processForm()"
+              [disabled]="!formGroup.valid || isLoading"
+              *ngIf="!isLoading"
+            >
+              Submit</p-button>&nbsp;&nbsp;
+            <p-button
+              pRipple
+              styleClass="p-button-rounded p-button-raised p-button-secondary"
+              (click)="back()"
+              >Cancel</p-button
+            >
           </td>
         </tr>
       </table>

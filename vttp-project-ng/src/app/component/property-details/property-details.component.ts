@@ -88,10 +88,9 @@ export class PropertyDetailsComponent {
       this.eRef)
       .then(() => {
 
-        setInterval(() => {
           alert("Image uploaded!");
           this.router.navigateByUrl(url);
-        }, 3000)
+
 
       })
       .catch(error => {

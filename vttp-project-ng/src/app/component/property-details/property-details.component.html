@@ -45,7 +45,7 @@
       </tr>
     </table>
   </div> -->
-<!--   <div class="w-5/6">
+  <!--   <div class="w-5/6">
     <h1 class="pt-2 text-2xl font-bold dark">Latest reviews for property:</h1>
     <div>
 
@@ -77,6 +77,7 @@
   <h1 class="ml-5">Property Details</h1>
   <div>
     <img
+      class="ml-5"
       src="/assets/icons/loading.gif"
       height="100px"
       width="100px"
@@ -141,7 +142,7 @@
                 pRipple
                 styleClass="p-button-rounded p-button-raised"
                 (click)="processForm()"
-                >
+              >
                 <span class="font-bold">Write a review!</span></p-button
               >
             </div>
@@ -166,13 +167,8 @@
     </div>
 
     <div class="flex align-items-center justify-content-center">
-      
       <div>
-        <img
-          src="/assets/icons/loading.gif"
-          alt=""
-          *ngIf="isLoading"
-        />
+        <img src="/assets/icons/loading.gif" alt="" *ngIf="isLoading" />
       </div>
 
       <div class="flex flex-column">
@@ -183,17 +179,15 @@
           <p class="m-5">No reviews found.</p>
         </ng-template>
       </div>
-
-      
     </div>
 
     <div class="flex align-items-center justify-content-center">
       <p-button
-      pRipple
-      styleClass="p-button-rounded p-button-raised p-button-secondary"
-      (click)="back()">Back to search results</p-button>
+        pRipple
+        styleClass="p-button-rounded p-button-raised p-button-secondary"
+        (click)="back()"
+        >Back to search results</p-button
+      >
     </div>
-  
-  
   </div>
 </div>

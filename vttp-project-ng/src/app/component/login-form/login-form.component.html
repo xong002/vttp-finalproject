@@ -1,19 +1,15 @@
-<div class="flex flex-col items-center background text" *ngIf="formGroup">
-  <div>
+<div class="flex flex-column justify-content-center" *ngIf="formGroup">
+  <div><h1 class="text-center">Log in:</h1></div>
+  <div class="flex justify-content-center">
     <form [formGroup]="formGroup">
       <table>
-        <thead>
-          <tr>
-            <td>Log in:</td>
-          </tr>
-        </thead>
         <tbody>
           <tr>
-            <td>Email:</td>
+            <td class="font-bold">Email:</td>
             <td><input class="text" type="email" formControlName="email" /></td>
           </tr>
           <tr>
-            <td>Password:</td>
+            <td class="font-bold">Password:</td>
             <td>
               <input class="text" type="password" formControlName="password" />
             </td>
@@ -21,10 +17,14 @@
           <tr>
             <td></td>
             <td>
-              <button (click)="processForm()" [disabled]="!formGroup.valid">
+              <p-button
+              pRipple
+              styleClass="p-button-rounded p-button-raised" (click)="processForm()" [disabled]="!formGroup.valid">
                 Log in
-              </button>
-              <button routerLink="/">Cancel</button>
+              </p-button>
+              <p-button
+              pRipple
+              styleClass="p-button-rounded p-button-raised p-button-secondary" routerLink="/">Cancel</p-button>
             </td>
           </tr>
         </tbody>

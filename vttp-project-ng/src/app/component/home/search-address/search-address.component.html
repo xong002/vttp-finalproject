@@ -58,8 +58,7 @@
         class=""
         styleClass="p-button-raised p-button-rounded"
         (click)="searchAddress()"
-        [disabled]="!formGroup.valid"
-        [disabled]="isLoading"
+        [disabled]="!formGroup.valid || isLoading"
         *ngIf="!isLoading"
       >
         <span class="font-bold">Search</span>

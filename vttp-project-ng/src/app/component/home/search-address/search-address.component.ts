@@ -28,24 +28,29 @@ export class SearchAddressComponent {
   }
 
   searchAddress() {
-    this.isLoading = true;
-    this.searchVal = this.formGroup.value['searchVal'];
-    this.sessionService.searchVal = this.searchVal;
-
-    this.springbootService.searchProperty(this.searchVal).then(
-      resp => {
-        if ((resp as any).length == 0) {
-          this.noResults = true
+    if (this.formGroup.value['searchVal'].trim() == ''){
+      alert("Blank input not allowed.")
+    } else {
+      this.isLoading = true;
+      this.searchVal = this.formGroup.value['searchVal'];
+      this.sessionService.searchVal = this.searchVal;
+  
+      this.springbootService.searchProperty(this.searchVal).then(
+        resp => {
+          if ((resp as any).length == 0) {
+            this.noResults = true
+            this.isLoading = false;
+          }
+          else {
+            this.sessionService.addresslist = (resp as any)
+            this.router.navigate(['/propertylist']);
+          }
+        }).catch(error => {
+          alert("Error searching for results. Please try again later.")
           this.isLoading = false;
-        }
-        else {
-          this.sessionService.addresslist = (resp as any)
-          this.router.navigate(['/propertylist']);
-        }
-      }).catch(error => {
-        alert("Error searching for results. Please try again later.")
-        this.isLoading = false;
-      });
+        });
+    }
+
 
     // this.onemapAPIService.searchProperty(this.searchVal, 1).then(() => {
     //     console.log(this.onemapAPIService.addresslist);
