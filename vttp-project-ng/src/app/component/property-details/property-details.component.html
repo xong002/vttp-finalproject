@@ -1,22 +1,19 @@
-<div>
-  <img src="/assets/icons/loading.gif" alt="" *ngIf="!property">
-</div>
 <div class="flex flex-col items-center background text" *ngIf="property">
-  <div class="w-5/6">
+  <!-- <div class="w-5/6">
     <h1 class="py-10 text-5xl font-bold dark">Property Details</h1>
     <table class="table-fixed w-full">
       <tr>
         <td class="flex flex-col items-center">
           <img class="h-180 w-180" [src]="property.images" />
           <button
-          *ngIf="isLoggedIn"  
-          class="my-2 mx-20"
+            *ngIf="isLoggedIn"
+            class="my-2 mx-20"
             (click)="showFileUpload()"
           >
             Change image
           </button>
           <form *ngIf="showFileInputBox">
-            <input type="file" accept="image/*" #propertyImageFile>
+            <input type="file" accept="image/*" #propertyImageFile />
             <button (click)="uploadFile()">Upload</button>
           </form>
         </td>
@@ -28,27 +25,30 @@
 
           <div>
             <span class="font-bold">Building/Estate Name:</span>
-            {{ property.building }} 
+            {{ property.building }}
           </div>
 
           <div class="my-2">
-            <button *ngIf="!noResults" (click)="searchAddress(property.building)">Browse properties from same building/estate</button>
+            <button
+              *ngIf="!noResults"
+              (click)="searchAddress(property.building)"
+            >
+              Browse properties from same building/estate
+            </button>
             <span *ngIf="noResults">No other reviews for building/estate.</span>
           </div>
-          
-          <div>
-            <iframe [src]='mapURL' height="320" width="320" scrolling="no" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
-          </div>
 
-          <div class="my-5"><button (click)="processForm()">Write a review!</button></div>
+          <div class="my-5">
+            <button (click)="processForm()">Write a review!</button>
+          </div>
         </td>
       </tr>
     </table>
-  </div>
+  </div> -->
   <div class="w-5/6">
     <h1 class="pt-2 text-2xl font-bold dark">Latest reviews for property:</h1>
     <div>
-      <img src="/assets/icons/loading.gif" alt="" *ngIf="reviewList.length == 0">
+
     </div>
     <div *ngIf="reviewList.length; else noReviews">
       <app-reviews-list [reviewList]="reviewList"></app-reviews-list>
@@ -58,7 +58,7 @@
     </ng-template>
   </div>
 
-<!--   <div class="w-5/6 mt-5">
+  <!--   <div class="w-5/6 mt-5">
     <h1 class="pt-2 text-2xl font-bold dark">Other reviews for same estate/building: {{property.building}}</h1>
     <div *ngIf="buildingReviewList.length; else noReviews">
       <app-reviews-list [reviewList]="buildingReviewList"></app-reviews-list>
@@ -68,10 +68,132 @@
     </ng-template>
   </div> -->
 
+  <div></div>
+
+  <!-- <div><button (click)="back()">Back to search results</button></div> -->
+</div>
+
+<div>
+  <h1 class="ml-5">Property Details</h1>
   <div>
-    
+    <img
+      src="/assets/icons/loading.gif"
+      height="100px"
+      width="100px"
+      *ngIf="!property"
+    />
   </div>
 
+  <div class="flex flex-column gap-5 mx-5" *ngIf="property">
+    <div class="flex align-items-center justify-content-center w-full h-25rem">
+      <img class="h-full" [src]="property.images" styleClass="object-fit" />
+    </div>
 
-  <div><button (click)="back()">Back to search results</button></div>
+    <div class="flex flex-column align-items-center justify-content-center">
+      <p-button
+        pRipple
+        styleClass="p-button-rounded p-button-raised p-button-text"
+        *ngIf="isLoggedIn"
+        class="py-3 mx-20"
+        (click)="showFileUpload()"
+      >
+        Change image
+      </p-button>
+      <form *ngIf="showFileInputBox">
+        <input type="file" accept="image/*" #propertyImageFile />
+        <p-button
+          pRipple
+          styleClass="p-button-rounded p-button-raised p-button-text"
+          (click)="uploadFile()"
+          >Upload</p-button
+        >
+      </form>
+    </div>
+
+    <div class="flex align-items-stretch justify-content-center">
+      <div class="flex flex-row justify-content-evenly w-full">
+        <div class="flex flex-column">
+          <div class="">
+            <span class="font-bold">Address:</span> {{ property.blkNo }}
+            {{ property.roadName }} Singapore {{ property.postal }}
+          </div>
+          <div class="">
+            <span class="font-bold">Building/Estate Name:</span>
+            {{ property.building }}
+          </div>
+          <div class="my-2 text-center">
+            <p-button
+              pRipple
+              styleClass="p-button-rounded p-button-raised p-button-text"
+              *ngIf="
+                !noResults && property.building && property.building !== 'NIL'
+              "
+              (click)="searchAddress(property.building)"
+            >
+              Browse properties from same building/estate
+            </p-button>
+            <span *ngIf="noResults">No other reviews for building/estate.</span>
+          </div>
+
+          <div class="text-center">
+            <div class="my-5">
+              <p-button
+                pRipple
+                styleClass="p-button-rounded p-button-raised"
+                (click)="processForm()"
+                >
+                <span class="font-bold">Write a review!</span></p-button
+              >
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <iframe
+            [src]="mapURL"
+            height="320"
+            width="320"
+            scrolling="no"
+            frameborder="0"
+            allowfullscreen="allowfullscreen"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex align-items-center justify-content-center">
+      <h3>Latest reviews for property:</h3>
+    </div>
+
+    <div class="flex align-items-center justify-content-center">
+      
+      <div>
+        <img
+          src="/assets/icons/loading.gif"
+          alt=""
+          *ngIf="isLoading"
+        />
+      </div>
+
+      <div class="flex flex-column">
+        <div *ngIf="reviewList.length; else noReviews">
+          <app-reviews-list [reviewList]="reviewList"></app-reviews-list>
+        </div>
+        <ng-template #noReviews>
+          <p class="m-5">No reviews found.</p>
+        </ng-template>
+      </div>
+
+      
+    </div>
+
+    <div class="flex align-items-center justify-content-center">
+      <p-button
+      pRipple
+      styleClass="p-button-rounded p-button-raised p-button-secondary"
+      (click)="back()">Back to search results</p-button>
+    </div>
+  
+  
+  </div>
 </div>

@@ -29,11 +29,14 @@ export class PropertyDetailsComponent {
   buildingReviewList: Review[] = [];
   noResults = false;
   showFileInputBox = false;
+  isLoading = false;
 
   @ViewChild('propertyImageFile')
   private eRef!: ElementRef;
 
   ngOnInit() {
+    this.isLoading = true;
+
     this.springbootService.getProperty(this.route.snapshot.queryParams['id']).then(resp => {
       let jsonObj = JSON.parse(JSON.stringify(resp));
       this.property = jsonObj as Property;
@@ -48,10 +51,12 @@ export class PropertyDetailsComponent {
 
         this.springbootService.getReviewsByBuildingName(this.property.building, this.property.id, 5, 0).then(resp => {
           this.buildingReviewList = resp as any;
+          this.isLoading = false;
         })
 
       }).catch(error => {
         console.log(error.error)
+        this.isLoading = false;
       });
     })
 
