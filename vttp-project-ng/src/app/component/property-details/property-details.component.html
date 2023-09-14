@@ -173,7 +173,7 @@
 
       <div class="flex flex-column">
         <div *ngIf="reviewList.length; else noReviews">
-          <app-reviews-list [reviewList]="reviewList"></app-reviews-list>
+          <app-reviews-list class="flex flex-column gap-5 w-full" [reviewList]="reviewList"></app-reviews-list>
         </div>
         <ng-template #noReviews>
           <p class="m-5">No reviews found.</p>

@@ -1,9 +1,9 @@
-<div class="flex flex-column w-screen gap-1">
+<!-- <div class="flex flex-column w-screen gap-5 border-solid"> -->
   <p-card [header]="review.title" subheader="Rating: {{ review.rating }} ★">
     <ng-template *ngIf="images.length != 0" pTemplate="header">
       <div
         *ngFor="let image of images"
-        class="flex align-items-center justify-content-center w-full h-18rem"
+        class="flex align-items-center justify-content-center w-full h-18rem surface-200"
       >
         <img class="h-full" [src]="image" style="object-fit: contain" />
       </div>
@@ -106,7 +106,7 @@
       </p-button>
     </div>
   </p-card>
-</div>
+<!-- </div> -->
 
 <!-- <div class="flex flex-column">
   <h5 class="mb-2 text-xl font-bold leading-tight">
