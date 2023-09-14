@@ -1,17 +1,17 @@
-<div class="flex flex-col items-center background text" *ngIf="addressList">
+<!-- <div class="flex flex-col items-center background text" *ngIf="addressList">
   <div class="h-10"></div>
   <div class="w-5/6">
     <h1 class="py-10 text-5xl font-bold dark">
       Search results for: {{ searchVal }}
     </h1>
 
-    <!-- <div *ngIf="addressList.length != 0">
+    <div *ngIf="addressList.length != 0">
       <div *ngFor="let property of addressList">
         <app-property-card [property]="property"></app-property-card>
       </div>
-    </div> -->
+    </div>
 
-    <!-- <div class="flex items-center justify-center mt-10">
+    <div class="flex items-center justify-center mt-10">
       <button [disabled]="currentPageNum == 1" (click)="previousPage()">
         &#60;&#60; Previous
       </button>
@@ -20,17 +20,17 @@
       <button [disabled]="currentPageNum == totalPages" (click)="nextPage()">
         Next &#62;&#62;
       </button>
-    </div> -->
+    </div>
 
     <div class="h-20"></div>
   </div>
-</div>
+</div> -->
 
 <div>
   <h1>Search results for: <span class="font-italic">{{ searchVal }}</span></h1>
 </div>
 
-<div *ngIf="addressList.length != 0" class="grid">
+<div *ngIf="addressList.length != 0" class="grid mx-5">
 
     <div *ngFor="let property of addressList" class="col-4">
         <app-property-card [property]="property"></app-property-card>

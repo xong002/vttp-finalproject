@@ -16,6 +16,9 @@
     .object-fit{
         object-fit: cover !important;
     }
+    .clickable{
+        cursor: pointer;
+    }
     .background {
 
     }

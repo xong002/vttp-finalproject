@@ -31,7 +31,8 @@
 
 <div class="p-3 border-round-md surface-200 font-bold">
   <p-card
-    [header]="header"
+  class="cursor-pointer"  
+  [header]="header"
     [subheader]="building"
     [routerLink]="['/propertydetails/']"
     [queryParams]="{ id: property.id }"
