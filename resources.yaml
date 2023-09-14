@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: spring-boot
-        image: asia-southeast1-docker.pkg.dev/GOOGLE_PROJECT/vttp-project/test:VERSION
+        image: asia-southeast1-docker.pkg.dev/GOOGLE_PROJECT/vttp-project/test:v1.2.1
         ports:
           - containerPort: 8080
         imagePullPolicy: Always

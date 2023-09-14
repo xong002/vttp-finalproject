@@ -46,6 +46,5 @@ jobs:
       run: |
         gcloud container clusters get-credentials vttp-cluster --region asia-southeast1-a
         sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" resources.yaml
-        sed -i "s/VERSION/$VERSION/g" resources.yaml
         kubectl apply -f resources.yaml
 
