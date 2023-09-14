@@ -16,6 +16,9 @@
     .object-fit{
         object-fit: cover !important;
     }
+    .object-contain{
+        object-fit: contain !important;
+    }
     .clickable{
         cursor: pointer;
     }

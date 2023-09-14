@@ -1,26 +1,134 @@
-<div
-  class="border rounded-lg bg-neutral-700 p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]"
->
+<div class="flex flex-column w-screen gap-1">
+  <p-card [header]="review.title" subheader="Rating: {{ review.rating }} ★">
+    <ng-template *ngIf="images.length != 0" pTemplate="header">
+      <div
+        *ngFor="let image of images"
+        class="flex align-items-center justify-content-center w-full h-18rem"
+      >
+        <img class="h-full" [src]="image" style="object-fit: contain" />
+      </div>
+    </ng-template>
+
+    <div class="">
+      <p-accordion class="">
+        <p-accordionTab>
+          <ng-template pTemplate="header">
+            <div class="flex align-items-center">
+              <i class="pi pi-info-circle mr-2"></i>
+              <span class="vertical-align-middle">Rental information:</span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <table class="table-fixed border border-collapse w-full">
+              <th>
+                <tr></tr>
+              </th>
+              <tbody>
+                <tr class="border border-b-0">
+                  <td class="pl-2 py-2">
+                    <span class="font-bold">Rental Cost</span>
+                    <span *ngIf="review.monthlyRentalCost"
+                      >: ${{ review.monthlyRentalCost }}</span
+                    >
+                  </td>
+                  <td class="">
+                    <span class="font-bold">Floor</span>: {{ review.floor }}
+                  </td>
+                </tr>
+                <tr class="border border-y-0">
+                  <td class="pl-2 py-2">
+                    <span class="font-bold">Apartment Floor Area</span>:
+                    {{ review.apartmentFloorArea }}
+                  </td>
+                  <td class="">
+                    <span class="font-bold">Rental Floor Area</span>:
+                    {{ review.rentalFloorArea }}
+                  </td>
+                </tr>
+                <tr class="border border-y-0">
+                  <td class="pl-2 py-2">
+                    <span class="font-bold">Rules</span>:
+                    {{ review.rules }}
+                  </td>
+                  <td class="">
+                    <span class="font-bold">Total occupants</span>:
+                    {{ review.occupants }}
+                  </td>
+                </tr>
+                <tr class="border border-y-0">
+                  <td class="pl-2 py-2">
+                    <span class="font-bold">Rental start date</span>:
+                    {{ review.rentalStartDate | ddMMyyyy }}
+                  </td>
+                  <td class="">
+                    <span class="font-bold">Rental duration</span>:
+                    {{ review.rentalDuration }}
+                  </td>
+                </tr>
+                <tr class="border border-y-0">
+                  <td class="pl-2 py-2">
+                    <span class="font-bold">Furnishings</span>:
+                    {{ review.furnishings }}
+                  </td>
+                  <!-- <td class="">
+                    <span class="font-bold">Shared bathroom</span>:
+                    {{ review.sharedToilet }}
+                  </td> -->
+                </tr>
+              </tbody>
+            </table>
+          </ng-template>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+
+    <p><span class="font-bold">Comments: </span>{{ review.comments }}</p>
+
+    <span class="font-bold">Reviewed by</span>:
+    {{ review.user.displayName }}
+
+    <div>
+      {{ review.createdDate | customDate }}
+      <div *ngIf="review.createdDate != review.updatedAt">
+        (last modified: {{ review.updatedAt | customDate }})
+      </div>
+    </div>
+
+    <div class="mt-2">
+      <p-button
+        pRipple
+        styleClass="p-button-rounded p-button-raised p-button-text"
+        *ngIf="review.user.id == userId"
+        [routerLink]="['/updatereview']"
+        [queryParams]="{ reviewId: review.id }"
+      >
+        Edit
+      </p-button>
+    </div>
+  </p-card>
+</div>
+
+<!-- <div class="flex flex-column">
   <h5 class="mb-2 text-xl font-bold leading-tight">
     {{ review.title }} (Rating: {{ review.rating }})
   </h5>
-  <div *ngIf="images.length != 0" class="flex flex-row" >
-    <div *ngFor="let image of images" >
-      <img [src]="image" height="50"/>
+  <div *ngIf="images.length != 0" class="flex flex-row">
+    <div *ngFor="let image of images">
+      <img [src]="image" height="50" />
     </div>
   </div>
 
   <table class="table-fixed border border-collapse w-full">
     <th>
-      <tr>
-        <td class="pl-2 py-2">Rental details:</td>
-      </tr>
+      <tr></tr>
     </th>
     <tbody>
       <tr class="border border-b-0">
         <td class="pl-2 py-2">
           <span class="font-bold">Rental Cost</span>
-          <span *ngIf="review.monthlyRentalCost">: ${{review.monthlyRentalCost}}</span>
+          <span *ngIf="review.monthlyRentalCost"
+            >: ${{ review.monthlyRentalCost }}</span
+          >
         </td>
         <td class="">
           <span class="font-bold">Floor</span>: {{ review.floor }}
@@ -60,12 +168,12 @@
         <td class="pl-2 py-2">
           <span class="font-bold">Furnishings</span>:
           {{ review.furnishings }}
-        </td>
-        <!-- <td class="">
+        </td> -->
+<!-- <td class="">
           <span class="font-bold">Shared bathroom</span>:
           {{ review.sharedToilet }}
         </td> -->
-      </tr>
+<!--       </tr>
     </tbody>
   </table>
   <p class="my-4 text-base text-neutral-600 dark:text-neutral-200">
@@ -79,21 +187,8 @@
       </td>
     </tr>
     <tr>
-      <td>
-        {{ review.createdDate | customDate }}
-        <div *ngIf="review.createdDate != review.updatedAt">
-          (last modified: {{ review.updatedAt | customDate }})
-        </div>
-      </td>
-      <td>
-        <button
-          *ngIf="review.user.id == userId"
-          [routerLink]="['/updatereview']"
-          [queryParams]="{ reviewId: review.id }"
-        >
-          Edit
-        </button>
-      </td>
+      <td></td>
+      <td></td>
     </tr>
   </table>
-</div>
+</div> -->

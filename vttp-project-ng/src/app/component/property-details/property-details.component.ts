@@ -48,11 +48,12 @@ export class PropertyDetailsComponent {
 
       this.springbootService.getReviewsByPropertyId(this.property.id).then(resp => {
         this.reviewList = resp as any;
+        this.isLoading = false;
 
-        this.springbootService.getReviewsByBuildingName(this.property.building, this.property.id, 5, 0).then(resp => {
-          this.buildingReviewList = resp as any;
-          this.isLoading = false;
-        })
+        // this.springbootService.getReviewsByBuildingName(this.property.building, this.property.id, 5, 0).then(resp => {
+        //   this.buildingReviewList = resp as any;
+        //   this.isLoading = false;
+        // })
 
       }).catch(error => {
         console.log(error.error)

@@ -10,6 +10,8 @@ export class ReviewCardComponent {
   @Input() review!: Review;
   userId!: number;
   images: string[] = [];
+  header = '';
+  subheader = '';
 
   ngOnInit() {
     this.userId = +localStorage.getItem('userId')!
