@@ -34,10 +34,11 @@ jobs:
     - name: build and push docker image
       env:
         GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+        VERSION: v1.2.1
       run: |
         gcloud auth configure-docker asia-southeast1-docker.pkg.dev
-        docker build -t asia-southeast1-docker.pkg.dev/$GOOGLE_PROJECT/vttp-project/test:v1.2.0 . --build-arg="SQL_URL=${{ secrets.SQL_URL }}" --build-arg="SQL_USER=${{ secrets.SQL_USER }}" --build-arg="SQL_PASSWORD=${{ secrets.SQL_PASSWORD }}" --build-arg="S3_ACCESSKEY=${{ secrets.S3_ACCESSKEY }}" --build-arg="S3_SECRETKEY=${{ secrets.S3_SECRETKEY }}" --build-arg="S3_BUCKETURL=${{ secrets.S3_BUCKETURL }}" --build-arg="JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }}"
-        docker push asia-southeast1-docker.pkg.dev/$GOOGLE_PROJECT/vttp-project/test:v1.2.0
+        docker build -t asia-southeast1-docker.pkg.dev/$GOOGLE_PROJECT/vttp-project/test:$VERSION . --build-arg="SQL_URL=${{ secrets.SQL_URL }}" --build-arg="SQL_USER=${{ secrets.SQL_USER }}" --build-arg="SQL_PASSWORD=${{ secrets.SQL_PASSWORD }}" --build-arg="S3_ACCESSKEY=${{ secrets.S3_ACCESSKEY }}" --build-arg="S3_SECRETKEY=${{ secrets.S3_SECRETKEY }}" --build-arg="S3_BUCKETURL=${{ secrets.S3_BUCKETURL }}" --build-arg="JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }}"
+        docker push asia-southeast1-docker.pkg.dev/$GOOGLE_PROJECT/vttp-project/test:$VERSION
     
     - name: deploy to gke
       env:
@@ -45,5 +46,6 @@ jobs:
       run: |
         gcloud container clusters get-credentials vttp-cluster --region asia-southeast1-a
         sed -i "s/GOOGLE_PROJECT/$GOOGLE_PROJECT/g" resources.yaml
+        sed -i "s/VERSION/$VERSION/g" resources.yaml
         kubectl apply -f resources.yaml
 
