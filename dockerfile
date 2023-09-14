@@ -16,6 +16,7 @@ RUN npm install primeng
 RUN npm install primeicons
 RUN npm install --save font-awesome angular-font-awesome
 RUN npm install primeflex
+RUN npm install chart.js
 RUN ng add @angular/pwa@16.2.1 --skip-confirmation
 RUN ng build
 
