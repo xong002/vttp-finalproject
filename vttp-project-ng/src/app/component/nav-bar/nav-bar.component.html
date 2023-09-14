@@ -1,20 +1,15 @@
-<div class="h-20 bg-purple-700 text">
-  <table class="table-fixed w-full">
-    <tr>
-      <td class="w-20">
-        <a href="/"> <img class="h-19" src="assets/icons/review-icon.png" /></a>
-      </td>
-      <td class="flex justify-center">
-        <span *ngIf="isLoggedIn">Welcome, {{displayName}}</span>
-      </td>
-      <td class="w-60 bg-purple-200">
-        <div class="flex justify-center">
-          <button (click)="login()" *ngIf="!isLoggedIn">Login</button>
-          <button (click)="logout()" *ngIf="isLoggedIn">Logout</button>
-          &nbsp;
-          <button routerLink="/register" *ngIf="!isLoggedIn">Register</button>
-        </div>
-      </td>
-    </tr>
-  </table>
+<div class="card">
+  <p-menubar [model]="items">
+    <ng-template pTemplate="start">
+      <a href="/"
+        ><img src="assets/icons/review-icon.png" height="40" class="mr-2"
+      /></a>
+    </ng-template>
+    <ng-template pTemplate="end">
+      <p-button pRipple styleClass="p-button-rounded" (click)="login()" *ngIf="!isLoggedIn">Login</p-button>
+      <p-button pRipple styleClass="p-button-rounded" (click)="logout()" *ngIf="isLoggedIn">Logout</p-button>
+      &nbsp;
+      <p-button pRipple styleClass="p-button-rounded" routerLink="/register" *ngIf="!isLoggedIn">Register</p-button>
+    </ng-template>
+  </p-menubar>
 </div>

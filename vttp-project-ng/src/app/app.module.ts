@@ -21,6 +21,9 @@ import { NavBarComponent } from './component/nav-bar/nav-bar.component';
 import { LoginFormComponent } from './component/login-form/login-form.component';
 import { RegisterFormComponent } from './component/register-form/register-form.component';
 import { AuthInterceptor } from './AuthInterceptor';
+import { MenubarModule } from 'primeng/menubar';
+import { Button, ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
   declarations: [
@@ -50,7 +53,10 @@ import { AuthInterceptor } from './AuthInterceptor';
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    MenubarModule,
+    ButtonModule,
+    RippleModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
