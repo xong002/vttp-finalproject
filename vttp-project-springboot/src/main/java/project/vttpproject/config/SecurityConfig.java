@@ -31,9 +31,10 @@ public class SecurityConfig {
                                                 .permitAll()
                                                 .requestMatchers("/api/user/create").permitAll()
                                                 .requestMatchers("/api/user/authenticate").permitAll()
-                                                .requestMatchers(HttpMethod.GET, "/api/property").permitAll()
-                                                .requestMatchers("/api/property/create").permitAll()
-                                                .requestMatchers("/api/property/createbatch").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/api/property/").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/api/property/search").permitAll()
+                                                // .requestMatchers("/api/property/create").permitAll()
+                                                // .requestMatchers("/api/property/createbatch").permitAll()
                                                 .requestMatchers("/api/review/**").permitAll()
                                                 .anyRequest().authenticated())
                                 .sessionManagement(sessionManagement -> sessionManagement

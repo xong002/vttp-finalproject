@@ -3,14 +3,9 @@ package project.vttpproject.service;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import project.vttpproject.model.property.Property;
 import project.vttpproject.model.property.PropertyResults;
@@ -36,8 +31,10 @@ public class OneMapAPIService {
         String jsonString = template.getForEntity(url, String.class).getBody();
         PropertyResults results = PropertyResults.create(jsonString);
         finalResults.setResults(new LinkedList<>());
-        for(Property p1 : results.getResults()) {
-            finalResults.getResults().add(p1);
+        for (Property p1 : results.getResults()) {
+            if (!p1.getPostal().equals("NIL")) {
+                finalResults.getResults().add(p1);
+            }
         }
         finalResults.setFound(results.getFound());
         currentPageNum = results.getPageNum();
@@ -55,9 +52,11 @@ public class OneMapAPIService {
                 String newJsonString = template.getForEntity(url2, String.class).getBody();
                 PropertyResults newResults = PropertyResults.create(newJsonString);
                 for (Property p : newResults.getResults()) {
-                    finalResults.getResults().add(p); // null here
+                    if (!p.getPostal().equals("NIL")) {
+                        finalResults.getResults().add(p); // null here
+                    }
                 }
-                
+
             }
         }
         return finalResults;

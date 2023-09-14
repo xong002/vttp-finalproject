@@ -3,6 +3,7 @@ package project.vttpproject.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class PropertyRepository {
     private final String GET_PROPERTY_BY_ID_SQL = "select * from properties where id = ?";
     private final String CREATE_PROPERTY_SQL = "insert into properties (area_id, images, building, blk_no, road_name, postal, latitude, longitude, highest_floor) values (?,?,?,?,?,?,?,?,?)";
     private final String GET_PROPERTYID_BY_POSTAL_SQL = "select id from properties where postal = ?";
+    private final String GET_PROPERTY_BY_TEXT_SQL = "select * from properties where concat_ws(building,' ',road_name,' ',postal) LIKE ? order by id ASC";
 
     @Autowired
     private JdbcTemplate template;
@@ -44,7 +46,20 @@ public class PropertyRepository {
         } catch (DataAccessException e) {
             throw new UpdateException("property not found");
         }
+    }
 
+    public List<Property> searchPropertyByText(String searchVal) {
+        String text = "%" + searchVal + "%";
+        System.out.println(">>>>>>>>>>>>>" + text);
+
+        BeanPropertyRowMapper<Property> newInstance = BeanPropertyRowMapper.newInstance(Property.class);
+        newInstance.setPrimitivesDefaultedForNullValue(true);
+
+        List<Property> response = template.query(
+                GET_PROPERTY_BY_TEXT_SQL,
+                newInstance,
+                text);
+        return response;
     }
 
     public Integer saveProperty(Property p) throws UpdateException, DuplicatePropertyException {
@@ -53,7 +68,7 @@ public class PropertyRepository {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 PreparedStatement ps = con.prepareStatement(CREATE_PROPERTY_SQL, new String[] { "id" });
-                ps.setInt(1, p.getAreaId() == null? 0: p.getAreaId());
+                ps.setInt(1, p.getAreaId() == null ? 0 : p.getAreaId());
                 ps.setString(2, p.getImages());
                 ps.setString(3, p.getBuilding());
                 ps.setString(4, p.getBlkNo());

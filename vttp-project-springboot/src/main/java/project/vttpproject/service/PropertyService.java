@@ -50,8 +50,14 @@ public class PropertyService {
     }
 
     public List<Property> searchForProperty(String searchVal) throws IOException, UpdateException, DuplicatePropertyException{
-        List<Property> list = oneMapAPIService.getPropertyList(searchVal).getResults();
-        return this.createNewProperties(list);
+        List<Property> list = propRepo.searchPropertyByText(searchVal);
+        if(list.size() == 0){
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>" + list);
+            List<Property> oneMapList = oneMapAPIService.getPropertyList(searchVal).getResults();
+            List<Property> newPropList = this.createNewProperties(oneMapList);
+            list = newPropList;
+        }
+        return list;
     }
 
     public Integer createNewProperty(Property p) throws UpdateException, DuplicatePropertyException {
@@ -63,6 +69,7 @@ public class PropertyService {
     public List<Property> createNewProperties(List<Property> list) throws UpdateException, DuplicatePropertyException {
         List<Property> newList = new LinkedList<>();
         for (Property p : list) {
+            p.setImages("https://csf-xz.sgp1.digitaloceanspaces.com/images/image-not-found.jpg");
             Integer generatedId = propRepo.saveProperty(p);
             Optional<Property> opt = propRepo.getPropertyById(generatedId);
 
