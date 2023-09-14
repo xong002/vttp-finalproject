@@ -87,11 +87,8 @@ export class PropertyDetailsComponent {
       this.property.id,
       this.eRef)
       .then(() => {
-
-          alert("Image uploaded!");
           this.router.navigateByUrl(url);
-
-
+          alert("Image uploaded!");
       })
       .catch(error => {
         alert("Error uploading image.")
