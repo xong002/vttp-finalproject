@@ -108,6 +108,10 @@ export class PropertyDetailsComponent {
             this.router.navigate(['/propertylist']);
           }
         })
+  }
 
+  viewChart(building : string){
+    this.sessionService.tempUrl = this.router.url;
+    this.router.navigate(['/chart/', building]);
   }
 }

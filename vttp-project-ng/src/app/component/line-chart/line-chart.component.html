@@ -1,0 +1,21 @@
+<h1 class="ml-5">Rental cost trend for: {{ building | uppercase }}</h1>
+<div class="flex flex-column align-items-center">
+  <div class="chart-container w-full text-center" style="height: 60vh">
+    <img
+    class=""
+    src="/assets/icons/loading.gif"
+    height="100px"
+    width="100px"
+    *ngIf="isLoading"
+  />
+    <canvas *ngIf="!noResults" id="MyChart">{{ chart }}</canvas>
+    <div *ngIf="noResults">No data found.</div>
+  </div>
+  
+  <p-button
+    pRipple
+    styleClass="p-button-rounded p-button-raised p-button-secondary"
+    (click)="back()"
+    >Back to search results</p-button
+  >
+</div>

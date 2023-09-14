@@ -7,6 +7,7 @@ import { ReviewFormComponent } from './component/review-form/review-form.compone
 import { UpdateReviewComponent } from './component/update-review/update-review.component';
 import { LoginFormComponent } from './component/login-form/login-form.component';
 import { RegisterFormComponent } from './component/register-form/register-form.component';
+import { LineChartComponent } from './component/line-chart/line-chart.component';
 
 const routes: Routes = [
   { path : '', component: HomeComponent},
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path : 'propertydetails', component: PropertyDetailsComponent},
   { path : 'reviewform/:propertyId', component: ReviewFormComponent},
   { path : 'updatereview', component: UpdateReviewComponent},
+  { path : 'chart/:building', component: LineChartComponent},
   { path : '**', redirectTo: '/', pathMatch: 'full'}
 ];
 

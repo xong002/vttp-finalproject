@@ -31,6 +31,7 @@ import { ImageModule } from 'primeng/image';
 import { AccordionModule } from 'primeng/accordion';
 import { TableModule } from 'primeng/table';
 import { CalendarModule } from 'primeng/calendar';
+import { LineChartComponent } from './component/line-chart/line-chart.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { CalendarModule } from 'primeng/calendar';
     UpdateReviewComponent,
     NavBarComponent,
     LoginFormComponent,
-    RegisterFormComponent
+    RegisterFormComponent,
+    LineChartComponent
   ],
   imports: [
     BrowserModule,
