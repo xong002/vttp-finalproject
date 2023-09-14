@@ -50,7 +50,6 @@ public class PropertyRepository {
 
     public List<Property> searchPropertyByText(String searchVal) {
         String text = "%" + searchVal + "%";
-        System.out.println(">>>>>>>>>>>>>" + text);
 
         BeanPropertyRowMapper<Property> newInstance = BeanPropertyRowMapper.newInstance(Property.class);
         newInstance.setPrimitivesDefaultedForNullValue(true);

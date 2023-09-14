@@ -24,7 +24,6 @@ import jakarta.json.Json;
 import project.vttpproject.exception.DuplicatePropertyException;
 import project.vttpproject.exception.UpdateException;
 import project.vttpproject.model.property.Property;
-import project.vttpproject.model.property.PropertyResults;
 import project.vttpproject.service.PropertyService;
 
 @RestController

@@ -12,8 +12,10 @@ COPY vttp-project-ng/tsconfig.spec.json .
 
 RUN npm i -g @angular/cli
 RUN npm i
-RUN npm i -D tailwindcss
-RUN npx tailwindcss init 
+RUN npm install primeng
+RUN npm install primeicons
+RUN npm install --save font-awesome angular-font-awesome
+RUN npm install primeflex
 RUN ng add @angular/pwa@16.2.1 --skip-confirmation
 RUN ng build
 
