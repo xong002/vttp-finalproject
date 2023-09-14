@@ -1,22 +1,26 @@
-<table>
+<!-- <table>
   <tr>
     <td>
-      <h2 class="flex justify-center">
-        Search for a location here
-      </h2>
+      <h2 class="flex justify-center">Search for a location here</h2>
     </td>
   </tr>
   <tr>
     <td>
       <form [formGroup]="formGroup">
         <input
-        class="text"  
-        formControlName="searchVal"
+          class="text"
+          formControlName="searchVal"
           type="text"
           placeholder="Address / Postal Code"
         />
         &nbsp;
-        <span><img *ngIf="isLoading" src="/assets/icons/loading.gif" height="30" width="30"></span>
+        <span
+          ><img
+            *ngIf="isLoading"
+            src="/assets/icons/loading.gif"
+            height="30"
+            width="30"
+        /></span>
         <button
           type="submit"
           class="bg-purple-700 hover:bg-purple-900 font-bold py-2 px-4 rounded-full"
@@ -33,4 +37,41 @@
 </table>
 <div *ngIf="noResults">
   <span>No results found.</span>
+</div> -->
+
+<div class="flex flex-column">
+  <h3 class="text-center">Search location:</h3>
+  <form [formGroup]="formGroup">
+    <div class="flex justify-content-center">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          pInputText
+          formControlName="searchVal"
+          placeholder="Address / Postal Code"
+        />
+      </span>
+      &nbsp;
+      <p-button
+        type="submit"
+        class=""
+        styleClass="p-button-raised p-button-rounded"
+        (click)="searchAddress()"
+        [disabled]="!formGroup.valid"
+        [disabled]="isLoading"
+        *ngIf="!isLoading"
+      >
+        <span class="font-bold">Search</span>
+      </p-button>
+      <div>
+        <span *ngIf="isLoading"
+          ><img src="/assets/icons/loading.gif" height="30" width="30"
+        /></span>
+      </div>
+    </div>
+  </form>
+  <div *ngIf="noResults" class="text-center">
+    <span >No results found.</span>
+  </div>
 </div>

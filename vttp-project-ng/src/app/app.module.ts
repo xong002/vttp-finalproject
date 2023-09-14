@@ -22,8 +22,11 @@ import { LoginFormComponent } from './component/login-form/login-form.component'
 import { RegisterFormComponent } from './component/register-form/register-form.component';
 import { AuthInterceptor } from './AuthInterceptor';
 import { MenubarModule } from 'primeng/menubar';
-import { Button, ButtonModule } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
+import { InputTextModule } from 'primeng/inputtext';
+import { CardModule } from 'primeng/card';
+import {ImageModule} from 'primeng/image';
 
 @NgModule({
   declarations: [
@@ -56,7 +59,10 @@ import { RippleModule } from 'primeng/ripple';
     }),
     MenubarModule,
     ButtonModule,
-    RippleModule
+    RippleModule,
+    InputTextModule,
+    CardModule,
+    ImageModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

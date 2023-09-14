@@ -6,10 +6,30 @@
       /></a>
     </ng-template>
     <ng-template pTemplate="end">
-      <p-button pRipple styleClass="p-button-rounded" (click)="login()" *ngIf="!isLoggedIn">Login</p-button>
-      <p-button pRipple styleClass="p-button-rounded" (click)="logout()" *ngIf="isLoggedIn">Logout</p-button>
+      <p-button
+        pRipple
+        styleClass="p-button-rounded p-button-raised p-button-text"
+        (click)="login()"
+        *ngIf="!isLoggedIn"
+        ><span class="font-bold">Login</span>
+      </p-button>
+      <p-button
+        pRipple
+        styleClass="p-button-rounded p-button-raised p-button-text"
+        (click)="logout()"
+        *ngIf="isLoggedIn"
+        >
+        <span class="font-bold">Logout</span></p-button
+      >
       &nbsp;
-      <p-button pRipple styleClass="p-button-rounded" routerLink="/register" *ngIf="!isLoggedIn">Register</p-button>
+      <p-button
+        pRipple
+        styleClass="p-button-rounded p-button-raised p-button-text"
+        routerLink="/register"
+        *ngIf="!isLoggedIn"
+        >
+        <span class="font-bold">Register</span></p-button
+      >
     </ng-template>
   </p-menubar>
 </div>

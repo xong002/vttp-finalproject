@@ -34,7 +34,10 @@ export class SearchAddressComponent {
 
     this.springbootService.searchProperty(this.searchVal).then(
       resp => {
-        if ((resp as any).length == 0) this.noResults = true
+        if ((resp as any).length == 0) {
+          this.noResults = true
+          this.isLoading = false;
+        }
         else {
           this.sessionService.addresslist = (resp as any)
           this.router.navigate(['/propertylist']);

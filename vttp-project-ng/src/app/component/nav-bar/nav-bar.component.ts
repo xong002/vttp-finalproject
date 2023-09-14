@@ -31,15 +31,11 @@ export class NavBarComponent {
 
         this.items = [
             {
-                label: 'Search',
+                label: 'Home',
                 icon: 'pi pi-fw pi-search',
-            },
-            {
-                label: this.displayName,
-            },
+                routerLink: "/"
+            }
         ];
-
-
 
     }
 
