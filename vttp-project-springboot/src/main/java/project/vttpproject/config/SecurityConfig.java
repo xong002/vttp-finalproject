@@ -25,9 +25,10 @@ public class SecurityConfig {
                 return http
                                 .csrf((csrf) -> csrf.disable())
                                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                                                .requestMatchers("**.js", "**.css", "**.png", "**.gif",
-                                                                "/resources/static/**", "/resources/**", "/static/**",
-                                                                "/assets/icons/**", "/", "/index.html")
+                                                .requestMatchers("/assets/icons/**").permitAll()
+                                                .requestMatchers("**.js", "**.css", "**.png", "**.gif", "**.ico",
+                                                                "/resources/static/**", "/resources/**", "/static/**", "/primeicons*",
+                                                                "/", "/index.html")
                                                 .permitAll()
                                                 .requestMatchers("/api/user/create").permitAll()
                                                 .requestMatchers("/api/user/authenticate").permitAll()
