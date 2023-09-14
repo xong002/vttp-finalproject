@@ -56,6 +56,11 @@ public class PropertyService {
             List<Property> oneMapList = oneMapAPIService.getPropertyList(searchVal).getResults();
             List<Property> newPropList = this.createNewProperties(oneMapList);
             list = newPropList;
+        } else {
+            for (Property p : list) {
+                Integer reviewCount = reviewRepo.getReviewCountByPropertyId(p.getId());
+                p.setReviewCount(reviewCount);
+            }
         }
         return list;
     }
