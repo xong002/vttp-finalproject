@@ -18,7 +18,7 @@ export class SearchAddressComponent {
   springbootService = inject(SpringbootService);
   router = inject(Router);
   noResults = false;
-  searchVal! : string;
+  searchVal!: string;
   isLoading = false;
 
   ngOnInit() {
@@ -35,11 +35,14 @@ export class SearchAddressComponent {
     this.springbootService.searchProperty(this.searchVal).then(
       resp => {
         if ((resp as any).length == 0) this.noResults = true
-        else this.router.navigate(['/propertylist']);
-    }).catch(error => {
-      alert("Error searching for results. Please try again later.")
-      this.isLoading = false;
-    });
+        else {
+          this.sessionService.addresslist = (resp as any)
+          this.router.navigate(['/propertylist']);
+        }
+      }).catch(error => {
+        alert("Error searching for results. Please try again later.")
+        this.isLoading = false;
+      });
 
     // this.onemapAPIService.searchProperty(this.searchVal, 1).then(() => {
     //     console.log(this.onemapAPIService.addresslist);

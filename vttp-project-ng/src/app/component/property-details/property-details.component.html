@@ -1,3 +1,6 @@
+<div>
+  <img src="/assets/icons/loading.gif" alt="" *ngIf="!property">
+</div>
 <div class="flex flex-col items-center background text" *ngIf="property">
   <div class="w-5/6">
     <h1 class="py-10 text-5xl font-bold dark">Property Details</h1>
@@ -44,6 +47,9 @@
   </div>
   <div class="w-5/6">
     <h1 class="pt-2 text-2xl font-bold dark">Latest reviews for property:</h1>
+    <div>
+      <img src="/assets/icons/loading.gif" alt="" *ngIf="reviewList.length == 0">
+    </div>
     <div *ngIf="reviewList.length; else noReviews">
       <app-reviews-list [reviewList]="reviewList"></app-reviews-list>
     </div>

@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Property } from 'src/app/models';
 
 @Component({
@@ -8,4 +9,9 @@ import { Property } from 'src/app/models';
 })
 export class PropertyCardComponent {
   @Input() property!: Property;
+  router = inject(Router);
+
+  goToPropertyDetails() {
+    this.router.navigate(['/propertydetails'], { queryParams: { id: this.property.id } })
+  }
 }

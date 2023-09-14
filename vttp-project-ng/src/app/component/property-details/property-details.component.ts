@@ -101,7 +101,6 @@ export class PropertyDetailsComponent {
           else {
             this.sessionService.addresslist = (resp as any);
             this.router.navigate(['/propertylist']);
-            this.sessionService.addresslist = (resp as any);
           }
         })
 

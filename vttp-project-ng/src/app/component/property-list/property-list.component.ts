@@ -26,6 +26,7 @@ export class PropertyListComponent {
     // this.totalPages = this.onemapAPIService.totalPages;
     this.searchVal = this.sessionService.searchVal;
     this.addressList = this.sessionService.addresslist;
+    console.log(this.addressList);
 
 
     // this.sub$ = this.onemapAPIService.onChangePropertyList.subscribe(resp => {
@@ -42,7 +43,7 @@ export class PropertyListComponent {
   }
 
   ngOnDestroy() {
-    this.sub$.unsubscribe();
+    // this.sub$.unsubscribe();
   }
 
   // nextPage() {
