@@ -167,18 +167,18 @@ public class RentalReviewService {
         review.setComments(comments);
         review.setStatus(status);
 
+        String existingImages = reviewRepo.getReviewById(id).orElseThrow(NotFoundException::new).getImages();
+        StringBuilder imagesString = new StringBuilder(existingImages == null ? "" : existingImages);
         if (!files.isEmpty()) {
-            String existingImages = reviewRepo.getReviewById(id).orElseThrow(NotFoundException::new).getImages();
             MultipartFile[] filesArr = files.get();
             User user = userRepo.getUserById(Integer.valueOf(userId)).get();
-            StringBuilder imagesString = new StringBuilder(existingImages == null ? "" : existingImages);
-
             for (MultipartFile f : filesArr) {
                 String imageId = s3Repo.saveImage(f, user.getDisplayName());
                 imagesString.append(" " + s3URL + imageId);
             }
-            review.setImages(imagesString.toString());
         }
+        review.setImages(imagesString.toString());
+
         return reviewRepo.updateReview(review);
     }
 }
